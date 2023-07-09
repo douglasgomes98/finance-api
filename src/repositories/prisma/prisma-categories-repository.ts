@@ -14,6 +14,14 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
     return category;
   }
 
+  async findByName(name: string): Promise<Category | null> {
+    const category = await database.category.findFirst({
+      where: { name },
+    });
+
+    return category;
+  }
+
   async findMany(): Promise<Category[]> {
     const categories = await database.category.findMany();
 

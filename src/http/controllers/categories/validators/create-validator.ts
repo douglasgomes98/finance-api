@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// TODO: pegar interface do use case
 export const createValidator = z.object({
   name: z.string(),
   color: z
