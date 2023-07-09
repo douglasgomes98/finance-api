@@ -10,9 +10,15 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
+    "@types/node": "^20.4.1",
     "rimraf": "^5.0.1",
     "tsup": "^7.1.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "fastify": "^4.19.2",
+    "prisma": "^4.16.2"
   }
 }
