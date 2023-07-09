@@ -1,0 +1,14 @@
+version: "3"
+
+name: "finance-api"
+
+services:
+  postgres:
+    image: bitnami/postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: finance
+    ports:
+      - "5432:5432"
