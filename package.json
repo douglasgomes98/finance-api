@@ -10,13 +10,17 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/jwt": "^7.2.0",
     "@prisma/client": "^4.16.2",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.19.2",
     "prisma": "^4.16.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/node": "^20.4.1",
     "rimraf": "^5.0.1",
     "tsup": "^7.1.0",
