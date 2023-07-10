@@ -1,11 +1,11 @@
 import { Category } from "@prisma/client";
 import { database } from "./database";
 import {
-  CategoriesRepository,
+  CategoryRepository,
   CategoryCreateInput,
-} from "../categories-repository";
+} from "../category-repository";
 
-export class PrismaCategoriesRepository implements CategoriesRepository {
+export class PrismaCategoryRepository implements CategoryRepository {
   async findById(id: string): Promise<Category | null> {
     const category = await database.category.findUnique({
       where: { id },

@@ -2,7 +2,7 @@ import fastifyCookie from "@fastify/cookie";
 import fastifyJwt from "@fastify/jwt";
 import fastify from "fastify";
 import { ENV } from "./environment";
-import { categoriesRoutes } from "./http/controllers/categories/routes";
+import { categoryRouter } from "./http/controllers/category/router";
 import { zodValidatorErrorParse } from "./http/middlewares/zod-validator-error-parse";
 
 export const app = fastify();
@@ -20,6 +20,6 @@ app.register(fastifyJwt, {
 
 app.register(fastifyCookie);
 
-app.register(categoriesRoutes, { prefix: "/api/v1/categories" });
+app.register(categoryRouter, { prefix: "/api/v1/category" });
 
 app.setErrorHandler(zodValidatorErrorParse);

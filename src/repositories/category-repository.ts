@@ -7,7 +7,7 @@ export type CategoryCreateInput = Pick<
 
 export type CategoryUpdateInput = CategoryCreateInput;
 
-export type CategoriesRepository = {
+export type CategoryRepository = {
   findById: (id: string) => Promise<Category | null>;
   findByName: (name: string) => Promise<Category | null>;
   findMany: () => Promise<Category[]>;

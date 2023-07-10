@@ -1,4 +1,4 @@
-import { CategoriesRepository } from "@/repositories/categories-repository";
+import { CategoryRepository } from "@/repositories/category-repository";
 import { CategoryAlreadyExistsError } from "./errors/category-already-exists-error";
 
 type CreateCategoryRequest = {
@@ -7,10 +7,10 @@ type CreateCategoryRequest = {
 };
 
 export class CreateCategoryUseCase {
-  constructor(private readonly categoriesRepository: CategoriesRepository) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async execute({ name, color }: CreateCategoryRequest) {
-    const categoryAlreadyExists = await this.categoriesRepository.findByName(
+    const categoryAlreadyExists = await this.categoryRepository.findByName(
       name
     );
 
@@ -18,7 +18,7 @@ export class CreateCategoryUseCase {
       throw new CategoryAlreadyExistsError();
     }
 
-    const category = await this.categoriesRepository.create({
+    const category = await this.categoryRepository.create({
       name,
       color,
     });
