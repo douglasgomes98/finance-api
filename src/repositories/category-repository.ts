@@ -14,7 +14,7 @@ export type CategoryUpdateRepositoryDTO = Partial<
 export type CategoryRepository = {
   findById: (id: string) => Promise<CategoryRepositoryDTO | null>;
   findByName: (name: string) => Promise<CategoryRepositoryDTO | null>;
-  findMany: () => Promise<CategoryRepositoryDTO[]>;
+  findByUserId: (userId: string) => Promise<CategoryRepositoryDTO[]>;
   create: (data: CategoryCreateRepositoryDTO) => Promise<CategoryRepositoryDTO>;
   update: (
     id: string,
