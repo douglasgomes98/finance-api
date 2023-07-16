@@ -1,25 +1,33 @@
-import { CategoryRepository } from '@/repositories/category-repository';
 import { CategoryModel } from '@/entities/category-model';
+import { CategoryRepository } from '@/repositories/category-repository';
 
-import { CategoryAlreadyExistsError } from './errors/category-already-exists-error';
 import { UseCase } from '../use-case';
+import { CategoryAlreadyExistsError } from './errors/category-already-exists-error';
+import { FindCategoryByNameUseCase } from './find-category-by-name';
 
-type CreateCategoryRequest = Pick<CategoryModel, 'name' | 'color'>;
+type CreateCategoryUseCaseRequest = Pick<CategoryModel, 'name' | 'color'>;
 
-type CreateCategoryResponse = Pick<CategoryModel, 'id' | 'name' | 'color'>;
+type CreateCategoryUseCaseResponse = Pick<
+  CategoryModel,
+  'id' | 'name' | 'color'
+>;
 
 export class CreateCategoryUseCase
-  implements UseCase<CreateCategoryRequest, CreateCategoryResponse>
+  implements
+    UseCase<CreateCategoryUseCaseRequest, CreateCategoryUseCaseResponse>
 {
-  constructor(private readonly categoryRepository: CategoryRepository) {}
+  constructor(
+    private readonly findCategoryByNameUseCase: FindCategoryByNameUseCase,
+    private readonly categoryRepository: CategoryRepository,
+  ) {}
 
   async execute({
     name,
     color,
-  }: CreateCategoryRequest): Promise<CreateCategoryResponse> {
-    const categoryAlreadyExists = await this.categoryRepository.findByName(
+  }: CreateCategoryUseCaseRequest): Promise<CreateCategoryUseCaseResponse> {
+    const categoryAlreadyExists = await this.findCategoryByNameUseCase.execute({
       name,
-    );
+    });
 
     if (categoryAlreadyExists) {
       throw new CategoryAlreadyExistsError();

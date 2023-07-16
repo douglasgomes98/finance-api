@@ -1,4 +1,4 @@
-import { app } from './app.';
+import { app } from './app';
 import { ENV } from './environment';
 
 app

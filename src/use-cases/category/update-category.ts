@@ -3,36 +3,45 @@ import { CategoryRepository } from '@/repositories/category-repository';
 
 import { UseCase } from '../use-case';
 import { CategoryAlreadyExistsError } from './errors/category-already-exists-error';
+import { FindCategoryByIdUseCase } from './find-category-by-id';
+import { FindCategoryByNameUseCase } from './find-category-by-name';
 
-type UpdateCategoryRequest = Pick<CategoryModel, 'id' | 'name' | 'color'>;
+type UpdateCategoryUseCaseRequest = Pick<
+  CategoryModel,
+  'id' | 'name' | 'color'
+>;
 
-type UpdateCategoryResponse = Pick<CategoryModel, 'id' | 'name' | 'color'>;
+type UpdateCategoryUseCaseResponse = Pick<
+  CategoryModel,
+  'id' | 'name' | 'color'
+>;
 
 export class UpdateCategoryUseCase
-  implements UseCase<UpdateCategoryRequest, UpdateCategoryResponse>
+  implements
+    UseCase<UpdateCategoryUseCaseRequest, UpdateCategoryUseCaseResponse>
 {
-  constructor(private readonly categoryRepository: CategoryRepository) {}
+  constructor(
+    private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase,
+    private readonly findCategoryByNameUseCase: FindCategoryByNameUseCase,
+    private readonly categoryRepository: CategoryRepository,
+  ) {}
 
   async execute({
     id,
     name,
     color,
-  }: UpdateCategoryRequest): Promise<UpdateCategoryResponse> {
-    const category = await this.categoryRepository.findById(id);
+  }: UpdateCategoryUseCaseRequest): Promise<UpdateCategoryUseCaseResponse> {
+    const category = await this.findCategoryByIdUseCase.execute({ id });
 
-    if (!category) {
-      throw new CategoryAlreadyExistsError();
-    }
-
-    const categoryAlreadyExists = await this.categoryRepository.findByName(
+    const categoryAlreadyExists = await this.findCategoryByNameUseCase.execute({
       name,
-    );
+    });
 
-    if (categoryAlreadyExists && categoryAlreadyExists.id !== id) {
+    if (categoryAlreadyExists) {
       throw new CategoryAlreadyExistsError();
     }
 
-    const updatedCategory = await this.categoryRepository.update(id, {
+    const updatedCategory = await this.categoryRepository.update(category.id, {
       name,
       color,
     });

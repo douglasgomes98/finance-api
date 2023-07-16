@@ -1,18 +1,23 @@
 import { CategoryRepository } from '@/repositories/category-repository';
 
 import { UseCase } from '../use-case';
-import { CategoryNotFoundError } from './errors/category-not-found-error';
+import { FindCategoryByIdUseCase } from './find-category-by-id';
+
+type DeleteCategoryUseCaseRequest = {
+  id: string;
+};
 // TODO: verificar se existe despesas com essa categoria. caso permitir migrar as despesas para outra categoria, ou deletar as despesas
-export class DeleteCategoryUseCase implements UseCase<string, void> {
-  constructor(private readonly categoryRepository: CategoryRepository) {}
+export class DeleteCategoryUseCase
+  implements UseCase<DeleteCategoryUseCaseRequest, void>
+{
+  constructor(
+    private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase,
+    private readonly categoryRepository: CategoryRepository,
+  ) {}
 
-  async execute(id: string): Promise<void> {
-    const category = await this.categoryRepository.findById(id);
+  async execute({ id }: DeleteCategoryUseCaseRequest): Promise<void> {
+    const category = await this.findCategoryByIdUseCase.execute({ id });
 
-    if (!category) {
-      throw new CategoryNotFoundError();
-    }
-
-    await this.categoryRepository.delete(id);
+    await this.categoryRepository.delete(category.id);
   }
 }

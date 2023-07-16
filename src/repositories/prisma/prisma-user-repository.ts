@@ -17,6 +17,16 @@ export class PrismaUserRepository implements UserRepository {
     return userMapper.toEntity(row);
   }
 
+  async findById(id: string): Promise<UserRepositoryDTO | null> {
+    const row = await database.user.findUnique({
+      where: { id },
+    });
+
+    if (!row) return null;
+
+    return userMapper.toEntity(row);
+  }
+
   async create(data: UserCreateRepositoryDTO): Promise<UserRepositoryDTO> {
     const row = await database.user.create({
       data,
