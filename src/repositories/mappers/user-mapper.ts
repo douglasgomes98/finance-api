@@ -1,6 +1,7 @@
-import { User } from "@prisma/client";
-import { UserRepositoryDTO } from "../user-repository";
-import { Mapper } from "./mapper";
+import { User } from '@prisma/client';
+
+import { UserRepositoryDTO } from '../user-repository';
+import { Mapper } from './mapper';
 
 class UserMapper implements Mapper<UserRepositoryDTO, User> {
   toRepository(data: UserRepositoryDTO): Partial<User> {

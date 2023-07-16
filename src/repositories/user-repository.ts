@@ -1,10 +1,10 @@
-import { UserModel } from "@/entities/user-model";
+import { UserModel } from '@/entities/user-model';
 
-export type UserRepositoryDTO = Pick<UserModel, "id" | "email" | "name">;
+export type UserRepositoryDTO = Pick<UserModel, 'id' | 'email' | 'name'>;
 
 export type UserCreateRepositoryDTO = Pick<
   UserModel,
-  "email" | "name" | "password"
+  'email' | 'name' | 'password'
 >;
 
 export type UserRepository = {

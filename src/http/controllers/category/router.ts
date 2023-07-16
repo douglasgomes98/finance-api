@@ -1,6 +1,7 @@
-import { FastifyInstance } from "fastify";
-import { createCategory } from "./create-category";
+import { FastifyInstance } from 'fastify';
+
+import { createCategory } from './create-category';
 
 export async function categoryRouter(app: FastifyInstance) {
-  app.post("/", createCategory);
+  app.post('/', createCategory);
 }

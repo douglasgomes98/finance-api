@@ -1,19 +1,20 @@
-import { UserModel } from "@/entities/user-model";
-import { UserRepository } from "@/repositories/user-repository";
-import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
-import { UseCase } from "../use-case";
-import { AuthenticationService } from "@/services/authentication-service";
+import { UserModel } from '@/entities/user-model';
+import { UserRepository } from '@/repositories/user-repository';
+import { AuthenticationService } from '@/services/authentication-service';
 
-type CreateUserUseCaseRequest = Pick<UserModel, "email" | "name" | "password">;
+import { UserAlreadyExistsError } from './errors/user-already-exists-error';
+import { UseCase } from '../use-case';
 
-type CreateUserUseCaseResponse = Pick<UserModel, "id" | "email" | "name">;
+type CreateUserUseCaseRequest = Pick<UserModel, 'email' | 'name' | 'password'>;
+
+type CreateUserUseCaseResponse = Pick<UserModel, 'id' | 'email' | 'name'>;
 
 export class CreateUserUseCase
   implements UseCase<CreateUserUseCaseRequest, CreateUserUseCaseResponse>
 {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly authenticationService: AuthenticationService
+    private readonly authenticationService: AuthenticationService,
   ) {}
 
   async execute({

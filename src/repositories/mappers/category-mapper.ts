@@ -1,6 +1,7 @@
-import { Category } from "@prisma/client";
-import { CategoryRepositoryDTO } from "../category-repository";
-import { Mapper } from "./mapper";
+import { Category } from '@prisma/client';
+
+import { CategoryRepositoryDTO } from '../category-repository';
+import { Mapper } from './mapper';
 
 class CategoryMapper implements Mapper<CategoryRepositoryDTO, Category> {
   toRepository(data: CategoryRepositoryDTO): Partial<Category> {
