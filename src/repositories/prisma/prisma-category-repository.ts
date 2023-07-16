@@ -1,11 +1,11 @@
-import { database } from "./database";
+import { database } from './database';
 import {
   CategoryCreateRepositoryDTO,
   CategoryRepository,
   CategoryRepositoryDTO,
   CategoryUpdateRepositoryDTO,
-} from "../category-repository";
-import { categoryMapper } from "../mappers/category-mapper";
+} from '../category-repository';
+import { categoryMapper } from '../mappers/category-mapper';
 
 export class PrismaCategoryRepository implements CategoryRepository {
   async findById(id: string): Promise<CategoryRepositoryDTO | null> {
@@ -35,7 +35,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
   }
 
   async create(
-    data: CategoryCreateRepositoryDTO
+    data: CategoryCreateRepositoryDTO,
   ): Promise<CategoryRepositoryDTO> {
     const row = await database.category.create({
       data,
@@ -46,7 +46,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
 
   async update(
     id: string,
-    data: CategoryUpdateRepositoryDTO
+    data: CategoryUpdateRepositoryDTO,
   ): Promise<CategoryRepositoryDTO> {
     const category = await database.category.update({
       where: { id },

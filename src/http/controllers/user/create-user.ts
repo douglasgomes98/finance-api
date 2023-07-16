@@ -1,13 +1,14 @@
-import { normalizeName } from "@/helpers/normalize-name";
-import { conflictResponse } from "@/http/responses/conflict-response";
-import { createdResponse } from "@/http/responses/created-response";
-import { UserAlreadyExistsError } from "@/use-cases/user/errors/user-already-exists-error";
-import { makeCreateUserUseCase } from "@/use-cases/user/factories/make-create-user-use-case";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+
+import { normalizeName } from '@/helpers/normalize-name';
+import { conflictResponse } from '@/http/responses/conflict-response';
+import { createdResponse } from '@/http/responses/created-response';
+import { UserAlreadyExistsError } from '@/use-cases/user/errors/user-already-exists-error';
+import { makeCreateUserUseCase } from '@/use-cases/user/factories/make-create-user-use-case';
 
 const createValidator = z.object({
-  name: z.string().transform((value) => normalizeName(value)),
+  name: z.string().transform(value => normalizeName(value)),
   email: z.string().email(),
   password: z.string().min(8),
 });

@@ -3,10 +3,10 @@ export function normalizeName(name: string | undefined | null) {
     const currentName = name.toLowerCase();
 
     return currentName
-      .split(" ")
-      .map((srt) => srt.charAt(0).toUpperCase() + srt.slice(1))
-      .join(" ");
+      .split(' ')
+      .map(srt => srt.charAt(0).toUpperCase() + srt.slice(1))
+      .join(' ');
   }
 
-  return "";
+  return '';
 }

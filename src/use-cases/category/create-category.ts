@@ -1,11 +1,12 @@
-import { CategoryRepository } from "@/repositories/category-repository";
-import { CategoryAlreadyExistsError } from "./errors/category-already-exists-error";
-import { CategoryModel } from "@/entities/category-model";
-import { UseCase } from "../use-case";
+import { CategoryRepository } from '@/repositories/category-repository';
+import { CategoryModel } from '@/entities/category-model';
 
-type CreateCategoryRequest = Pick<CategoryModel, "name" | "color">;
+import { CategoryAlreadyExistsError } from './errors/category-already-exists-error';
+import { UseCase } from '../use-case';
 
-type CreateCategoryResponse = Pick<CategoryModel, "id" | "name" | "color">;
+type CreateCategoryRequest = Pick<CategoryModel, 'name' | 'color'>;
+
+type CreateCategoryResponse = Pick<CategoryModel, 'id' | 'name' | 'color'>;
 
 export class CreateCategoryUseCase
   implements UseCase<CreateCategoryRequest, CreateCategoryResponse>
@@ -17,7 +18,7 @@ export class CreateCategoryUseCase
     color,
   }: CreateCategoryRequest): Promise<CreateCategoryResponse> {
     const categoryAlreadyExists = await this.categoryRepository.findByName(
-      name
+      name,
     );
 
     if (categoryAlreadyExists) {

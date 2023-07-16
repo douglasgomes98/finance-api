@@ -1,14 +1,14 @@
-import { CategoryModel } from "@/entities/category-model";
+import { CategoryModel } from '@/entities/category-model';
 
 export type CategoryRepositoryDTO = Pick<
   CategoryModel,
-  "id" | "name" | "color"
+  'id' | 'name' | 'color'
 >;
 
-export type CategoryCreateRepositoryDTO = Omit<CategoryRepositoryDTO, "id">;
+export type CategoryCreateRepositoryDTO = Omit<CategoryRepositoryDTO, 'id'>;
 
 export type CategoryUpdateRepositoryDTO = Partial<
-  Omit<CategoryRepositoryDTO, "id">
+  Omit<CategoryRepositoryDTO, 'id'>
 >;
 
 export type CategoryRepository = {
@@ -18,7 +18,7 @@ export type CategoryRepository = {
   create: (data: CategoryCreateRepositoryDTO) => Promise<CategoryRepositoryDTO>;
   update: (
     id: string,
-    data: CategoryUpdateRepositoryDTO
+    data: CategoryUpdateRepositoryDTO,
   ) => Promise<CategoryRepositoryDTO>;
   delete: (id: string) => Promise<void>;
 };

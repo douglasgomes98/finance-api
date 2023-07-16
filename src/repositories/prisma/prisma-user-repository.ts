@@ -1,10 +1,10 @@
-import { userMapper } from "../mappers/user-mapper";
+import { userMapper } from '../mappers/user-mapper';
 import {
   UserCreateRepositoryDTO,
   UserRepository,
   UserRepositoryDTO,
-} from "../user-repository";
-import { database } from "./database";
+} from '../user-repository';
+import { database } from './database';
 
 export class PrismaUserRepository implements UserRepository {
   async findByEmail(email: string): Promise<UserRepositoryDTO | null> {
