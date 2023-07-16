@@ -1,17 +1,24 @@
-import { Category, Prisma } from "@prisma/client";
+import { CategoryModel } from "@/entities/category-model";
 
-export type CategoryCreateInput = Pick<
-  Prisma.CategoryCreateInput,
-  "name" | "color"
+export type CategoryRepositoryDTO = Pick<
+  CategoryModel,
+  "id" | "name" | "color"
 >;
 
-export type CategoryUpdateInput = CategoryCreateInput;
+export type CategoryCreateRepositoryDTO = Omit<CategoryRepositoryDTO, "id">;
+
+export type CategoryUpdateRepositoryDTO = Partial<
+  Omit<CategoryRepositoryDTO, "id">
+>;
 
 export type CategoryRepository = {
-  findById: (id: string) => Promise<Category | null>;
-  findByName: (name: string) => Promise<Category | null>;
-  findMany: () => Promise<Category[]>;
-  create: (data: CategoryCreateInput) => Promise<Category>;
-  update: (id: string, data: CategoryUpdateInput) => Promise<Category>;
+  findById: (id: string) => Promise<CategoryRepositoryDTO | null>;
+  findByName: (name: string) => Promise<CategoryRepositoryDTO | null>;
+  findMany: () => Promise<CategoryRepositoryDTO[]>;
+  create: (data: CategoryCreateRepositoryDTO) => Promise<CategoryRepositoryDTO>;
+  update: (
+    id: string,
+    data: CategoryUpdateRepositoryDTO
+  ) => Promise<CategoryRepositoryDTO>;
   delete: (id: string) => Promise<void>;
 };

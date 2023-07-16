@@ -1,4 +1,6 @@
-import { FastifyReply } from "fastify";
+import { FastifyReply } from 'fastify';
 
-export const unauthorizedResponse = (reply: FastifyReply) =>
-  reply.status(401).send({ message: "Unauthorized." });
+export const unauthorizedResponse =
+  <T>(reply: FastifyReply) =>
+  (data: T) =>
+    reply.status(401).send(data);

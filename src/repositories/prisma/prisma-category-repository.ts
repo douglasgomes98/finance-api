@@ -1,48 +1,59 @@
-import { Category } from "@prisma/client";
 import { database } from "./database";
 import {
+  CategoryCreateRepositoryDTO,
   CategoryRepository,
-  CategoryCreateInput,
+  CategoryRepositoryDTO,
+  CategoryUpdateRepositoryDTO,
 } from "../category-repository";
+import { categoryMapper } from "../mappers/category-mapper";
 
 export class PrismaCategoryRepository implements CategoryRepository {
-  async findById(id: string): Promise<Category | null> {
-    const category = await database.category.findUnique({
+  async findById(id: string): Promise<CategoryRepositoryDTO | null> {
+    const row = await database.category.findUnique({
       where: { id },
     });
 
-    return category;
+    if (!row) return null;
+
+    return categoryMapper.toEntity(row);
   }
 
-  async findByName(name: string): Promise<Category | null> {
-    const category = await database.category.findFirst({
+  async findByName(name: string): Promise<CategoryRepositoryDTO | null> {
+    const row = await database.category.findFirst({
       where: { name },
     });
 
-    return category;
+    if (!row) return null;
+
+    return categoryMapper.toEntity(row);
   }
 
-  async findMany(): Promise<Category[]> {
-    const categories = await database.category.findMany();
+  async findMany(): Promise<CategoryRepositoryDTO[]> {
+    const rows = await database.category.findMany();
 
-    return categories;
+    return rows.map(categoryMapper.toEntity);
   }
 
-  async create(data: CategoryCreateInput): Promise<Category> {
-    const category = await database.category.create({
+  async create(
+    data: CategoryCreateRepositoryDTO
+  ): Promise<CategoryRepositoryDTO> {
+    const row = await database.category.create({
       data,
     });
 
-    return category;
+    return categoryMapper.toEntity(row);
   }
 
-  async update(id: string, data: CategoryCreateInput): Promise<Category> {
+  async update(
+    id: string,
+    data: CategoryUpdateRepositoryDTO
+  ): Promise<CategoryRepositoryDTO> {
     const category = await database.category.update({
       where: { id },
       data,
     });
 
-    return category;
+    return categoryMapper.toEntity(category);
   }
 
   async delete(id: string): Promise<void> {

@@ -1,10 +1,18 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
 import { unauthorizedResponse } from "../responses/unauthorized-response";
 
-export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
+export async function verifyJwt(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  done: HookHandlerDoneFunction
+) {
   try {
     await request.jwtVerify();
   } catch (err) {
-    return unauthorizedResponse(reply);
+    return unauthorizedResponse(reply)({
+      message: "Invalid session.",
+    });
   }
+
+  done();
 }
