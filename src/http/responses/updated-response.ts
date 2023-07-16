@@ -1,6 +1,6 @@
-import { FastifyReply } from "fastify";
+import { FastifyReply } from 'fastify';
 
 export const updatedResponse =
-  <T = any>(reply: FastifyReply) =>
+  <T>(reply: FastifyReply) =>
   (data: T) =>
     reply.status(200).send(data);

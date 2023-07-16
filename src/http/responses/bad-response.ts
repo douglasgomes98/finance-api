@@ -1,4 +1,4 @@
-import { FastifyReply } from "fastify";
+import { FastifyReply } from 'fastify';
 
 export const badResponse =
   <T>(reply: FastifyReply) =>

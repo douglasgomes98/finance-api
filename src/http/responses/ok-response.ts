@@ -1,6 +1,6 @@
 import { FastifyReply } from 'fastify';
 
-export const conflictResponse =
+export const okResponse =
   <T>(reply: FastifyReply) =>
   (data: T) =>
-    reply.status(409).send(data);
+    reply.status(200).send(data);

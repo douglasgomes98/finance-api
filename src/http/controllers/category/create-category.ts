@@ -1,11 +1,23 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createValidator } from "./validators/create-validator";
 import { createdResponse } from "@/http/responses/created-response";
-import { makeCreateCategoryUseCase } from "@/use-cases/factories/make-create-category-use-case";
-import { CategoryAlreadyExistsError } from "@/use-cases/errors/category-already-exists-error";
+import { makeCreateCategoryUseCase } from "@/use-cases/category/factories/make-create-category-use-case";
+import { CategoryAlreadyExistsError } from "@/use-cases/category/errors/category-already-exists-error";
 import { conflictResponse } from "@/http/responses/conflict-response";
+import { z } from "zod";
+import { normalizeName } from "@/helpers/normalize-name";
 
-export async function create(request: FastifyRequest, reply: FastifyReply) {
+export const createValidator = z.object({
+  name: z.string().transform((value) => normalizeName(value)),
+  color: z
+    .string()
+    .length(7)
+    .regex(/^#[0-9a-f]{6}$/i),
+});
+
+export async function createCategory(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
   const { name, color } = createValidator.parse(request.body);
 
   const createCategoryUseCase = makeCreateCategoryUseCase();
