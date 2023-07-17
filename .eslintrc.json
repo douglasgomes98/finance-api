@@ -48,7 +48,9 @@
     "class-methods-use-this": "off",
     "consistent-return": "off",
     "no-shadow": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "@typescript-eslint/ban-types": "off",
+    "max-classes-per-file": "off"
   },
   "settings": {
     "import/extensions": [".js", ".ts"],

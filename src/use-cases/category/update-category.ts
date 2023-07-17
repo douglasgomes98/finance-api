@@ -4,7 +4,6 @@ import { CategoryRepository } from '@/repositories/category-repository';
 import { UseCase } from '../use-case';
 import { CategoryAlreadyExistsError } from './errors/category-already-exists-error';
 import { FindCategoryByIdUseCase } from './find-category-by-id';
-import { FindCategoryByNameUseCase } from './find-category-by-name';
 
 type UpdateCategoryUseCaseRequest = Pick<
   CategoryModel,
@@ -22,7 +21,6 @@ export class UpdateCategoryUseCase
 {
   constructor(
     private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase,
-    private readonly findCategoryByNameUseCase: FindCategoryByNameUseCase,
     private readonly categoryRepository: CategoryRepository,
   ) {}
 
@@ -33,9 +31,9 @@ export class UpdateCategoryUseCase
   }: UpdateCategoryUseCaseRequest): Promise<UpdateCategoryUseCaseResponse> {
     const category = await this.findCategoryByIdUseCase.execute({ id });
 
-    const categoryAlreadyExists = await this.findCategoryByNameUseCase.execute({
+    const categoryAlreadyExists = await this.categoryRepository.findByName(
       name,
-    });
+    );
 
     if (categoryAlreadyExists) {
       throw new CategoryAlreadyExistsError();

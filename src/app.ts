@@ -1,29 +1,94 @@
-import fastify from 'fastify';
+import 'reflect-metadata';
+import './configurations/imports';
+import fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import { ResolverData, buildSchema } from 'type-graphql';
+import Container, { ContainerInstance } from 'typedi';
+import { ZodError } from 'zod';
 
-import fastifyCookie from '@fastify/cookie';
-import fastifyJwt from '@fastify/jwt';
+import { unwrapResolverError } from '@apollo/server/errors';
+import {
+  ApolloServer,
+  ApolloServerPlugin,
+  GraphQLRequestContext,
+} from '@apollo/server';
+import fastifyApollo, {
+  fastifyApolloDrainPlugin,
+} from '@as-integrations/fastify';
 
-import { ENV } from './environment';
-import { categoryRouter } from './http/controllers/category/router';
-import { userRouter } from './http/controllers/user/router';
-import { errorParser } from './http/middlewares/error-parser';
+import { ENV } from './configurations/environment';
+import { generateId } from './helpers/generate-id';
+import { resolvers } from './http/resolvers';
 
-export const app = fastify();
+export type ApolloContext = {
+  requestId: string;
+  container: ContainerInstance;
+  request: FastifyRequest;
+  response: FastifyReply;
+};
 
-app.register(fastifyJwt, {
-  secret: ENV.JWT_SECRET,
-  cookie: {
-    cookieName: 'refreshToken',
-    signed: false,
-  },
-  sign: {
-    expiresIn: '15m',
-  },
-});
+export async function bootstrap() {
+  const app = fastify();
 
-app.register(fastifyCookie);
+  app.get('/', async (_, reply) => reply.redirect('/graphql'));
 
-app.register(categoryRouter, { prefix: '/api/v1/category' });
-app.register(userRouter, { prefix: '/api/v1/user' });
+  const schema = await buildSchema({
+    emitSchemaFile: true,
+    resolvers,
+    container: ({ context }: ResolverData<ApolloContext>) => context.container,
+  });
 
-app.setErrorHandler(errorParser);
+  const apollo = new ApolloServer<ApolloContext>({
+    schema,
+    formatError(formattedError, error) {
+      if (unwrapResolverError(error) instanceof ZodError) {
+        return {
+          ...formattedError,
+          message: JSON.parse(formattedError.message),
+        };
+      }
+
+      return formattedError;
+    },
+    plugins: [
+      fastifyApolloDrainPlugin(app),
+      {
+        requestDidStart: () => ({
+          willSendResponse(
+            requestContext: GraphQLRequestContext<ApolloContext>,
+          ) {
+            Container.remove(requestContext.contextValue.requestId.toString());
+          },
+        }),
+      } as unknown as ApolloServerPlugin<ApolloContext>,
+    ],
+  });
+
+  await apollo.start();
+
+  await app.register(fastifyApollo(apollo), {
+    context: async (request, reply) => {
+      const requestId = generateId();
+      const container = Container.of(requestId.toString());
+
+      reply.header('transaction-id', requestId);
+
+      const context: ApolloContext = {
+        requestId,
+        container,
+        request,
+        response: reply,
+      };
+
+      return context;
+    },
+  });
+
+  await app
+    .listen({
+      host: '0.0.0.0',
+      port: ENV.PORT,
+    })
+    .then(() => {
+      console.log(`Server running at http://localhost:${ENV.PORT}`);
+    });
+}

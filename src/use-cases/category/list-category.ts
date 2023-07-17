@@ -23,9 +23,10 @@ export class ListCategoryUseCase
   async execute({
     userId,
   }: ListCategoryUseCaseRequest): Promise<ListCategoryUseCaseResponse> {
-    const user = await this.findUserByIdUseCase.execute({ id: userId });
+    // TODO: Check if user exists
+    // const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    const categories = await this.categoryRepository.findByUserId(user.id);
+    const categories = await this.categoryRepository.findByUserId(userId);
 
     return { data: categories };
   }

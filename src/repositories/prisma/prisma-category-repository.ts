@@ -28,7 +28,8 @@ export class PrismaCategoryRepository implements CategoryRepository {
     return categoryMapper.toEntity(row);
   }
 
-  async findMany(): Promise<CategoryRepositoryDTO[]> {
+  async findByUserId(userId: string): Promise<CategoryRepositoryDTO[]> {
+    // TODO: adicionar filtro por usuário
     const rows = await database.category.findMany();
 
     return rows.map(categoryMapper.toEntity);
