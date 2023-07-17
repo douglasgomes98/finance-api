@@ -41,6 +41,7 @@ export async function bootstrap() {
   });
 
   const apollo = new ApolloServer<ApolloContext>({
+    introspection: true,
     schema,
     formatError(formattedError, error) {
       if (unwrapResolverError(error) instanceof ZodError) {
