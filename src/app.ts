@@ -5,6 +5,7 @@ import { ResolverData, buildSchema } from 'type-graphql';
 import Container, { ContainerInstance } from 'typedi';
 import { ZodError } from 'zod';
 
+import cors from '@fastify/cors';
 import { unwrapResolverError } from '@apollo/server/errors';
 import {
   ApolloServer,
@@ -28,6 +29,8 @@ export type ApolloContext = {
 
 export async function bootstrap() {
   const app = fastify();
+
+  app.register(cors);
 
   app.get('/', async (_, reply) => reply.redirect('/graphql'));
 
