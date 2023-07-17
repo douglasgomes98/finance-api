@@ -43,7 +43,10 @@ export async function bootstrap() {
       if (unwrapResolverError(error) instanceof ZodError) {
         return {
           ...formattedError,
-          message: JSON.parse(formattedError.message),
+          message: 'Validation error.',
+          extensions: {
+            issues: JSON.parse(formattedError.message),
+          },
         };
       }
 
