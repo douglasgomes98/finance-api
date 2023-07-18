@@ -35,7 +35,11 @@ export class UpdateCategoryUseCase
       name,
     );
 
-    if (categoryAlreadyExists) {
+    if (categoryAlreadyExists && categoryAlreadyExists.id !== category.id) {
+      throw new CategoryAlreadyExistsError();
+    }
+
+    if (category.name === name && category.color === color) {
       throw new CategoryAlreadyExistsError();
     }
 

@@ -33,7 +33,8 @@ export class CategoryResolver {
       color: z
         .string()
         .length(7)
-        .regex(/^#[0-9a-f]{6}$/i),
+        .regex(/^#[0-9a-f]{6}$/i)
+        .transform(value => value.toUpperCase()),
     });
 
     const safeValues = validator.parse(data);
@@ -58,7 +59,8 @@ export class CategoryResolver {
       color: z
         .string()
         .length(7)
-        .regex(/^#[0-9a-f]{6}$/i),
+        .regex(/^#[0-9a-f]{6}$/i)
+        .transform(value => value.toUpperCase()),
     });
 
     const safeValues = validator.parse({ id, ...data });
