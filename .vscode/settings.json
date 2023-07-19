@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["fastify", "Fastify", "middlewares", "typedi"]
+  "cSpell.words": [
+    "fastify",
+    "Fastify",
+    "hasher",
+    "Hasher",
+    "middlewares",
+    "postgresql",
+    "typedi"
+  ]
 }
