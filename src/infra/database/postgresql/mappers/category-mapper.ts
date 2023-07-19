@@ -17,6 +17,7 @@ class CategoryMapper implements Mapper<CategoryModel, Category> {
       id: data.id,
       name: data.name,
       color: data.color,
+      userId: data.userId || '',
     };
   }
 }

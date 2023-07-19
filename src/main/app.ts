@@ -1,31 +1,25 @@
 import 'reflect-metadata';
 import './configurations/imports';
-import fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import fastify from 'fastify';
 import { ResolverData, buildSchema } from 'type-graphql';
-import Container, { ContainerInstance } from 'typedi';
+import Container from 'typedi';
 import { ZodError } from 'zod';
 
-import cors from '@fastify/cors';
-import { unwrapResolverError } from '@apollo/server/errors';
+import { ApolloContext } from '@/presentation/graphql/types';
 import {
   ApolloServer,
   ApolloServerPlugin,
   GraphQLRequestContext,
 } from '@apollo/server';
+import { unwrapResolverError } from '@apollo/server/errors';
 import fastifyApollo, {
   fastifyApolloDrainPlugin,
 } from '@as-integrations/fastify';
+import cors from '@fastify/cors';
 
-import { ENV } from './configurations/environment';
-import { resolvers } from '../presentation/graphql/resolvers';
 import { BcryptAdapter } from '../infra/cryptography/bcrypt-adapter';
-
-export type ApolloContext = {
-  requestId: string;
-  container: ContainerInstance;
-  request: FastifyRequest;
-  response: FastifyReply;
-};
+import { resolvers } from '../presentation/graphql/resolvers';
+import { ENV } from './configurations/environment';
 
 export async function bootstrap() {
   const app = fastify();
@@ -85,6 +79,7 @@ export async function bootstrap() {
         container,
         request,
         response: reply,
+        userId: '6971db02-0089-4845-9862-fa9f9d1886ae',
       };
 
       return context;

@@ -44,8 +44,10 @@ export class PrismaCategoryRepositoryAdapter
   async findByUser({
     id,
   }: FindCategoryUserRepository.Params): Promise<FindCategoryUserRepository.Result> {
-    // TODO: adicionar filtro por usuário
-    const rows = await database.category.findMany();
+    const rows = await database.category.findMany({
+      where: { userId: id },
+      orderBy: { name: 'asc' },
+    });
 
     return rows.map(categoryMapper.toEntity);
   }

@@ -4,6 +4,7 @@ import { CategoryAlreadyExistsError } from '@/domain/errors/category-already-exi
 
 import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name';
 import { CreateCategoryRepository } from '../protocols/database/create-category';
+import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class CreateCategoryUseCase
   implements UseCase<CreateCategory.Params, CreateCategory.Result>
@@ -11,12 +12,16 @@ export class CreateCategoryUseCase
   constructor(
     private readonly findCategoryByNameRepository: FindCategoryByNameRepository,
     private readonly createCategoryRepository: CreateCategoryRepository,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
   ) {}
 
   async execute({
     name,
     color,
+    userId,
   }: CreateCategory.Params): Promise<CreateCategory.Result> {
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
+
     const categoryAlreadyExists =
       await this.findCategoryByNameRepository.findByName({ name });
 
@@ -27,6 +32,7 @@ export class CreateCategoryUseCase
     const category = await this.createCategoryRepository.create({
       name,
       color,
+      userId: user.id,
     });
 
     return category;

@@ -13,11 +13,10 @@ export class ListCategoryUseCase
   ) {}
 
   async execute({ userId }: ListCategory.Params): Promise<ListCategory.Result> {
-    // TODO: Check if user exists
-    // const user = await this.findUserByIdUseCase.execute({ id: userId });
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
     const categories = await this.findCategoryUserRepository.findByUser({
-      id: userId,
+      id: user.id,
     });
 
     return categories;

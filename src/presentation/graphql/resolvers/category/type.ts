@@ -28,4 +28,7 @@ export class Category {
 
   @Field()
   color: string;
+
+  @Field()
+  userId: string;
 }

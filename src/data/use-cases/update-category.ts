@@ -1,10 +1,12 @@
 import { CategoryAlreadyExistsError } from '@/domain/errors/category-already-exists-error';
 import { UpdateCategory } from '@/domain/use-cases/update-category';
 import { UseCase } from '@/domain/use-cases/use-case';
+import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
 import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name';
 import { UpdateCategoryRepository } from '../protocols/database/update-category';
 import { FindCategoryByIdUseCase } from './find-category-by-id';
+import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class UpdateCategoryUseCase
   implements UseCase<UpdateCategory.Params, UpdateCategory.Result>
@@ -13,14 +15,23 @@ export class UpdateCategoryUseCase
     private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase,
     private readonly findCategoryByNameRepository: FindCategoryByNameRepository,
     private readonly updateCategoryRepository: UpdateCategoryRepository,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
   ) {}
 
   async execute({
     id,
     name,
     color,
+    userId,
   }: UpdateCategory.Params): Promise<UpdateCategory.Result> {
-    const category = await this.findCategoryByIdUseCase.execute({ id });
+    const [user, category] = await Promise.all([
+      this.findUserByIdUseCase.execute({ id: userId }),
+      this.findCategoryByIdUseCase.execute({ id }),
+    ]);
+
+    if (category.userId !== user.id) {
+      throw new YouAreNotAllowedToChangeThisResourceError();
+    }
 
     const categoryAlreadyExists =
       await this.findCategoryByNameRepository.findByName({ name });

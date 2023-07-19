@@ -1,4 +1,3 @@
 node_modules
 dist
-src/server.ts
-src/http/middlewares/error-parser.ts
+src/main/app.ts

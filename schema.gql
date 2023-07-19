@@ -7,6 +7,7 @@ type Category {
   color: String!
   id: ID!
   name: String!
+  userId: String!
 }
 
 input CreateCategoryInput {
@@ -24,11 +25,16 @@ type Mutation {
   createCategory(data: CreateCategoryInput!): Category!
   createUser(data: CreateUserInput!): User!
   deleteCategory(id: String!): Boolean!
-  updateCategory(data: CreateCategoryInput!, id: String!): Category!
+  updateCategory(data: UpdateCategoryInput!, id: String!): Category!
 }
 
 type Query {
   listCategories: [Category!]!
+}
+
+input UpdateCategoryInput {
+  color: String!
+  name: String!
 }
 
 type User {

@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { z } from 'zod';
 
@@ -8,20 +8,24 @@ import { makeCreateCategoryUseCase } from '@/main/factories/use-cases/make-creat
 import { makeUpdateCategoryUseCase } from '@/main/factories/use-cases/make-update-category-use-case';
 import { makeDeleteCategoryUseCase } from '@/main/factories/use-cases/make-delete-category-use-case';
 
-import { Category, CreateCategoryInput } from './type';
+import { Category, CreateCategoryInput, UpdateCategoryInput } from './type';
+import { ApolloContext } from '../../types';
 
 @Service()
 @Resolver()
 export class CategoryResolver {
   @Query(() => [Category])
-  async listCategories() {
+  async listCategories(@Ctx() { userId }: ApolloContext) {
     const useCase = makeListCategoryUseCase();
 
-    return useCase.execute({ userId: 'fake-user-id' });
+    return useCase.execute({ userId });
   }
 
   @Mutation(() => Category)
-  async createCategory(@Arg('data') data: CreateCategoryInput) {
+  async createCategory(
+    @Arg('data') data: CreateCategoryInput,
+    @Ctx() { userId }: ApolloContext,
+  ) {
     const formatterAdapter = new FormatterAdapter();
     // TODO: Move validation to a dependency
     const validator = z.object({
@@ -42,13 +46,14 @@ export class CategoryResolver {
 
     const useCase = makeCreateCategoryUseCase();
 
-    return useCase.execute(safeValues);
+    return useCase.execute({ ...safeValues, userId });
   }
 
   @Mutation(() => Category)
   async updateCategory(
     @Arg('id') id: string,
-    @Arg('data') data: CreateCategoryInput,
+    @Arg('data') data: UpdateCategoryInput,
+    @Ctx() { userId }: ApolloContext,
   ) {
     const formatterAdapter = new FormatterAdapter();
 
@@ -72,11 +77,14 @@ export class CategoryResolver {
 
     const useCase = makeUpdateCategoryUseCase();
 
-    return useCase.execute(safeValues);
+    return useCase.execute({ ...safeValues, userId });
   }
 
   @Mutation(() => Boolean)
-  async deleteCategory(@Arg('id') id: string) {
+  async deleteCategory(
+    @Arg('id') id: string,
+    @Ctx() { userId }: ApolloContext,
+  ) {
     // TODO: Move validation to a dependency
     const validator = z.object({
       id: z.string().nonempty(),
@@ -86,7 +94,7 @@ export class CategoryResolver {
 
     const useCase = makeDeleteCategoryUseCase();
 
-    await useCase.execute(safeValues);
+    await useCase.execute({ ...safeValues, userId });
 
     return true;
   }
