@@ -14,12 +14,25 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
 type Mutation {
   createCategory(data: CreateCategoryInput!): Category!
+  createUser(data: CreateUserInput!): User!
   deleteCategory(id: String!): Boolean!
   updateCategory(data: CreateCategoryInput!, id: String!): Category!
 }
 
 type Query {
   listCategories: [Category!]!
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String!
 }
