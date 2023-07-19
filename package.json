@@ -6,10 +6,10 @@
   "scripts": {
     "build": "yarn clean && yarn prisma generate && yarn prisma migrate deploy && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev src/main/server.ts",
     "lint": "yarn eslint --max-warnings=0 --fix src && yarn prettier --write src",
     "prepare": "husky install",
-    "start": "node dist/server.js"
+    "start": "node dist/main/server.js"
   },
   "engines": {
     "node": "20.4.0"
@@ -50,5 +50,8 @@
     "rimraf": "^5.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
+  },
+  "prisma": {
+    "schema": "src/infra/database/postgresql/prisma/schema.prisma"
   }
 }
