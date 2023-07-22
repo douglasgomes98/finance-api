@@ -1,7 +1,7 @@
 import { ListCategory } from '@/domain/use-cases/list-category';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindCategoryUserRepository } from '../protocols/database/find-category-by-user';
+import { FindCategoryByUserRepository } from '../protocols/database/find-category-by-user';
 import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class ListCategoryUseCase
@@ -9,13 +9,13 @@ export class ListCategoryUseCase
 {
   constructor(
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
-    private readonly findCategoryUserRepository: FindCategoryUserRepository,
+    private readonly findCategoryByUserRepository: FindCategoryByUserRepository,
   ) {}
 
   async execute({ userId }: ListCategory.Params): Promise<ListCategory.Result> {
     const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    const categories = await this.findCategoryUserRepository.findByUser({
+    const categories = await this.findCategoryByUserRepository.findByUser({
       id: user.id,
     });
 

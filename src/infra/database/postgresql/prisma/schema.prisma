@@ -21,11 +21,25 @@ model Category {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  email      String     @unique
+  id          String       @id @default(uuid())
+  email       String       @unique
+  name        String
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  categories  Category[]
+  creditCards CreditCard[]
+}
+
+model CreditCard {
+  id         String   @id @default(uuid())
   name       String
-  password   String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  categories Category[]
+  color      String
+  limit      Float
+  dueDay     Int
+  closingDay Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
 }

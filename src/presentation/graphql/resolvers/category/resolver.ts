@@ -33,7 +33,7 @@ export class CategoryResolver {
         .string()
         .nonempty()
         .trim()
-        .transform(value => formatterAdapter.normalizeName(value)),
+        .transform(formatterAdapter.normalizeName),
       color: z
         .string()
         .length(7)
@@ -64,7 +64,7 @@ export class CategoryResolver {
         .string()
         .nonempty()
         .trim()
-        .transform(value => formatterAdapter.normalizeName(value)),
+        .transform(formatterAdapter.normalizeName),
       color: z
         .string()
         .length(7)

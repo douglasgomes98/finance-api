@@ -1,6 +1,6 @@
 import { FindCategoryByIdRepository } from '@/data/protocols/database/find-category-by-id';
 import { FindCategoryByNameRepository } from '@/data/protocols/database/find-category-by-name';
-import { FindCategoryUserRepository } from '@/data/protocols/database/find-category-by-user';
+import { FindCategoryByUserRepository } from '@/data/protocols/database/find-category-by-user';
 import { CreateCategoryRepository } from '@/data/protocols/database/create-category';
 import { UpdateCategoryRepository } from '@/data/protocols/database/update-category';
 import { DeleteCategoryRepository } from '@/data/protocols/database/delete-category';
@@ -12,7 +12,7 @@ export class PrismaCategoryRepositoryAdapter
   implements
     FindCategoryByIdRepository,
     FindCategoryByNameRepository,
-    FindCategoryUserRepository,
+    FindCategoryByUserRepository,
     CreateCategoryRepository,
     UpdateCategoryRepository,
     DeleteCategoryRepository
@@ -43,7 +43,7 @@ export class PrismaCategoryRepositoryAdapter
 
   async findByUser({
     id,
-  }: FindCategoryUserRepository.Params): Promise<FindCategoryUserRepository.Result> {
+  }: FindCategoryByUserRepository.Params): Promise<FindCategoryByUserRepository.Result> {
     const rows = await database.category.findMany({
       where: { userId: id },
       orderBy: { name: 'asc' },
