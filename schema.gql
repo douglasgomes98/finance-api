@@ -15,14 +15,33 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateCreditCardInput {
+  closingDay: Float!
+  color: String!
+  dueDay: Float!
+  limit: Float!
+  name: String!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
   password: String!
 }
 
+type CreditCard {
+  closingDay: Float!
+  color: String!
+  dueDay: Float!
+  id: ID!
+  limit: Float!
+  name: String!
+  userId: String!
+}
+
 type Mutation {
   createCategory(data: CreateCategoryInput!): Category!
+  createCreditCard(data: CreateCreditCardInput!): CreditCard!
   createUser(data: CreateUserInput!): User!
   deleteCategory(id: String!): Boolean!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
@@ -30,6 +49,7 @@ type Mutation {
 
 type Query {
   listCategories: [Category!]!
+  listCreditCards: [CreditCard!]!
 }
 
 input UpdateCategoryInput {

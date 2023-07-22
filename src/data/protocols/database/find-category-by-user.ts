@@ -1,6 +1,6 @@
 import { CategoryModel } from '@/domain/entities/category-model';
 
-export namespace FindCategoryUserRepository {
+export namespace FindCategoryByUserRepository {
   export type Params = {
     id: string;
   };
@@ -8,8 +8,8 @@ export namespace FindCategoryUserRepository {
   export type Result = CategoryModel[];
 }
 
-export type FindCategoryUserRepository = {
+export type FindCategoryByUserRepository = {
   findByUser: (
-    data: FindCategoryUserRepository.Params,
-  ) => Promise<FindCategoryUserRepository.Result>;
+    data: FindCategoryByUserRepository.Params,
+  ) => Promise<FindCategoryByUserRepository.Result>;
 };

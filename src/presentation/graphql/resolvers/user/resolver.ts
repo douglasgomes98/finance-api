@@ -20,7 +20,7 @@ export class UserResolver {
         .string()
         .nonempty()
         .trim()
-        .transform(value => formatterAdapter.normalizeName(value)),
+        .transform(formatterAdapter.normalizeName),
       password: z.string().trim().min(8),
     });
 
