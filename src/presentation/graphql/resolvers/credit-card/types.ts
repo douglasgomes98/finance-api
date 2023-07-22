@@ -16,9 +16,6 @@ export class CreateCreditCardInput {
 
   @Field()
   closingDay: number;
-
-  @Field()
-  userId: string;
 }
 
 @ObjectType()

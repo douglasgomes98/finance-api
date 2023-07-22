@@ -1,9 +1,10 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { z } from 'zod';
 
 import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
 import { makeCreateCreditCardUseCase } from '@/main/factories/use-cases/make-create-credit-card-use-case';
+import { makeListCreditCardUseCase } from '@/main/factories/use-cases/make-list-credit-card-use-case';
 
 import { CreateCreditCardInput, CreditCard } from './types';
 import { ApolloContext } from '../../types';
@@ -39,5 +40,12 @@ export class CreditCardResolver {
     const useCase = makeCreateCreditCardUseCase();
 
     return useCase.execute({ ...safeValues, userId });
+  }
+
+  @Query(() => [CreditCard])
+  async listCreditCards(@Ctx() { userId }: ApolloContext) {
+    const useCase = makeListCreditCardUseCase();
+
+    return useCase.execute({ userId });
   }
 }

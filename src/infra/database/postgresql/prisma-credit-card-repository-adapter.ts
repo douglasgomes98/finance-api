@@ -1,13 +1,29 @@
 import { CreateCreditCardRepository } from '@/data/protocols/database/create-credit-card';
 import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name';
 import { CreditCardModel } from '@/domain/entities/credit-card-model';
+import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user';
 
 import { database } from './database';
 import { creditCardMapper } from './mappers/credit-card-mapper';
 
 export class PrismaCreditCardRepositoryAdapter
-  implements FindCreditCardByUserAndNameRepository, CreateCreditCardRepository
+  implements
+    FindCreditCardByUserAndNameRepository,
+    CreateCreditCardRepository,
+    FindCreditCardByUserRepository
 {
+  async findByUser(
+    data: FindCreditCardByUserRepository.Params,
+  ): Promise<FindCreditCardByUserRepository.Result> {
+    const rows = await database.creditCard.findMany({
+      where: {
+        userId: data.id,
+      },
+    });
+
+    return rows.map(creditCardMapper.toEntity);
+  }
+
   async findByUserAndName(
     data: FindCreditCardByUserAndNameRepository.Params,
   ): Promise<FindCreditCardByUserAndNameRepository.Result> {

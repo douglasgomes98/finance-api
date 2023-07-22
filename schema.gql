@@ -21,7 +21,6 @@ input CreateCreditCardInput {
   dueDay: Float!
   limit: Float!
   name: String!
-  userId: String!
 }
 
 input CreateUserInput {
@@ -50,6 +49,7 @@ type Mutation {
 
 type Query {
   listCategories: [Category!]!
+  listCreditCards: [CreditCard!]!
 }
 
 input UpdateCategoryInput {
