@@ -10,4 +10,7 @@ export class Bank {
 
   @Field()
   image: string;
+
+  @Field()
+  color: string;
 }

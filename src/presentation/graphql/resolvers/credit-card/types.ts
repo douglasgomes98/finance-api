@@ -6,16 +6,16 @@ export class CreateCreditCardInput {
   name: string;
 
   @Field()
-  color: string;
+  dueDay: number;
+
+  @Field()
+  closingDay: number;
 
   @Field()
   limit: number;
 
   @Field()
-  dueDay: number;
-
-  @Field()
-  closingDay: number;
+  bankId: string;
 }
 
 @ObjectType()

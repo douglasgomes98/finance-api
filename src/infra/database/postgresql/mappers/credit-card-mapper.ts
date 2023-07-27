@@ -8,11 +8,14 @@ class CreditCardMapper implements Mapper<CreditCardModel, CreditCard> {
     return {
       id: data.id,
       name: data.name,
-      color: data.color,
-      limit: data.limit,
       dueDay: data.dueDay,
       closingDay: data.closingDay,
+      limit: data.limit,
+      limitAvailable: data.limitAvailable,
+      limitUsed: data.limitUsed,
+      percentLimitUsed: data.percentLimitUsed,
       userId: data.userId,
+      bankId: data.bankId,
     };
   }
 
@@ -20,11 +23,14 @@ class CreditCardMapper implements Mapper<CreditCardModel, CreditCard> {
     return {
       id: data.id,
       name: data.name,
-      color: data.color,
-      limit: data.limit,
       dueDay: data.dueDay,
       closingDay: data.closingDay,
+      limit: data.limit,
+      limitAvailable: data.limitAvailable,
+      limitUsed: data.limitUsed,
+      percentLimitUsed: data.percentLimitUsed,
       userId: data.userId as string,
+      bankId: data.bankId as string,
     };
   }
 }

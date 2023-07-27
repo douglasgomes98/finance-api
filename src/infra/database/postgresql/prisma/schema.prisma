@@ -32,22 +32,28 @@ model User {
 }
 
 model CreditCard {
-  id         String   @id @default(uuid())
-  name       String
-  color      String
-  limit      Float
-  dueDay     Int
-  closingDay Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  User       User?    @relation(fields: [userId], references: [id])
-  userId     String?
+  id               String   @id @default(uuid())
+  name             String
+  dueDay           Int
+  closingDay       Int
+  limit            Float
+  limitAvailable   Float
+  limitUsed        Float
+  percentLimitUsed Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  User             User?    @relation(fields: [userId], references: [id])
+  userId           String?
+  Bank             Bank?    @relation(fields: [bankId], references: [id])
+  bankId           String?
 }
 
 model Bank {
-  id        String   @id @default(uuid())
-  name      String
-  image     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(uuid())
+  name       String
+  image      String
+  color      String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  CreditCard CreditCard[]
 }

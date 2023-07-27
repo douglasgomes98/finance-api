@@ -9,6 +9,7 @@ class BankMapper implements Mapper<BankModel, Bank> {
       id: data.id,
       name: data.name,
       image: data.image,
+      color: data.color,
     };
   }
 
@@ -17,6 +18,7 @@ class BankMapper implements Mapper<BankModel, Bank> {
       id: data.id,
       name: data.name,
       image: data.image,
+      color: data.color,
     };
   }
 }

@@ -4,6 +4,7 @@
 # -----------------------------------------------
 
 type Bank {
+  color: String!
   id: ID!
   image: String!
   name: String!
@@ -22,8 +23,8 @@ input CreateCategoryInput {
 }
 
 input CreateCreditCardInput {
+  bankId: String!
   closingDay: Float!
-  color: String!
   dueDay: Float!
   limit: Float!
   name: String!
