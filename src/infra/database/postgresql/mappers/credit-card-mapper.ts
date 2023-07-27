@@ -26,9 +26,9 @@ class CreditCardMapper implements Mapper<CreditCardModel, CreditCard> {
       dueDay: data.dueDay,
       closingDay: data.closingDay,
       limit: data.limit,
-      limitAvailable: data.limitAvailable,
-      limitUsed: data.limitUsed,
-      percentLimitUsed: data.percentLimitUsed,
+      limitAvailable: data.limitAvailable || 0,
+      limitUsed: data.limitUsed || 0,
+      percentLimitUsed: data.percentLimitUsed || 0,
       userId: data.userId as string,
       bankId: data.bankId as string,
     };
