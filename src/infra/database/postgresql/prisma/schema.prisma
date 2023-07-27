@@ -37,9 +37,9 @@ model CreditCard {
   dueDay           Int
   closingDay       Int
   limit            Float
-  limitAvailable   Float
-  limitUsed        Float
-  percentLimitUsed Float
+  limitAvailable   Float?
+  limitUsed        Float?
+  percentLimitUsed Float?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   User             User?    @relation(fields: [userId], references: [id])
