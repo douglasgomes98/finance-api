@@ -3,6 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Bank {
+  id: ID!
+  image: String!
+  name: String!
+}
+
 type Category {
   color: String!
   id: ID!
@@ -48,6 +54,7 @@ type Mutation {
 }
 
 type Query {
+  listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
 }
