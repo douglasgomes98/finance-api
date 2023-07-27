@@ -1,5 +1,7 @@
 import { CreateCreditCardUseCase } from '@/data/use-cases/create-credit-card';
+import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id';
 import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id';
+import { PrismaBankRepositoryAdapter } from '@/infra/database/postgresql/prisma-bank-repository-adapter';
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';
 import { PrismaUserRepositoryAdapter } from '@/infra/database/postgresql/prisma-user-repository-adapter';
 
@@ -10,10 +12,15 @@ export function makeCreateCreditCardUseCase() {
   );
   const prismaCreditCardRepositoryAdapter =
     new PrismaCreditCardRepositoryAdapter();
+  const prismaBankRepositoryAdapter = new PrismaBankRepositoryAdapter();
+  const findBankByIdUseCase = new FindBankByIdUseCase(
+    prismaBankRepositoryAdapter,
+  );
   const useCase = new CreateCreditCardUseCase(
     findUserByIdUseCase,
     prismaCreditCardRepositoryAdapter,
     prismaCreditCardRepositoryAdapter,
+    findBankByIdUseCase,
   );
 
   return useCase;

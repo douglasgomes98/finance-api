@@ -59,7 +59,7 @@ export class CategoryResolver {
 
     // TODO: Move validation to a dependency
     const validator = z.object({
-      id: z.string().nonempty(),
+      id: z.string().nonempty().uuid(),
       name: z
         .string()
         .nonempty()
@@ -87,7 +87,7 @@ export class CategoryResolver {
   ) {
     // TODO: Move validation to a dependency
     const validator = z.object({
-      id: z.string().nonempty(),
+      id: z.string().nonempty().uuid(),
     });
 
     const safeValues = validator.parse({ id });

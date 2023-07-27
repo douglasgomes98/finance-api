@@ -3,6 +3,13 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Bank {
+  color: String!
+  id: ID!
+  image: String!
+  name: String!
+}
+
 type Category {
   color: String!
   id: ID!
@@ -16,8 +23,8 @@ input CreateCategoryInput {
 }
 
 input CreateCreditCardInput {
+  bankId: String!
   closingDay: Float!
-  color: String!
   dueDay: Float!
   limit: Float!
   name: String!
@@ -48,6 +55,7 @@ type Mutation {
 }
 
 type Query {
+  listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
 }

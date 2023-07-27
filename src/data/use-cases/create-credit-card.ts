@@ -5,6 +5,7 @@ import { CreditCardAlreadyExistsError } from '@/domain/errors/credit-card-alread
 import { FindUserByIdUseCase } from './find-user-by-id';
 import { FindCreditCardByUserAndNameRepository } from '../protocols/database/find-credit-card-by-user-and-name';
 import { CreateCreditCardRepository } from '../protocols/database/create-credit-card';
+import { FindBankByIdUseCase } from './find-bank-by-id';
 
 export class CreateCreditCardUseCase
   implements UseCase<CreateCreditCard.Params, CreateCreditCard.Result>
@@ -13,19 +14,25 @@ export class CreateCreditCardUseCase
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly findCreditCardByUserAndNameRepository: FindCreditCardByUserAndNameRepository,
     private readonly createCreditCardRepository: CreateCreditCardRepository,
+    private readonly findBankByIdUseCase: FindBankByIdUseCase,
   ) {}
 
   async execute({
     name,
-    color,
-    limit,
     dueDay,
     closingDay,
+    limit,
     userId,
+    bankId,
   }: CreateCreditCard.Params): Promise<CreateCreditCard.Result> {
-    const user = await this.findUserByIdUseCase.execute({
-      id: userId,
-    });
+    const [user, bank] = await Promise.all([
+      this.findUserByIdUseCase.execute({
+        id: userId,
+      }),
+      this.findBankByIdUseCase.execute({
+        id: bankId,
+      }),
+    ]);
 
     const creditCardAlreadyExists =
       await this.findCreditCardByUserAndNameRepository.findByUserAndName({
@@ -39,11 +46,14 @@ export class CreateCreditCardUseCase
 
     const creditCard = await this.createCreditCardRepository.create({
       name,
-      color,
-      limit,
       dueDay,
       closingDay,
+      limit,
       userId: user.id,
+      bankId: bank.id,
+      limitAvailable: limit,
+      limitUsed: 0,
+      percentLimitUsed: 0,
     });
 
     return creditCard;

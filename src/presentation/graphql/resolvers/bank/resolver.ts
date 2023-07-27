@@ -1,0 +1,17 @@
+import { Query, Resolver } from 'type-graphql';
+import { Service } from 'typedi';
+
+import { makeListBankUseCase } from '@/main/factories/use-cases/make-list-bank';
+
+import { Bank } from './type';
+
+@Service()
+@Resolver()
+export class BankResolver {
+  @Query(() => [Bank])
+  async listBanks() {
+    const useCase = makeListBankUseCase();
+
+    return useCase.execute();
+  }
+}

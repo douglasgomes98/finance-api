@@ -25,14 +25,10 @@ export class CreditCardResolver {
         .nonempty()
         .trim()
         .transform(formatterAdapter.normalizeName),
-      color: z
-        .string()
-        .length(7)
-        .regex(/^#[0-9a-f]{6}$/i)
-        .trim(),
       limit: z.number().positive(),
       dueDay: z.number().min(1).max(31),
       closingDay: z.number().min(1).max(31),
+      bankId: z.string().nonempty().uuid(),
     });
 
     const safeValues = validator.parse(data);
