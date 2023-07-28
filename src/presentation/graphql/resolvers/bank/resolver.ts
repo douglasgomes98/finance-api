@@ -1,7 +1,7 @@
 import { Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 
-import { makeListBankUseCase } from '@/main/factories/use-cases/make-list-bank';
+import { makeListBankUseCase } from '@/main/factories/use-cases/make-list-bank-use-case';
 
 import { Bank } from './type';
 

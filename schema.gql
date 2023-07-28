@@ -37,12 +37,16 @@ input CreateUserInput {
 }
 
 type CreditCard {
+  bank: Bank!
+  bankId: String!
   closingDay: Float!
-  color: String!
   dueDay: Float!
   id: ID!
   limit: Float!
+  limitAvailable: Float!
+  limitUsed: Float!
   name: String!
+  percentLimitUsed: Float!
   userId: String!
 }
 
