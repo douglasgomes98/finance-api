@@ -1,7 +1,9 @@
 import { AuthCheckerInterface, ResolverData } from 'type-graphql';
+import { Service } from 'typedi';
 
 import { ApolloContext } from './types';
 
+@Service()
 export class AuthChecker implements AuthCheckerInterface<ApolloContext> {
   check(
     { context }: ResolverData<ApolloContext>,
