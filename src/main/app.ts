@@ -20,6 +20,7 @@ import cors from '@fastify/cors';
 import { BcryptAdapter } from '../infra/cryptography/bcrypt-adapter';
 import { resolvers } from '../presentation/graphql/resolvers';
 import { ENV } from './configurations/environment';
+import { AuthChecker } from '@/presentation/graphql/auth-checker';
 
 export async function bootstrap() {
   const app = fastify();
@@ -32,6 +33,7 @@ export async function bootstrap() {
     emitSchemaFile: true,
     resolvers,
     container: ({ context }: ResolverData<ApolloContext>) => context.container,
+    authChecker: AuthChecker,
   });
 
   const apollo = new ApolloServer<ApolloContext>({
