@@ -11,8 +11,8 @@ export class FindBankByIdUseCase
     private readonly findBankByIdRepository: FindBankByIdRepository,
   ) {}
 
-  async execute(params: FindBankById.Params): Promise<FindBankById.Result> {
-    const result = await this.findBankByIdRepository.findBankById(params);
+  async execute({ id }: FindBankById.Params): Promise<FindBankById.Result> {
+    const result = await this.findBankByIdRepository.findBankById({ id });
 
     if (!result) {
       throw new BankNotFoundError();

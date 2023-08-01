@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { z } from 'zod';
 
@@ -14,6 +14,7 @@ import { ApolloContext } from '../../types';
 @Service()
 @Resolver()
 export class CategoryResolver {
+  @Authorized()
   @Query(() => [Category])
   async listCategories(@Ctx() { userId }: ApolloContext) {
     const useCase = makeListCategoryUseCase();
@@ -21,6 +22,7 @@ export class CategoryResolver {
     return useCase.execute({ userId });
   }
 
+  @Authorized()
   @Mutation(() => Category)
   async createCategory(
     @Arg('data') data: CreateCategoryInput,
@@ -49,6 +51,7 @@ export class CategoryResolver {
     return useCase.execute({ ...safeValues, userId });
   }
 
+  @Authorized()
   @Mutation(() => Category)
   async updateCategory(
     @Arg('id') id: string,
@@ -80,6 +83,7 @@ export class CategoryResolver {
     return useCase.execute({ ...safeValues, userId });
   }
 
+  @Authorized()
   @Mutation(() => Boolean)
   async deleteCategory(
     @Arg('id') id: string,

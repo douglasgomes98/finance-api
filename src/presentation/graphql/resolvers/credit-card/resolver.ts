@@ -1,5 +1,6 @@
 import {
   Arg,
+  Authorized,
   Ctx,
   FieldResolver,
   Mutation,
@@ -13,6 +14,7 @@ import { z } from 'zod';
 import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
 import { makeCreateCreditCardUseCase } from '@/main/factories/use-cases/make-create-credit-card-use-case';
 import { makeListCreditCardUseCase } from '@/main/factories/use-cases/make-list-credit-card-use-case';
+import { makeDeleteCreditCardUseCase } from '@/main/factories/use-cases/make-delete-credit-card-use-case';
 
 import { ApolloContext } from '../../types';
 import { BankDataLoader } from '../bank/data-loader';
@@ -23,6 +25,7 @@ import { CreateCreditCardInput, CreditCard } from './types';
 export class CreditCardResolver {
   constructor(private readonly bankDataLoader: BankDataLoader) {}
 
+  @Authorized()
   @Mutation(() => CreditCard)
   async createCreditCard(
     @Arg('data') data: CreateCreditCardInput,
@@ -49,6 +52,7 @@ export class CreditCardResolver {
     return useCase.execute({ ...safeValues, userId });
   }
 
+  @Authorized()
   @Query(() => [CreditCard])
   async listCreditCards(@Ctx() { userId }: ApolloContext) {
     const useCase = makeListCreditCardUseCase();
@@ -56,6 +60,17 @@ export class CreditCardResolver {
     return useCase.execute({ userId });
   }
 
+  @Authorized()
+  @Mutation(() => Boolean)
+  async deleteCreditCard(@Arg('id') id: string) {
+    const useCase = makeDeleteCreditCardUseCase();
+
+    await useCase.execute({ id });
+
+    return true;
+  }
+
+  @Authorized()
   @FieldResolver(() => Number)
   bank(@Root() creditCard: CreditCard) {
     return this.bankDataLoader.load(creditCard.bankId);
