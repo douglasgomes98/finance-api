@@ -2,6 +2,8 @@ import { CreateCreditCardRepository } from '@/data/protocols/database/create-cre
 import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name';
 import { CreditCardModel } from '@/domain/entities/credit-card-model';
 import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user';
+import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id';
+import { DeleteCreditCardRepository } from '@/data/protocols/database/delete-credit-card';
 
 import { database } from './database';
 import { creditCardMapper } from './mappers/credit-card-mapper';
@@ -10,27 +12,44 @@ export class PrismaCreditCardRepositoryAdapter
   implements
     FindCreditCardByUserAndNameRepository,
     CreateCreditCardRepository,
-    FindCreditCardByUserRepository
+    FindCreditCardByUserRepository,
+    FindCreditCardByIdRepository,
+    DeleteCreditCardRepository
 {
-  async findByUser(
-    data: FindCreditCardByUserRepository.Params,
-  ): Promise<FindCreditCardByUserRepository.Result> {
+  async findById({
+    id,
+  }: FindCreditCardByIdRepository.Params): Promise<FindCreditCardByIdRepository.Result> {
+    const row = await database.creditCard.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!row) return null;
+
+    return creditCardMapper.toEntity(row);
+  }
+
+  async findByUser({
+    id,
+  }: FindCreditCardByUserRepository.Params): Promise<FindCreditCardByUserRepository.Result> {
     const rows = await database.creditCard.findMany({
       where: {
-        userId: data.id,
+        userId: id,
       },
     });
 
     return rows.map(creditCardMapper.toEntity);
   }
 
-  async findByUserAndName(
-    data: FindCreditCardByUserAndNameRepository.Params,
-  ): Promise<FindCreditCardByUserAndNameRepository.Result> {
+  async findByUserAndName({
+    userId,
+    name,
+  }: FindCreditCardByUserAndNameRepository.Params): Promise<FindCreditCardByUserAndNameRepository.Result> {
     const row = await database.creditCard.findFirst({
       where: {
-        userId: data.userId,
-        name: data.name,
+        userId,
+        name,
       },
     });
 
@@ -47,5 +66,15 @@ export class PrismaCreditCardRepositoryAdapter
     });
 
     return creditCardMapper.toEntity(row);
+  }
+
+  async delete({
+    id,
+  }: DeleteCreditCardRepository.Params): Promise<DeleteCreditCardRepository.Result> {
+    await database.creditCard.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

@@ -11,8 +11,8 @@ export class FindUserByIdUseCase
     private readonly findUserByIdRepository: FindUserByIdRepository,
   ) {}
 
-  async execute(data: FindUserById.Params): Promise<FindUserById.Result> {
-    const user = await this.findUserByIdRepository.findById({ id: data.id });
+  async execute({ id }: FindUserById.Params): Promise<FindUserById.Result> {
+    const user = await this.findUserByIdRepository.findById({ id });
 
     if (!user) {
       throw new UserNotFoundError();
