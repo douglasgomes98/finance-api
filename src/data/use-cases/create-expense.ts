@@ -27,7 +27,7 @@ export class CreateExpenseUseCase
   async execute({
     name,
     value,
-    date,
+    purchaseDate,
     isFixed,
     categoryId,
     creditCardId,
@@ -41,6 +41,7 @@ export class CreateExpenseUseCase
     ]);
 
     const installmentsIdentifier = await this.createId.createId();
+    const purchaseDateFormatted = this.startOfDay.startOfDay(purchaseDate);
 
     if (!isFixed && installments > 1) {
       const installmentValue = Math.floor((value / installments) * 100) / 100;
@@ -49,13 +50,14 @@ export class CreateExpenseUseCase
         (_, index) => {
           const nameWithInstallment = `${name} ${index + 1}/${installments}`;
           const dateWithInstallment = this.startOfDay.startOfDay(
-            this.addMonths.addMonths(date, index),
+            this.addMonths.addMonths(purchaseDateFormatted, index),
           );
 
           return {
             name: nameWithInstallment,
             value: installmentValue,
-            date: dateWithInstallment,
+            purchaseDate: purchaseDateFormatted,
+            invoiceDate: dateWithInstallment,
             isPaid: false,
             isIgnored: false,
             isFixed,
@@ -77,7 +79,8 @@ export class CreateExpenseUseCase
     const expense = await this.createExpenseRepository.create({
       name,
       value,
-      date: this.startOfDay.startOfDay(date),
+      purchaseDate: purchaseDateFormatted,
+      invoiceDate: purchaseDateFormatted,
       isFixed,
       installmentsIdentifier,
       isPaid: false,

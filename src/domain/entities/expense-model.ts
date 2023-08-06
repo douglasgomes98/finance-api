@@ -2,7 +2,8 @@ export type ExpenseModel = {
   id: string;
   name: string;
   value: number;
-  date: Date;
+  purchaseDate: Date;
+  invoiceDate: Date;
   isPaid: boolean;
   isIgnored: boolean;
   isFixed: boolean;

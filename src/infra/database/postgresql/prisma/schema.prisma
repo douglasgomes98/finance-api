@@ -65,7 +65,8 @@ model Expense {
   id                     String      @id @default(uuid())
   name                   String
   value                  Float
-  date                   DateTime
+  purchaseDate           DateTime
+  invoiceDate            DateTime
   isPaid                 Boolean
   isIgnored              Boolean
   isFixed                Boolean

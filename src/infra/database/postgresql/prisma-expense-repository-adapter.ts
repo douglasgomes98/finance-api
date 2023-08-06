@@ -43,7 +43,7 @@ export class PrismaExpenseRepositoryAdapter
     const rows = await database.expense.findMany({
       where: {
         creditCardId: data.creditCardId,
-        date: {
+        invoiceDate: {
           gte: data.startDate,
           lte: data.endDate,
         },
