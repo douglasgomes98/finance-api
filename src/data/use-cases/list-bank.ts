@@ -1,7 +1,7 @@
 import { ListBank } from '@/domain/use-cases/list-bank';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindBankRepository } from '../protocols/database/find-bank';
+import { FindBankRepository } from '../protocols/database/find-bank-repository';
 
 export class ListBankUseCase
   implements UseCase<ListBank.Params, ListBank.Result>

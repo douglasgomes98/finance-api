@@ -1,3 +1,3 @@
-export type CreateId = {
+export type CreateIdProtocol = {
   createId: () => Promise<string>;
 };

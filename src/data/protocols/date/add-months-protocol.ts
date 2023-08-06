@@ -1,3 +1,3 @@
-export type AddMonths = {
+export type AddMonthsProtocol = {
   addMonths: (date: Date, months: number) => Date;
 };

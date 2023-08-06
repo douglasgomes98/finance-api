@@ -11,7 +11,7 @@ export namespace FindExpenseByCreditCardIdAndDateRangeRepository {
 }
 
 export type FindExpenseByCreditCardIdAndDateRangeRepository = {
-  findExpenseByCreditCardIdAndDateRange: (
+  findByCreditCardIdAndDateRange: (
     data: FindExpenseByCreditCardIdAndDateRangeRepository.Params,
   ) => Promise<FindExpenseByCreditCardIdAndDateRangeRepository.Result>;
 };

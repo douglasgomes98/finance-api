@@ -1,3 +1,3 @@
-export type Hasher = {
+export type HasherProtocol = {
   hash: (plaintext: string) => Promise<string>;
 };

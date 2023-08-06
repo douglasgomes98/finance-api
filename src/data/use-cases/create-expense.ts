@@ -5,10 +5,10 @@ import { FindCategoryByIdUseCase } from './find-category-by-id';
 import { FindCreditCardByIdUseCase } from './find-credit-card-by-id';
 import { FindUserByIdUseCase } from './find-user-by-id';
 import { CreateExpenseRepository } from '../protocols/database/create-expense-repository';
-import { AddMonths } from '../protocols/date/add-months';
+import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { CreateManyExpenseRepository } from '../protocols/database/create-many-expense-repository';
-import { CreateId } from '../protocols/cryptography/create-id';
-import { StartOfDay } from '../protocols/date/start-of-day';
+import { CreateIdProtocol } from '../protocols/cryptography/create-id-protocol';
+import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 
 export class CreateExpenseUseCase
   implements UseCase<CreateExpense.Params, CreateExpense.Result>
@@ -19,9 +19,9 @@ export class CreateExpenseUseCase
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly createExpenseRepository: CreateExpenseRepository,
     private readonly createManyExpenseRepository: CreateManyExpenseRepository,
-    private readonly addMonths: AddMonths,
-    private readonly startOfDay: StartOfDay,
-    private readonly createId: CreateId,
+    private readonly addMonthsProtocol: AddMonthsProtocol,
+    private readonly startOfDayProtocol: StartOfDayProtocol,
+    private readonly createIdProtocol: CreateIdProtocol,
   ) {}
 
   async execute({
@@ -40,8 +40,9 @@ export class CreateExpenseUseCase
       this.findUserByIdUseCase.execute({ id: userId }),
     ]);
 
-    const installmentsIdentifier = await this.createId.createId();
-    const purchaseDateFormatted = this.startOfDay.startOfDay(purchaseDate);
+    const installmentsIdentifier = await this.createIdProtocol.createId();
+    const purchaseDateFormatted =
+      this.startOfDayProtocol.startOfDay(purchaseDate);
 
     if (!isFixed && installments > 1) {
       const installmentValue = Math.floor((value / installments) * 100) / 100;
@@ -49,8 +50,8 @@ export class CreateExpenseUseCase
         { length: installments },
         (_, index) => {
           const nameWithInstallment = `${name} ${index + 1}/${installments}`;
-          const dateWithInstallment = this.startOfDay.startOfDay(
-            this.addMonths.addMonths(purchaseDateFormatted, index),
+          const dateWithInstallment = this.startOfDayProtocol.startOfDay(
+            this.addMonthsProtocol.addMonths(purchaseDateFormatted, index),
           );
 
           return {

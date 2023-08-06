@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'node:crypto';
 
-import { Hasher } from '@/data/protocols/cryptography/hasher';
+import { HasherProtocol } from '@/data/protocols/cryptography/hasher-protocol';
 import { ENV } from '@/main/configurations/environment';
-import { CreateId } from '@/data/protocols/cryptography/create-id';
+import { CreateIdProtocol } from '@/data/protocols/cryptography/create-id-protocol';
 
-export class BcryptAdapter implements Hasher, CreateId {
+export class BcryptAdapter implements HasherProtocol, CreateIdProtocol {
   async hash(plaintext: string): Promise<string> {
     return bcrypt.hash(plaintext, ENV.PASSWORD_SALT);
   }
