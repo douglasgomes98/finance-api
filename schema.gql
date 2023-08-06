@@ -30,6 +30,16 @@ input CreateCreditCardInput {
   name: String!
 }
 
+input CreateExpenseInput {
+  categoryId: String!
+  creditCardId: String!
+  date: DateTime!
+  installments: Float
+  isFixed: Boolean!
+  name: String!
+  value: Float!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
@@ -50,11 +60,32 @@ type CreditCard {
   userId: String!
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Expense {
+  categoryId: String!
+  creditCardId: String!
+  date: DateTime!
+  id: ID!
+  installmentsIdentifier: String!
+  isFixed: Boolean!
+  isIgnored: Boolean!
+  isPaid: Boolean!
+  name: String!
+  userId: String!
+  value: Float!
+}
+
 type Mutation {
   createCategory(data: CreateCategoryInput!): Category!
   createCreditCard(data: CreateCreditCardInput!): CreditCard!
+  createExpense(data: CreateExpenseInput!): Expense!
   createUser(data: CreateUserInput!): User!
   deleteCategory(id: String!): Boolean!
+  deleteCreditCard(id: String!): Boolean!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
 }
 

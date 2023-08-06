@@ -1,3 +1,3 @@
 export type AddMonths = {
-  add: (date: Date, months: number) => Date;
+  addMonths: (date: Date, months: number) => Date;
 };

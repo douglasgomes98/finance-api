@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Category {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
   color     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  User      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  User      User?     @relation(fields: [userId], references: [id])
   userId    String?
+  Expense   Expense[]
 }
 
 model User {
@@ -29,10 +30,11 @@ model User {
   updatedAt   DateTime     @updatedAt
   categories  Category[]
   creditCards CreditCard[]
+  Expense     Expense[]
 }
 
 model CreditCard {
-  id               String   @id @default(uuid())
+  id               String    @id @default(uuid())
   name             String
   dueDay           Int
   closingDay       Int
@@ -40,12 +42,13 @@ model CreditCard {
   limitAvailable   Float?
   limitUsed        Float?
   percentLimitUsed Float?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  User             User?    @relation(fields: [userId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  User             User?     @relation(fields: [userId], references: [id])
   userId           String?
-  Bank             Bank?    @relation(fields: [bankId], references: [id])
+  Bank             Bank?     @relation(fields: [bankId], references: [id])
   bankId           String?
+  Expense          Expense[]
 }
 
 model Bank {
@@ -56,4 +59,23 @@ model Bank {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   CreditCard CreditCard[]
+}
+
+model Expense {
+  id                     String      @id @default(uuid())
+  name                   String
+  value                  Float
+  date                   DateTime
+  isPaid                 Boolean
+  isIgnored              Boolean
+  isFixed                Boolean
+  installmentsIdentifier String
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+  category               Category    @relation(fields: [categoryId], references: [id])
+  categoryId             String
+  creditCard             CreditCard? @relation(fields: [creditCardId], references: [id])
+  creditCardId           String?
+  User                   User?       @relation(fields: [userId], references: [id])
+  userId                 String?
 }

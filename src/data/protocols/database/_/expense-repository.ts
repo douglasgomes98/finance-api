@@ -22,8 +22,4 @@ export type ExpenseRepository = {
   findByCreditCardIdAndDateRange: (
     data: FindByCreditCardIdAndDateRangeRepositoryDTO,
   ) => Promise<ExpenseRepositoryDTO[]>;
-  create: (data: CreateExpenseRepositoryDTO) => Promise<ExpenseRepositoryDTO>;
-  createMany: (
-    data: CreateExpenseRepositoryDTO[],
-  ) => Promise<ExpenseRepositoryDTO[]>;
 };
