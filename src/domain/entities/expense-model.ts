@@ -3,7 +3,10 @@ export type ExpenseModel = {
   name: string;
   value: number;
   date: Date;
-  paid: boolean;
+  isPaid: boolean;
+  isIgnored: boolean;
+  isFixed: boolean;
+  installmentsIdentifier: string;
   categoryId: string;
   creditCardId: string;
   userId: string;
