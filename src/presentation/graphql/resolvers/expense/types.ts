@@ -9,7 +9,7 @@ export class CreateExpenseInput {
   value: number;
 
   @Field()
-  date: Date;
+  purchaseDate: Date;
 
   @Field()
   isFixed: boolean;
@@ -36,7 +36,10 @@ export class Expense {
   value: number;
 
   @Field()
-  date: Date;
+  purchaseDate: Date;
+
+  @Field()
+  invoiceDate: Date;
 
   @Field()
   isPaid: boolean;
@@ -58,4 +61,16 @@ export class Expense {
 
   @Field()
   userId: string;
+}
+
+@InputType()
+export class ListExpenseByCreditCardFilter {
+  @Field()
+  creditCardId: string;
+
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
 }

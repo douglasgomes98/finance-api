@@ -33,10 +33,10 @@ input CreateCreditCardInput {
 input CreateExpenseInput {
   categoryId: String!
   creditCardId: String!
-  date: DateTime!
   installments: Float
   isFixed: Boolean!
   name: String!
+  purchaseDate: DateTime!
   value: Float!
 }
 
@@ -68,15 +68,22 @@ scalar DateTime
 type Expense {
   categoryId: String!
   creditCardId: String!
-  date: DateTime!
   id: ID!
   installmentsIdentifier: String!
+  invoiceDate: DateTime!
   isFixed: Boolean!
   isIgnored: Boolean!
   isPaid: Boolean!
   name: String!
+  purchaseDate: DateTime!
   userId: String!
   value: Float!
+}
+
+input ListExpenseByCreditCardFilter {
+  creditCardId: String!
+  month: Float!
+  year: Float!
 }
 
 type Mutation {
@@ -93,6 +100,7 @@ type Query {
   listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
+  listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): [Expense!]!
 }
 
 input UpdateCategoryInput {
