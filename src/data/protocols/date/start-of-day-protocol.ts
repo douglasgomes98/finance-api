@@ -1,3 +1,3 @@
-export type StartOfDay = {
+export type StartOfDayProtocol = {
   startOfDay: (date: Date) => Date;
 };

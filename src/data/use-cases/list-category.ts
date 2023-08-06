@@ -1,7 +1,7 @@
 import { ListCategory } from '@/domain/use-cases/list-category';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindCategoryByUserRepository } from '../protocols/database/find-category-by-user';
+import { FindCategoryByUserRepository } from '../protocols/database/find-category-by-user-repository';
 import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class ListCategoryUseCase

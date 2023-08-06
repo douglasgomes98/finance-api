@@ -1,5 +1,5 @@
-import { FindBankRepository } from '@/data/protocols/database/find-bank';
-import { FindBankByIdRepository } from '@/data/protocols/database/find-bank-by-id';
+import { FindBankRepository } from '@/data/protocols/database/find-bank-repository';
+import { FindBankByIdRepository } from '@/data/protocols/database/find-bank-by-id-repository';
 
 import { database } from './database';
 import { bankMapper } from './mappers/bank-mapper';

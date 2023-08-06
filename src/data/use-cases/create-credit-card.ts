@@ -1,11 +1,11 @@
+import { CreditCardAlreadyExistsError } from '@/domain/errors/credit-card-already-exists-error';
 import { CreateCreditCard } from '@/domain/use-cases/create-credit-card';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { CreditCardAlreadyExistsError } from '@/domain/errors/credit-card-already-exists-error';
 
-import { FindUserByIdUseCase } from './find-user-by-id';
-import { FindCreditCardByUserAndNameRepository } from '../protocols/database/find-credit-card-by-user-and-name';
-import { CreateCreditCardRepository } from '../protocols/database/create-credit-card';
+import { CreateCreditCardRepository } from '../protocols/database/create-credit-card-repository';
+import { FindCreditCardByUserAndNameRepository } from '../protocols/database/find-credit-card-by-user-and-name-repository';
 import { FindBankByIdUseCase } from './find-bank-by-id';
+import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class CreateCreditCardUseCase
   implements UseCase<CreateCreditCard.Params, CreateCreditCard.Result>

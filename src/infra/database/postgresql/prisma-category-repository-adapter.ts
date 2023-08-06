@@ -1,9 +1,9 @@
-import { FindCategoryByIdRepository } from '@/data/protocols/database/find-category-by-id';
-import { FindCategoryByNameRepository } from '@/data/protocols/database/find-category-by-name';
-import { FindCategoryByUserRepository } from '@/data/protocols/database/find-category-by-user';
-import { CreateCategoryRepository } from '@/data/protocols/database/create-category';
-import { UpdateCategoryRepository } from '@/data/protocols/database/update-category';
-import { DeleteCategoryRepository } from '@/data/protocols/database/delete-category';
+import { FindCategoryByIdRepository } from '@/data/protocols/database/find-category-by-id-repository';
+import { FindCategoryByNameRepository } from '@/data/protocols/database/find-category-by-name-repository';
+import { FindCategoryByUserRepository } from '@/data/protocols/database/find-category-by-user-repository';
+import { CreateCategoryRepository } from '@/data/protocols/database/create-category-repository';
+import { UpdateCategoryRepository } from '@/data/protocols/database/update-category-repository';
+import { DeleteCategoryRepository } from '@/data/protocols/database/delete-category-repository';
 
 import { categoryMapper } from './mappers/category-mapper';
 import { database } from './database';

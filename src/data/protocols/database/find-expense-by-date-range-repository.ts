@@ -10,7 +10,7 @@ export namespace FindExpenseByDateRange {
 }
 
 export type FindExpenseByDateRange = {
-  findExpenseByDateRange: (
+  findByDateRange: (
     data: FindExpenseByDateRange.Params,
   ) => Promise<FindExpenseByDateRange.Result>;
 };

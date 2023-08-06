@@ -3,7 +3,7 @@ import { UseCase } from '@/domain/use-cases/use-case';
 import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
 import { FindCategoryByIdUseCase } from './find-category-by-id';
-import { DeleteCategoryRepository } from '../protocols/database/delete-category';
+import { DeleteCategoryRepository } from '../protocols/database/delete-category-repository';
 import { FindUserByIdUseCase } from './find-user-by-id';
 
 // TODO: verificar se existe despesas com essa categoria. caso permitir migrar as despesas para outra categoria, ou deletar as despesas

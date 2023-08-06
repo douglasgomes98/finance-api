@@ -3,8 +3,8 @@ import { UpdateCategory } from '@/domain/use-cases/update-category';
 import { UseCase } from '@/domain/use-cases/use-case';
 import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
-import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name';
-import { UpdateCategoryRepository } from '../protocols/database/update-category';
+import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name-repository';
+import { UpdateCategoryRepository } from '../protocols/database/update-category-repository';
 import { FindCategoryByIdUseCase } from './find-category-by-id';
 import { FindUserByIdUseCase } from './find-user-by-id';
 

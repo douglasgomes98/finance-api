@@ -1,10 +1,10 @@
 import { ListExpenseByCreditCard } from '@/domain/use-cases/list-expense-by-credit-card';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindExpenseByCreditCardIdAndDateRangeRepository } from '../protocols/database/find-expense-by-credit-card-id-and-date-range';
-import { AddDays } from '../protocols/date/add-days';
-import { AddMonths } from '../protocols/date/add-months';
-import { MountDate } from '../protocols/date/mount-date';
+import { FindExpenseByCreditCardIdAndDateRangeRepository } from '../protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
+import { AddDaysProtocol } from '../protocols/date/add-days-protocol';
+import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
+import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
 import { FindCreditCardByIdUseCase } from './find-credit-card-by-id';
 
 export class ListExpenseByCreditCardUseCase
@@ -13,9 +13,9 @@ export class ListExpenseByCreditCardUseCase
 {
   constructor(
     private readonly findCreditCardByIdUseCase: FindCreditCardByIdUseCase,
-    private readonly mountDate: MountDate,
-    private readonly addMonths: AddMonths,
-    private readonly addDays: AddDays,
+    private readonly mountDateProtocol: MountDateProtocol,
+    private readonly addMonthsProtocol: AddMonthsProtocol,
+    private readonly addDaysProtocol: AddDaysProtocol,
     private readonly findExpenseByCreditCardIdAndDateRangeRepository: FindExpenseByCreditCardIdAndDateRangeRepository,
   ) {}
 
@@ -28,19 +28,19 @@ export class ListExpenseByCreditCardUseCase
       id: creditCardId,
     });
 
-    const endDayFilter = this.mountDate.mountDate(
+    const endDayFilter = this.mountDateProtocol.mountDate(
       year,
       month,
       creditCard.closingDay,
     );
-    const startDayFilter = this.addMonths.addMonths(endDayFilter, -1);
+    const startDayFilter = this.addMonthsProtocol.addMonths(endDayFilter, -1);
 
     const expenses =
-      await this.findExpenseByCreditCardIdAndDateRangeRepository.findExpenseByCreditCardIdAndDateRange(
+      await this.findExpenseByCreditCardIdAndDateRangeRepository.findByCreditCardIdAndDateRange(
         {
           creditCardId,
           startDate: startDayFilter,
-          endDate: this.addDays.addDays(endDayFilter, -1),
+          endDate: this.addDaysProtocol.addDays(endDayFilter, -1),
         },
       );
 

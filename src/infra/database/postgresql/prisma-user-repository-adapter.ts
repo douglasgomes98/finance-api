@@ -1,6 +1,6 @@
-import { FindUserByEmailRepository } from '@/data/protocols/database/find-user-by-email';
-import { FindUserByIdRepository } from '@/data/protocols/database/find-user-by-id';
-import { CreateUserRepository } from '@/data/protocols/database/create-user';
+import { FindUserByEmailRepository } from '@/data/protocols/database/find-user-by-email-repository';
+import { FindUserByIdRepository } from '@/data/protocols/database/find-user-by-id-repository';
+import { CreateUserRepository } from '@/data/protocols/database/create-user-repository';
 
 import { database } from './database';
 import { userMapper } from './mappers/user-mapper';

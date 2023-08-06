@@ -1,12 +1,16 @@
 import { add, startOfDay } from 'date-fns';
 
-import { AddDays } from '@/data/protocols/date/add-days';
-import { AddMonths } from '@/data/protocols/date/add-months';
-import { MountDate } from '@/data/protocols/date/mount-date';
-import { StartOfDay } from '@/data/protocols/date/start-of-day';
+import { AddDaysProtocol } from '@/data/protocols/date/add-days-protocol';
+import { AddMonthsProtocol } from '@/data/protocols/date/add-months-protocol';
+import { MountDateProtocol } from '@/data/protocols/date/mount-date-protocol';
+import { StartOfDayProtocol } from '@/data/protocols/date/start-of-day-protocol';
 
 export class DateServiceAdapter
-  implements AddMonths, StartOfDay, MountDate, AddDays
+  implements
+    AddMonthsProtocol,
+    StartOfDayProtocol,
+    MountDateProtocol,
+    AddDaysProtocol
 {
   addMonths(date: Date, months: number): Date {
     return add(date, { months });

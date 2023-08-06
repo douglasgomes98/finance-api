@@ -1,6 +1,6 @@
 import { CreateExpenseRepository } from '@/data/protocols/database/create-expense-repository';
 import { CreateManyExpenseRepository } from '@/data/protocols/database/create-many-expense-repository';
-import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range';
+import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -37,7 +37,7 @@ export class PrismaExpenseRepositoryAdapter
     return rows.map(expenseMapper.toEntity);
   }
 
-  async findExpenseByCreditCardIdAndDateRange(
+  async findByCreditCardIdAndDateRange(
     data: FindExpenseByCreditCardIdAndDateRangeRepository.Params,
   ): Promise<FindExpenseByCreditCardIdAndDateRangeRepository.Result> {
     const rows = await database.expense.findMany({

@@ -1,9 +1,9 @@
-import { CreateCreditCardRepository } from '@/data/protocols/database/create-credit-card';
-import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name';
+import { CreateCreditCardRepository } from '@/data/protocols/database/create-credit-card-repository';
+import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name-repository';
 import { CreditCardModel } from '@/domain/entities/credit-card-model';
-import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user';
-import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id';
-import { DeleteCreditCardRepository } from '@/data/protocols/database/delete-credit-card';
+import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user-repository';
+import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id-repository';
+import { DeleteCreditCardRepository } from '@/data/protocols/database/delete-credit-card-repository';
 
 import { database } from './database';
 import { creditCardMapper } from './mappers/credit-card-mapper';

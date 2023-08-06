@@ -1,9 +1,9 @@
+import { CategoryAlreadyExistsError } from '@/domain/errors/category-already-exists-error';
 import { CreateCategory } from '@/domain/use-cases/create-category';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { CategoryAlreadyExistsError } from '@/domain/errors/category-already-exists-error';
 
-import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name';
-import { CreateCategoryRepository } from '../protocols/database/create-category';
+import { CreateCategoryRepository } from '../protocols/database/create-category-repository';
+import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name-repository';
 import { FindUserByIdUseCase } from './find-user-by-id';
 
 export class CreateCategoryUseCase
