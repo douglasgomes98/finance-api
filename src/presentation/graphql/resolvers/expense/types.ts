@@ -59,3 +59,15 @@ export class Expense {
   @Field()
   userId: string;
 }
+
+@InputType()
+export class ListExpenseByCreditCardFilter {
+  @Field()
+  creditCardId: string;
+
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}
