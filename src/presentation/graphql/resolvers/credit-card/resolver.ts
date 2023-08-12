@@ -20,6 +20,7 @@ import { ApolloContext } from '../../types';
 import { BankDataLoader } from '../bank/data-loader';
 import { CreateCreditCardInput, CreditCard } from './types';
 import { CreditCardDataLoader } from './data-loader';
+import { Bank } from '../bank/type';
 
 @Service()
 @Resolver(() => CreditCard)
@@ -93,7 +94,7 @@ export class CreditCardResolver {
   }
 
   @Authorized()
-  @FieldResolver(() => Number)
+  @FieldResolver(() => Bank)
   bank(@Root() creditCard: CreditCard) {
     return this.bankDataLoader.load(creditCard.bankId);
   }

@@ -1,4 +1,13 @@
-import { Arg, Authorized, Ctx, Mutation, Query } from 'type-graphql';
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  FieldResolver,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+} from 'type-graphql';
 import { Service } from 'typedi';
 import { z } from 'zod';
 
@@ -13,10 +22,22 @@ import {
   Expense,
   ListExpenseByCreditCardFilter,
 } from './types';
+import { User } from '../user/type';
+import { UserDataLoader } from '../user/data-loader';
+import { CreditCard } from '../credit-card/types';
+import { Category } from '../category/type';
+import { CategoryDataLoader } from '../category/data-loader';
+import { CreditCardDataLoader } from '../credit-card/data-loader';
 
+@Resolver(() => Expense)
 @Service()
 export class ExpenseResolver {
-  constructor(private readonly expenseDataLoader: ExpenseDataLoader) {}
+  constructor(
+    private readonly expenseDataLoader: ExpenseDataLoader,
+    private readonly userDataLoader: UserDataLoader,
+    private readonly creditCardDataLoader: CreditCardDataLoader,
+    private readonly categoryDataLoader: CategoryDataLoader,
+  ) {}
 
   @Authorized()
   @Mutation(() => Expense)
@@ -78,5 +99,23 @@ export class ExpenseResolver {
     const safeValues = validator.parse({ id });
 
     return this.expenseDataLoader.load(safeValues.id);
+  }
+
+  @Authorized()
+  @FieldResolver(() => User)
+  async user(@Root() expense: Expense) {
+    return this.userDataLoader.load(expense.userId);
+  }
+
+  @Authorized()
+  @FieldResolver(() => CreditCard)
+  async creditCard(@Root() expense: Expense) {
+    return this.creditCardDataLoader.load(expense.creditCardId);
+  }
+
+  @Authorized()
+  @FieldResolver(() => Category)
+  async category(@Root() expense: Expense) {
+    return this.categoryDataLoader.load(expense.categoryId);
   }
 }
