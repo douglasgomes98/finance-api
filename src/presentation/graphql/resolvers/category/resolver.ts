@@ -10,10 +10,13 @@ import { makeDeleteCategoryUseCase } from '@/main/factories/use-cases/make-delet
 
 import { Category, CreateCategoryInput, UpdateCategoryInput } from './type';
 import { ApolloContext } from '../../types';
+import { CategoryDataLoader } from './data-loader';
 
 @Service()
 @Resolver()
 export class CategoryResolver {
+  constructor(private readonly categoryDataLoader: CategoryDataLoader) {}
+
   @Authorized()
   @Query(() => [Category])
   async listCategories(@Ctx() { userId }: ApolloContext) {
@@ -101,5 +104,17 @@ export class CategoryResolver {
     await useCase.execute({ ...safeValues, userId });
 
     return true;
+  }
+
+  @Authorized()
+  @Query(() => Category)
+  async findCategoryById(@Arg('id') id: string) {
+    const validator = z.object({
+      id: z.string().uuid(),
+    });
+
+    const safeValues = validator.parse({ id });
+
+    return this.categoryDataLoader.load(safeValues.id);
   }
 }
