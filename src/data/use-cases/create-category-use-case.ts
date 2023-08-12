@@ -4,7 +4,7 @@ import { UseCase } from '@/domain/use-cases/use-case';
 
 import { CreateCategoryRepository } from '../protocols/database/create-category-repository';
 import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name-repository';
-import { FindUserByIdUseCase } from './find-user-by-id';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class CreateCategoryUseCase
   implements UseCase<CreateCategory.Params, CreateCategory.Result>

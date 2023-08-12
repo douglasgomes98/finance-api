@@ -1,6 +1,7 @@
 import { CreateExpenseRepository } from '@/data/protocols/database/create-expense-repository';
 import { CreateManyExpenseRepository } from '@/data/protocols/database/create-many-expense-repository';
 import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
+import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -9,7 +10,8 @@ export class PrismaExpenseRepositoryAdapter
   implements
     CreateExpenseRepository,
     CreateManyExpenseRepository,
-    FindExpenseByCreditCardIdAndDateRangeRepository
+    FindExpenseByCreditCardIdAndDateRangeRepository,
+    FindExpenseByIdRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -48,8 +50,25 @@ export class PrismaExpenseRepositoryAdapter
           lte: data.endDate,
         },
       },
+      orderBy: {
+        purchaseDate: 'asc',
+      },
     });
 
     return rows.map(expenseMapper.toEntity);
+  }
+
+  async findById(
+    params: FindExpenseByIdRepository.Params,
+  ): Promise<FindExpenseByIdRepository.Result> {
+    const row = await database.expense.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!row) return null;
+
+    return expenseMapper.toEntity(row);
   }
 }

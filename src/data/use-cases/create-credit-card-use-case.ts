@@ -4,8 +4,8 @@ import { UseCase } from '@/domain/use-cases/use-case';
 
 import { CreateCreditCardRepository } from '../protocols/database/create-credit-card-repository';
 import { FindCreditCardByUserAndNameRepository } from '../protocols/database/find-credit-card-by-user-and-name-repository';
-import { FindBankByIdUseCase } from './find-bank-by-id';
-import { FindUserByIdUseCase } from './find-user-by-id';
+import { FindBankByIdUseCase } from './find-bank-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class CreateCreditCardUseCase
   implements UseCase<CreateCreditCard.Params, CreateCreditCard.Result>

@@ -63,9 +63,15 @@ export class CreditCardResolver {
   @Authorized()
   @Mutation(() => Boolean)
   async deleteCreditCard(@Arg('id') id: string) {
+    const validator = z.object({
+      id: z.string().nonempty().uuid(),
+    });
+
+    const safeValues = validator.parse({ id });
+
     const useCase = makeDeleteCreditCardUseCase();
 
-    await useCase.execute({ id });
+    await useCase.execute(safeValues);
 
     return true;
   }

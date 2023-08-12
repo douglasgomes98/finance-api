@@ -1,9 +1,9 @@
 import { CreateExpense } from '@/domain/use-cases/create-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindCategoryByIdUseCase } from './find-category-by-id';
-import { FindCreditCardByIdUseCase } from './find-credit-card-by-id';
-import { FindUserByIdUseCase } from './find-user-by-id';
+import { FindCategoryByIdUseCase } from './find-category-by-id-use-case';
+import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 import { CreateExpenseRepository } from '../protocols/database/create-expense-repository';
 import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { CreateManyExpenseRepository } from '../protocols/database/create-many-expense-repository';

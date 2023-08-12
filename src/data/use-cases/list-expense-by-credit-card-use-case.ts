@@ -5,7 +5,7 @@ import { FindExpenseByCreditCardIdAndDateRangeRepository } from '../protocols/da
 import { AddDaysProtocol } from '../protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
-import { FindCreditCardByIdUseCase } from './find-credit-card-by-id';
+import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
 
 export class ListExpenseByCreditCardUseCase
   implements

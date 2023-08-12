@@ -1,7 +1,7 @@
-import { CreateExpenseUseCase } from '@/data/use-cases/create-expense';
-import { FindCategoryByIdUseCase } from '@/data/use-cases/find-category-by-id';
-import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id';
-import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id';
+import { CreateExpenseUseCase } from '@/data/use-cases/create-expense-use-case';
+import { FindCategoryByIdUseCase } from '@/data/use-cases/find-category-by-id-use-case';
+import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id-use-case';
+import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id-use-case';
 import { BcryptAdapter } from '@/infra/cryptography/bcrypt-adapter';
 import { PrismaCategoryRepositoryAdapter } from '@/infra/database/postgresql/prisma-category-repository-adapter';
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';

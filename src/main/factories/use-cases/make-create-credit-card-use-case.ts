@@ -1,6 +1,6 @@
-import { CreateCreditCardUseCase } from '@/data/use-cases/create-credit-card';
-import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id';
-import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id';
+import { CreateCreditCardUseCase } from '@/data/use-cases/create-credit-card-use-case';
+import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id-use-case';
+import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id-use-case';
 import { PrismaBankRepositoryAdapter } from '@/infra/database/postgresql/prisma-bank-repository-adapter';
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';
 import { PrismaUserRepositoryAdapter } from '@/infra/database/postgresql/prisma-user-repository-adapter';

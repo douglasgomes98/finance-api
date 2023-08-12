@@ -1,7 +1,7 @@
 import Dataloader from 'dataloader';
 import { Service } from 'typedi';
 
-import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id';
+import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id-use-case';
 import { BankModel } from '@/domain/entities/bank-model';
 import { makeFindBankByIdUseCase } from '@/main/factories/use-cases/make-find-bank-by-id-use-case';
 

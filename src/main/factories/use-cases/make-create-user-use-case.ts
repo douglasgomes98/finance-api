@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from '@/data/use-cases/create-user';
+import { CreateUserUseCase } from '@/data/use-cases/create-user-use-case';
 import { BcryptAdapter } from '@/infra/cryptography/bcrypt-adapter';
 import { PrismaUserRepositoryAdapter } from '@/infra/database/postgresql/prisma-user-repository-adapter';
 

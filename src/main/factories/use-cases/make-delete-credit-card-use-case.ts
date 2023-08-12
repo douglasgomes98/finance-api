@@ -1,5 +1,5 @@
-import { DeleteCreditCardUseCase } from '@/data/use-cases/delete-credit-card';
-import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id';
+import { DeleteCreditCardUseCase } from '@/data/use-cases/delete-credit-card-use-case';
+import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id-use-case';
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';
 
 export function makeDeleteCreditCardUseCase() {

@@ -5,8 +5,8 @@ import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-n
 
 import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name-repository';
 import { UpdateCategoryRepository } from '../protocols/database/update-category-repository';
-import { FindCategoryByIdUseCase } from './find-category-by-id';
-import { FindUserByIdUseCase } from './find-user-by-id';
+import { FindCategoryByIdUseCase } from './find-category-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class UpdateCategoryUseCase
   implements UseCase<UpdateCategory.Params, UpdateCategory.Result>

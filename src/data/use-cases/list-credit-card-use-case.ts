@@ -1,7 +1,7 @@
 import { ListCreditCard } from '@/domain/use-cases/list-credit-card';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindUserByIdUseCase } from './find-user-by-id';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 import { FindCreditCardByUserRepository } from '../protocols/database/find-credit-card-by-user-repository';
 
 export class ListCreditCardUseCase
