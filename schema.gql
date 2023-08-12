@@ -101,6 +101,7 @@ type Query {
   findCategoryById(id: String!): Category!
   findCreditCardById(id: String!): CreditCard!
   findExpenseById(id: String!): Expense!
+  findUserById(id: String!): User!
   listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
