@@ -97,6 +97,7 @@ type Mutation {
 }
 
 type Query {
+  findBankById(id: String!): Bank!
   findExpenseById(id: String!): Expense!
   listBanks: [Bank!]!
   listCategories: [Category!]!
