@@ -101,7 +101,7 @@ export class CategoryResolver {
 
     const useCase = makeDeleteCategoryUseCase();
 
-    await useCase.execute({ ...safeValues, userId });
+    await useCase.execute({ categoryId: safeValues.id, userId });
 
     return true;
   }

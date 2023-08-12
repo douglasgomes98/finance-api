@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
 import { makeCreateExpenseUseCase } from '@/main/factories/use-cases/make-create-expense-use-case';
 import { makeListExpenseByCreditCardUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-use-case';
+import { makeDeleteExpenseUseCase } from '@/main/factories/use-cases/make-delete-expense-use-case';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -99,6 +100,22 @@ export class ExpenseResolver {
     const safeValues = validator.parse({ id });
 
     return this.expenseDataLoader.load(safeValues.id);
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async deleteExpense(@Arg('id') id: string, @Ctx() { userId }: ApolloContext) {
+    const validator = z.object({
+      id: z.string().uuid(),
+    });
+
+    const safeValues = validator.parse({ id });
+
+    const useCase = makeDeleteExpenseUseCase();
+
+    await useCase.execute({ expenseId: safeValues.id, userId });
+
+    return true;
   }
 
   @Authorized()

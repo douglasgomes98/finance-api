@@ -16,10 +16,10 @@ export class DeleteCategoryUseCase
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
   ) {}
 
-  async execute({ id, userId }: DeleteCategory.Params): Promise<void> {
+  async execute({ categoryId, userId }: DeleteCategory.Params): Promise<void> {
     const [user, category] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
-      this.findCategoryByIdUseCase.execute({ id }),
+      this.findCategoryByIdUseCase.execute({ id: categoryId }),
     ]);
 
     if (category.userId !== user.id) {

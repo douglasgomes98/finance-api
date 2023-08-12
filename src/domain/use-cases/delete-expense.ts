@@ -1,7 +1,7 @@
-export namespace DeleteCreditCard {
+export namespace DeleteExpense {
   export type Params = {
-    creditCardId: string;
     userId: string;
+    expenseId: string;
   };
 
   export type Result = void;

@@ -1,6 +1,6 @@
 export namespace DeleteCategory {
   export type Params = {
-    id: string;
+    categoryId: string;
     userId: string;
   };
 

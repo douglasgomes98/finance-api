@@ -1,5 +1,6 @@
 import { CreateExpenseRepository } from '@/data/protocols/database/create-expense-repository';
 import { CreateManyExpenseRepository } from '@/data/protocols/database/create-many-expense-repository';
+import { DeleteExpenseRepository } from '@/data/protocols/database/delete-expense-repository';
 import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
 import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
 
@@ -11,7 +12,8 @@ export class PrismaExpenseRepositoryAdapter
     CreateExpenseRepository,
     CreateManyExpenseRepository,
     FindExpenseByCreditCardIdAndDateRangeRepository,
-    FindExpenseByIdRepository
+    FindExpenseByIdRepository,
+    DeleteExpenseRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -70,5 +72,23 @@ export class PrismaExpenseRepositoryAdapter
     if (!row) return null;
 
     return expenseMapper.toEntity(row);
+  }
+
+  async delete(
+    params: DeleteExpenseRepository.Params,
+  ): Promise<DeleteExpenseRepository.Result> {
+    const row = await database.expense.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!row) return;
+
+    await database.expense.deleteMany({
+      where: {
+        installmentsIdentifier: row.installmentsIdentifier,
+      },
+    });
   }
 }
