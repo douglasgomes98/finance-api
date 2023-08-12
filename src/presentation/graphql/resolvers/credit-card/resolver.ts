@@ -19,11 +19,15 @@ import { makeDeleteCreditCardUseCase } from '@/main/factories/use-cases/make-del
 import { ApolloContext } from '../../types';
 import { BankDataLoader } from '../bank/data-loader';
 import { CreateCreditCardInput, CreditCard } from './types';
+import { CreditCardDataLoader } from './data-loader';
 
 @Service()
 @Resolver(() => CreditCard)
 export class CreditCardResolver {
-  constructor(private readonly bankDataLoader: BankDataLoader) {}
+  constructor(
+    private readonly bankDataLoader: BankDataLoader,
+    private readonly creditCardDataLoader: CreditCardDataLoader,
+  ) {}
 
   @Authorized()
   @Mutation(() => CreditCard)
@@ -74,6 +78,18 @@ export class CreditCardResolver {
     await useCase.execute(safeValues);
 
     return true;
+  }
+
+  @Authorized()
+  @Query(() => CreditCard)
+  async findCreditCardById(@Arg('id') id: string) {
+    const validator = z.object({
+      id: z.string().nonempty().uuid(),
+    });
+
+    const safeValues = validator.parse({ id });
+
+    return this.creditCardDataLoader.load(safeValues.id);
   }
 
   @Authorized()
