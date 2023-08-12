@@ -67,7 +67,10 @@ export class CreditCardResolver {
 
   @Authorized()
   @Mutation(() => Boolean)
-  async deleteCreditCard(@Arg('id') id: string) {
+  async deleteCreditCard(
+    @Arg('id') id: string,
+    @Ctx() { userId }: ApolloContext,
+  ) {
     const validator = z.object({
       id: z.string().nonempty().uuid(),
     });
@@ -76,7 +79,7 @@ export class CreditCardResolver {
 
     const useCase = makeDeleteCreditCardUseCase();
 
-    await useCase.execute(safeValues);
+    await useCase.execute({ creditCardId: safeValues.id, userId });
 
     return true;
   }
