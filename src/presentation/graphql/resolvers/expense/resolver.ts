@@ -1,21 +1,24 @@
-import { Arg, Ctx, Mutation, Query } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query } from 'type-graphql';
 import { Service } from 'typedi';
 import { z } from 'zod';
 
+import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
 import { makeCreateExpenseUseCase } from '@/main/factories/use-cases/make-create-expense-use-case';
 import { makeListExpenseByCreditCardUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-use-case';
-import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
-import { makeFindExpenseByIdUseCase } from '@/main/factories/use-cases/make-find-expense-by-id-use-case';
 
+import { ApolloContext } from '../../types';
+import { ExpenseDataLoader } from './data-loader';
 import {
   CreateExpenseInput,
   Expense,
   ListExpenseByCreditCardFilter,
 } from './types';
-import { ApolloContext } from '../../types';
 
 @Service()
 export class ExpenseResolver {
+  constructor(private readonly expenseDataLoader: ExpenseDataLoader) {}
+
+  @Authorized()
   @Mutation(() => Expense)
   async createExpense(
     @Arg('data') data: CreateExpenseInput,
@@ -47,6 +50,7 @@ export class ExpenseResolver {
     return useCase.execute({ ...safeValues, userId });
   }
 
+  @Authorized()
   @Query(() => [Expense])
   async listExpenseByCreditCard(
     @Arg('filter') filter: ListExpenseByCreditCardFilter,
@@ -64,6 +68,7 @@ export class ExpenseResolver {
     return useCase.execute(safeValues);
   }
 
+  @Authorized()
   @Query(() => Expense)
   async findExpenseById(@Arg('id') id: string) {
     const validator = z.object({
@@ -72,8 +77,6 @@ export class ExpenseResolver {
 
     const safeValues = validator.parse({ id });
 
-    const useCase = makeFindExpenseByIdUseCase();
-
-    return useCase.execute(safeValues);
+    return this.expenseDataLoader.load(safeValues.id);
   }
 }
