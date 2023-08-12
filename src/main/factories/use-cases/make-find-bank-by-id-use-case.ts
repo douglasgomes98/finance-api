@@ -1,4 +1,4 @@
-import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id';
+import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id-use-case';
 import { PrismaBankRepositoryAdapter } from '@/infra/database/postgresql/prisma-bank-repository-adapter';
 
 export function makeFindBankByIdUseCase() {

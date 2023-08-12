@@ -1,7 +1,7 @@
 import { DeleteCreditCard } from '@/domain/use-cases/delete-credit-card';
 import { UseCase } from '@/domain/use-cases/use-case';
 
-import { FindCreditCardByIdUseCase } from './find-credit-card-by-id';
+import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
 import { DeleteCreditCardRepository } from '../protocols/database/delete-credit-card-repository';
 
 export class DeleteCreditCardUseCase

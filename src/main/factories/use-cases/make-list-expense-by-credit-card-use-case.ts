@@ -1,5 +1,5 @@
-import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id';
-import { ListExpenseByCreditCardUseCase } from '@/data/use-cases/list-expense-by-credit-card';
+import { FindCreditCardByIdUseCase } from '@/data/use-cases/find-credit-card-by-id-use-case';
+import { ListExpenseByCreditCardUseCase } from '@/data/use-cases/list-expense-by-credit-card-use-case';
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';
 import { PrismaExpenseRepositoryAdapter } from '@/infra/database/postgresql/prisma-expense-repository-adapter';
 import { DateServiceAdapter } from '@/infra/date/date-service-adapter';

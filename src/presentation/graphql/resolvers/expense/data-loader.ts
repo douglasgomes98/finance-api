@@ -1,18 +1,18 @@
 import Dataloader from 'dataloader';
 import { Service } from 'typedi';
 
-import { FindBankByIdUseCase } from '@/data/use-cases/find-bank-by-id-use-case';
-import { BankModel } from '@/domain/entities/bank-model';
-import { makeFindBankByIdUseCase } from '@/main/factories/use-cases/make-find-bank-by-id-use-case';
+import { FindExpenseByIdUseCase } from '@/data/use-cases/find-expense-by-id-use-case';
+import { ExpenseModel } from '@/domain/entities/expense-model';
+import { makeFindExpenseByIdUseCase } from '@/main/factories/use-cases/make-find-expense-by-id-use-case';
 
 @Service()
-export class BankDataLoader {
+export class ExpenseDataLoader {
   private readonly loader;
 
-  private readonly useCase: FindBankByIdUseCase;
+  private readonly useCase: FindExpenseByIdUseCase;
 
   constructor() {
-    this.useCase = makeFindBankByIdUseCase();
+    this.useCase = makeFindExpenseByIdUseCase();
     this.loader = this.makeLoader();
   }
 
@@ -27,7 +27,7 @@ export class BankDataLoader {
   }
 
   private makeLoader() {
-    return new Dataloader<string, BankModel | null, string>(async keys => {
+    return new Dataloader<string, ExpenseModel | null, string>(async keys => {
       const items = await Promise.all(keys.map(key => this.getItem(key)));
 
       return keys.map(key => items.find(user => user?.id === key) || null);

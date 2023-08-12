@@ -1,5 +1,9 @@
 import { Field, ID, InputType, ObjectType } from 'type-graphql';
 
+import { User } from '../user/type';
+import { CreditCard } from '../credit-card/types';
+import { Category } from '../category/type';
+
 @InputType()
 export class CreateExpenseInput {
   @Field()
@@ -61,6 +65,15 @@ export class Expense {
 
   @Field()
   userId: string;
+
+  @Field()
+  user: User;
+
+  @Field()
+  creditCard: CreditCard;
+
+  @Field()
+  category: Category;
 }
 
 @InputType()

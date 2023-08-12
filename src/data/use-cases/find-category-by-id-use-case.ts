@@ -3,7 +3,7 @@ import { UseCase } from '@/domain/use-cases/use-case';
 import { FindCategoryById } from '@/domain/use-cases/find-category-by-id';
 
 import { FindCategoryByIdRepository } from '../protocols/database/find-category-by-id-repository';
-
+// TODO: adicionar filtro de usuario
 export class FindCategoryByIdUseCase
   implements UseCase<FindCategoryById.Params, FindCategoryById.Result>
 {

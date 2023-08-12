@@ -1,4 +1,4 @@
-import { ListBankUseCase } from '@/data/use-cases/list-bank';
+import { ListBankUseCase } from '@/data/use-cases/list-bank-use-case';
 import { PrismaBankRepositoryAdapter } from '@/infra/database/postgresql/prisma-bank-repository-adapter';
 
 export function makeListBankUseCase() {

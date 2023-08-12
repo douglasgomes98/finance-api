@@ -66,7 +66,9 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Expense {
+  category: Category!
   categoryId: String!
+  creditCard: CreditCard!
   creditCardId: String!
   id: ID!
   installmentsIdentifier: String!
@@ -76,6 +78,7 @@ type Expense {
   isPaid: Boolean!
   name: String!
   purchaseDate: DateTime!
+  user: User!
   userId: String!
   value: Float!
 }
@@ -97,6 +100,11 @@ type Mutation {
 }
 
 type Query {
+  findBankById(id: String!): Bank!
+  findCategoryById(id: String!): Category!
+  findCreditCardById(id: String!): CreditCard!
+  findExpenseById(id: String!): Expense!
+  findUserById(id: String!): User!
   listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
