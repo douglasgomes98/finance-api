@@ -5,6 +5,7 @@ import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-n
 import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
 import { DeleteCreditCardRepository } from '../protocols/database/delete-credit-card-repository';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
+import { DeleteAllExpenseByCreditCardRepository } from '../protocols/database/delete-all-expense-by-credit-card';
 
 export class DeleteCreditCardUseCase
   implements UseCase<DeleteCreditCard.Params, DeleteCreditCard.Result>
@@ -13,6 +14,7 @@ export class DeleteCreditCardUseCase
     private readonly findCreditCardByIdUseCase: FindCreditCardByIdUseCase,
     private readonly deleteCreditCardRepository: DeleteCreditCardRepository,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
+    private readonly deleteAllExpenseByCreditCardRepository: DeleteAllExpenseByCreditCardRepository,
   ) {}
 
   async execute({
@@ -28,6 +30,11 @@ export class DeleteCreditCardUseCase
       throw new YouAreNotAllowedToChangeThisResourceError();
     }
 
-    await this.deleteCreditCardRepository.delete({ id: creditCard.id });
+    await Promise.all([
+      this.deleteCreditCardRepository.delete({ id: creditCard.id }),
+      this.deleteAllExpenseByCreditCardRepository.deleteAllByCreditCard({
+        creditCardId: creditCard.id,
+      }),
+    ]);
   }
 }
