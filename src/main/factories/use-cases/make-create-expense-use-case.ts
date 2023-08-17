@@ -8,24 +8,38 @@ import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/p
 import { PrismaExpenseRepositoryAdapter } from '@/infra/database/postgresql/prisma-expense-repository-adapter';
 import { PrismaUserRepositoryAdapter } from '@/infra/database/postgresql/prisma-user-repository-adapter';
 import { DateServiceAdapter } from '@/infra/date/date-service-adapter';
+import { ZodCreateExpenseValidatorAdapter } from '@/infra/validators/zod/zod-create-expense-validator-adapter';
+import { ZodFindCategoryByIdValidatorAdapter } from '@/infra/validators/zod/zod-find-category-by-id-validator-adapter';
+import { ZodFindCreditCardByIdValidatorAdapter } from '@/infra/validators/zod/zod-find-credit-card-by-id-validator-adapter';
+import { ZodFindUserByIdValidatorAdapter } from '@/infra/validators/zod/zod-find-user-by-id-validator-adapter';
 
 export function makeCreateExpenseUseCase() {
   const prismaCategoryRepositoryAdapter = new PrismaCategoryRepositoryAdapter();
+  const zodFindCategoryByIdValidatorAdapter =
+    new ZodFindCategoryByIdValidatorAdapter();
   const findCategoryByIdUseCase = new FindCategoryByIdUseCase(
     prismaCategoryRepositoryAdapter,
+    zodFindCategoryByIdValidatorAdapter,
   );
   const prismaCreditCardRepositoryAdapter =
     new PrismaCreditCardRepositoryAdapter();
+  const zodFindCreditCardByIdValidatorAdapter =
+    new ZodFindCreditCardByIdValidatorAdapter();
   const findCreditCardByIdUseCase = new FindCreditCardByIdUseCase(
     prismaCreditCardRepositoryAdapter,
+    zodFindCreditCardByIdValidatorAdapter,
   );
   const prismaUserRepositoryAdapter = new PrismaUserRepositoryAdapter();
+  const zodFindUserByIdValidatorAdapter = new ZodFindUserByIdValidatorAdapter();
   const findUserByIdUseCase = new FindUserByIdUseCase(
     prismaUserRepositoryAdapter,
+    zodFindUserByIdValidatorAdapter,
   );
   const prismaExpenseRepositoryAdapter = new PrismaExpenseRepositoryAdapter();
   const dateServiceAdapter = new DateServiceAdapter();
   const bcryptAdapter = new BcryptAdapter();
+  const zodCreateExpenseValidatorAdapter =
+    new ZodCreateExpenseValidatorAdapter();
   const useCase = new CreateExpenseUseCase(
     findCategoryByIdUseCase,
     findCreditCardByIdUseCase,
@@ -35,6 +49,7 @@ export function makeCreateExpenseUseCase() {
     dateServiceAdapter,
     dateServiceAdapter,
     bcryptAdapter,
+    zodCreateExpenseValidatorAdapter,
   );
 
   return useCase;

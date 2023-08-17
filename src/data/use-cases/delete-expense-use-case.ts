@@ -5,6 +5,7 @@ import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-n
 import { FindExpenseByIdUseCase } from './find-expense-by-id-use-case';
 import { DeleteExpenseRepository } from '../protocols/database/delete-expense-repository';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
+import { DeleteExpenseValidator } from '../protocols/validators/delete-expense-validator';
 
 export class DeleteExpenseUseCase
   implements UseCase<DeleteExpense.Params, DeleteExpense.Result>
@@ -13,9 +14,12 @@ export class DeleteExpenseUseCase
     private readonly findExpenseByIdUseCase: FindExpenseByIdUseCase,
     private readonly deleteExpenseRepository: DeleteExpenseRepository,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
+    private readonly deleteExpenseValidator: DeleteExpenseValidator,
   ) {}
 
-  async execute({ expenseId, userId }: DeleteExpense.Params): Promise<void> {
+  async execute(params: DeleteExpense.Params): Promise<DeleteExpense.Result> {
+    const { expenseId, userId } = this.deleteExpenseValidator.validate(params);
+
     const [user, expense] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
       this.findExpenseByIdUseCase.execute({ id: expenseId }),
