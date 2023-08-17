@@ -3,6 +3,7 @@ import { CreateManyExpenseRepository } from '@/data/protocols/database/create-ma
 import { DeleteExpenseRepository } from '@/data/protocols/database/delete-expense-repository';
 import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
 import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
+import { DeleteAllExpenseByCreditCardRepository } from '@/data/protocols/database/delete-all-expense-by-credit-card';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -13,7 +14,8 @@ export class PrismaExpenseRepositoryAdapter
     CreateManyExpenseRepository,
     FindExpenseByCreditCardIdAndDateRangeRepository,
     FindExpenseByIdRepository,
-    DeleteExpenseRepository
+    DeleteExpenseRepository,
+    DeleteAllExpenseByCreditCardRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -88,6 +90,16 @@ export class PrismaExpenseRepositoryAdapter
     await database.expense.deleteMany({
       where: {
         installmentsIdentifier: row.installmentsIdentifier,
+      },
+    });
+  }
+
+  async deleteAllByCreditCard(
+    params: DeleteAllExpenseByCreditCardRepository.Params,
+  ): Promise<DeleteAllExpenseByCreditCardRepository.Result> {
+    await database.expense.deleteMany({
+      where: {
+        creditCardId: params.creditCardId,
       },
     });
   }
