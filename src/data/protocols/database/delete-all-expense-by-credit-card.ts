@@ -8,6 +8,6 @@ export namespace DeleteAllExpenseByCreditCardRepository {
 
 export type DeleteAllExpenseByCreditCardRepository = {
   deleteAllByCreditCard: (
-    params: DeleteAllExpenseByCreditCard.Params,
-  ) => Promise<DeleteAllExpenseByCreditCard.Result>;
+    params: DeleteAllExpenseByCreditCardRepository.Params,
+  ) => Promise<DeleteAllExpenseByCreditCardRepository.Result>;
 };
