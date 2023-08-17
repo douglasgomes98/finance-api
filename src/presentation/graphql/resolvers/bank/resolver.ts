@@ -1,6 +1,5 @@
 import { Arg, Authorized, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
-import { z } from 'zod';
 
 import { makeListBankUseCase } from '@/main/factories/use-cases/make-list-bank-use-case';
 
@@ -23,12 +22,6 @@ export class BankResolver {
   @Authorized()
   @Query(() => Bank)
   async findBankById(@Arg('id') id: string) {
-    const validator = z.object({
-      id: z.string().uuid(),
-    });
-
-    const safeValues = validator.parse({ id });
-
-    return this.bankDataLoader.load(safeValues.id);
+    return this.bankDataLoader.load(id);
   }
 }

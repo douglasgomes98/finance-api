@@ -6,6 +6,7 @@ import { AddDaysProtocol } from '../protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
 import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
+import { ListExpenseByCreditCardValidator } from '../protocols/validators/list-expense-by-credit-card-validator';
 
 export class ListExpenseByCreditCardUseCase
   implements
@@ -17,13 +18,15 @@ export class ListExpenseByCreditCardUseCase
     private readonly addMonthsProtocol: AddMonthsProtocol,
     private readonly addDaysProtocol: AddDaysProtocol,
     private readonly findExpenseByCreditCardIdAndDateRangeRepository: FindExpenseByCreditCardIdAndDateRangeRepository,
+    private readonly listExpenseByCreditCardValidator: ListExpenseByCreditCardValidator,
   ) {}
 
-  async execute({
-    creditCardId,
-    month,
-    year,
-  }: ListExpenseByCreditCard.Params): Promise<ListExpenseByCreditCard.Result> {
+  async execute(
+    params: ListExpenseByCreditCard.Params,
+  ): Promise<ListExpenseByCreditCard.Result> {
+    const { creditCardId, month, year } =
+      this.listExpenseByCreditCardValidator.validate(params);
+
     const creditCard = await this.findCreditCardByIdUseCase.execute({
       id: creditCardId,
     });

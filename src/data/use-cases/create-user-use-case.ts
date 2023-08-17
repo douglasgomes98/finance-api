@@ -5,6 +5,7 @@ import { UserAlreadyExistsError } from '@/domain/errors/user-already-exists-erro
 import { CreateUserRepository } from '../protocols/database/create-user-repository';
 import { HasherProtocol } from '../protocols/cryptography/hasher-protocol';
 import { FindUserByEmailRepository } from '../protocols/database/find-user-by-email-repository';
+import { CreateUserValidator } from '../protocols/validators/create-user-validator';
 
 export class CreateUserUseCase
   implements UseCase<CreateUser.Params, CreateUser.Result>
@@ -13,13 +14,12 @@ export class CreateUserUseCase
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly createUserRepository: CreateUserRepository,
     private readonly hasherProtocol: HasherProtocol,
+    private readonly createUserValidator: CreateUserValidator,
   ) {}
 
-  async execute({
-    email,
-    name,
-    password,
-  }: CreateUser.Params): Promise<CreateUser.Result> {
+  async execute(params: CreateUser.Params): Promise<CreateUser.Result> {
+    const { email, name, password } = this.createUserValidator.validate(params);
+
     const userAlreadyExists = await this.findUserByEmailRepository.findByEmail({
       email,
     });

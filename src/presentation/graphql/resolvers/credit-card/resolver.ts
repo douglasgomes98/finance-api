@@ -9,9 +9,7 @@ import {
   Root,
 } from 'type-graphql';
 import { Service } from 'typedi';
-import { z } from 'zod';
 
-import { FormatterAdapter } from '@/infra/formatters/formatter-adapter';
 import { makeCreateCreditCardUseCase } from '@/main/factories/use-cases/make-create-credit-card-use-case';
 import { makeListCreditCardUseCase } from '@/main/factories/use-cases/make-list-credit-card-use-case';
 import { makeDeleteCreditCardUseCase } from '@/main/factories/use-cases/make-delete-credit-card-use-case';
@@ -36,25 +34,9 @@ export class CreditCardResolver {
     @Arg('data') data: CreateCreditCardInput,
     @Ctx() { userId }: ApolloContext,
   ) {
-    const formatterAdapter = new FormatterAdapter();
-    // TODO: Move validation to a dependency
-    const validator = z.object({
-      name: z
-        .string()
-        .nonempty()
-        .trim()
-        .transform(formatterAdapter.normalizeName),
-      limit: z.number().positive(),
-      dueDay: z.number().min(1).max(31),
-      closingDay: z.number().min(1).max(31),
-      bankId: z.string().nonempty().uuid(),
-    });
-
-    const safeValues = validator.parse(data);
-
     const useCase = makeCreateCreditCardUseCase();
 
-    return useCase.execute({ ...safeValues, userId });
+    return useCase.execute({ ...data, userId });
   }
 
   @Authorized()
@@ -71,15 +53,9 @@ export class CreditCardResolver {
     @Arg('id') id: string,
     @Ctx() { userId }: ApolloContext,
   ) {
-    const validator = z.object({
-      id: z.string().nonempty().uuid(),
-    });
-
-    const safeValues = validator.parse({ id });
-
     const useCase = makeDeleteCreditCardUseCase();
 
-    await useCase.execute({ creditCardId: safeValues.id, userId });
+    await useCase.execute({ creditCardId: id, userId });
 
     return true;
   }
@@ -87,13 +63,7 @@ export class CreditCardResolver {
   @Authorized()
   @Query(() => CreditCard)
   async findCreditCardById(@Arg('id') id: string) {
-    const validator = z.object({
-      id: z.string().nonempty().uuid(),
-    });
-
-    const safeValues = validator.parse({ id });
-
-    return this.creditCardDataLoader.load(safeValues.id);
+    return this.creditCardDataLoader.load(id);
   }
 
   @Authorized()

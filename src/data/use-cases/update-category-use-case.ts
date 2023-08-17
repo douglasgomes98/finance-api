@@ -7,6 +7,7 @@ import { FindCategoryByNameRepository } from '../protocols/database/find-categor
 import { UpdateCategoryRepository } from '../protocols/database/update-category-repository';
 import { FindCategoryByIdUseCase } from './find-category-by-id-use-case';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
+import { UpdateCategoryValidator } from '../protocols/validators/update-category-validator';
 
 export class UpdateCategoryUseCase
   implements UseCase<UpdateCategory.Params, UpdateCategory.Result>
@@ -16,17 +17,16 @@ export class UpdateCategoryUseCase
     private readonly findCategoryByNameRepository: FindCategoryByNameRepository,
     private readonly updateCategoryRepository: UpdateCategoryRepository,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
+    private readonly updateCategoryValidator: UpdateCategoryValidator,
   ) {}
 
-  async execute({
-    id,
-    name,
-    color,
-    userId,
-  }: UpdateCategory.Params): Promise<UpdateCategory.Result> {
+  async execute(params: UpdateCategory.Params): Promise<UpdateCategory.Result> {
+    const { categoryId, userId, name, color } =
+      this.updateCategoryValidator.validate(params);
+
     const [user, category] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
-      this.findCategoryByIdUseCase.execute({ id }),
+      this.findCategoryByIdUseCase.execute({ id: categoryId }),
     ]);
 
     if (category.userId !== user.id) {

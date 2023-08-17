@@ -9,6 +9,7 @@ import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { CreateManyExpenseRepository } from '../protocols/database/create-many-expense-repository';
 import { CreateIdProtocol } from '../protocols/cryptography/create-id-protocol';
 import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
+import { CreateExpenseValidator } from '../protocols/validators/create-expense-validator';
 
 export class CreateExpenseUseCase
   implements UseCase<CreateExpense.Params, CreateExpense.Result>
@@ -22,18 +23,21 @@ export class CreateExpenseUseCase
     private readonly addMonthsProtocol: AddMonthsProtocol,
     private readonly startOfDayProtocol: StartOfDayProtocol,
     private readonly createIdProtocol: CreateIdProtocol,
+    private readonly createExpenseValidator: CreateExpenseValidator,
   ) {}
 
-  async execute({
-    name,
-    value,
-    purchaseDate,
-    isFixed,
-    categoryId,
-    creditCardId,
-    userId,
-    installments = 0,
-  }: CreateExpense.Params): Promise<CreateExpense.Result> {
+  async execute(params: CreateExpense.Params): Promise<CreateExpense.Result> {
+    const {
+      name,
+      value,
+      purchaseDate,
+      isFixed,
+      categoryId,
+      creditCardId,
+      userId,
+      installments = 0,
+    } = this.createExpenseValidator.validate(params);
+
     const [category, creditCard, user] = await Promise.all([
       this.findCategoryByIdUseCase.execute({ id: categoryId }),
       this.findCreditCardByIdUseCase.execute({ id: creditCardId }),

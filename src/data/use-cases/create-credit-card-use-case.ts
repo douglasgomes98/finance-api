@@ -6,6 +6,7 @@ import { CreateCreditCardRepository } from '../protocols/database/create-credit-
 import { FindCreditCardByUserAndNameRepository } from '../protocols/database/find-credit-card-by-user-and-name-repository';
 import { FindBankByIdUseCase } from './find-bank-by-id-use-case';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
+import { CreateCreditCardValidator } from '../protocols/validators/create-credit-card-validator';
 
 export class CreateCreditCardUseCase
   implements UseCase<CreateCreditCard.Params, CreateCreditCard.Result>
@@ -15,16 +16,15 @@ export class CreateCreditCardUseCase
     private readonly findCreditCardByUserAndNameRepository: FindCreditCardByUserAndNameRepository,
     private readonly createCreditCardRepository: CreateCreditCardRepository,
     private readonly findBankByIdUseCase: FindBankByIdUseCase,
+    private readonly createCreditCardValidator: CreateCreditCardValidator,
   ) {}
 
-  async execute({
-    name,
-    dueDay,
-    closingDay,
-    limit,
-    userId,
-    bankId,
-  }: CreateCreditCard.Params): Promise<CreateCreditCard.Result> {
+  async execute(
+    params: CreateCreditCard.Params,
+  ): Promise<CreateCreditCard.Result> {
+    const { name, dueDay, closingDay, limit, userId, bankId } =
+      this.createCreditCardValidator.validate(params);
+
     const [user, bank] = await Promise.all([
       this.findUserByIdUseCase.execute({
         id: userId,
