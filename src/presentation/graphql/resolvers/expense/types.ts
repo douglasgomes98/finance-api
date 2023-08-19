@@ -19,6 +19,9 @@ export class CreateExpenseInput {
   isFixed: boolean;
 
   @Field()
+  isIgnored: boolean;
+
+  @Field()
   categoryId: string;
 
   @Field()

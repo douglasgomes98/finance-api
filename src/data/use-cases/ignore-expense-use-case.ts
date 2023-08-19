@@ -6,6 +6,7 @@ import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-n
 import { IgnoreExpenseValidator } from '../protocols/validators/ignore-expense-validator';
 import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
 import { UpdateExpenseRepository } from '../protocols/database/update-expense-repository';
+import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
 
 export class IgnoreExpenseUseCase
   implements UseCase<IgnoreExpense.Params, IgnoreExpense.Result>
@@ -14,6 +15,7 @@ export class IgnoreExpenseUseCase
     private readonly ignoreExpenseValidator: IgnoreExpenseValidator,
     private readonly findExpenseByIdRepository: FindExpenseByIdRepository,
     private readonly updateExpenseRepository: UpdateExpenseRepository,
+    private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
   ) {}
 
   async execute(params: IgnoreExpense.Params): Promise<IgnoreExpense.Result> {
@@ -32,6 +34,10 @@ export class IgnoreExpenseUseCase
     const updatedExpense = await this.updateExpenseRepository.update({
       id,
       data: { isIgnored },
+    });
+
+    await this.updateCreditCardLimitUseCase.execute({
+      id: expense.creditCardId,
     });
 
     return updatedExpense;

@@ -10,6 +10,7 @@ import { CreateManyExpenseRepository } from '../protocols/database/create-many-e
 import { CreateIdProtocol } from '../protocols/cryptography/create-id-protocol';
 import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 import { CreateExpenseValidator } from '../protocols/validators/create-expense-validator';
+import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
 
 export class CreateExpenseUseCase
   implements UseCase<CreateExpense.Params, CreateExpense.Result>
@@ -24,6 +25,7 @@ export class CreateExpenseUseCase
     private readonly startOfDayProtocol: StartOfDayProtocol,
     private readonly createIdProtocol: CreateIdProtocol,
     private readonly createExpenseValidator: CreateExpenseValidator,
+    private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
   ) {}
 
   async execute(params: CreateExpense.Params): Promise<CreateExpense.Result> {
@@ -32,6 +34,7 @@ export class CreateExpenseUseCase
       value,
       purchaseDate,
       isFixed,
+      isIgnored,
       categoryId,
       creditCardId,
       userId,
@@ -64,7 +67,7 @@ export class CreateExpenseUseCase
             purchaseDate: purchaseDateFormatted,
             invoiceDate: dateWithInstallment,
             isPaid: false,
-            isIgnored: false,
+            isIgnored,
             isFixed,
             installmentsIdentifier,
             categoryId: category.id,
@@ -89,10 +92,14 @@ export class CreateExpenseUseCase
       isFixed,
       installmentsIdentifier,
       isPaid: false,
-      isIgnored: false,
+      isIgnored,
       categoryId: category.id,
       creditCardId: creditCard.id,
       userId: user.id,
+    });
+
+    await this.updateCreditCardLimitUseCase.execute({
+      id: creditCard.id,
     });
 
     return expense;

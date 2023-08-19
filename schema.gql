@@ -35,6 +35,7 @@ input CreateExpenseInput {
   creditCardId: String!
   installments: Float
   isFixed: Boolean!
+  isIgnored: Boolean!
   name: String!
   purchaseDate: DateTime!
   value: Float!
