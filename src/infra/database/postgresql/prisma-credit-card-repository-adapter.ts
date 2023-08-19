@@ -4,6 +4,7 @@ import { CreditCardModel } from '@/domain/entities/credit-card-model';
 import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user-repository';
 import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id-repository';
 import { DeleteCreditCardRepository } from '@/data/protocols/database/delete-credit-card-repository';
+import { UpdateCreditCardRepository } from '@/data/protocols/database/update-credit-card-repository';
 
 import { database } from './database';
 import { creditCardMapper } from './mappers/credit-card-mapper';
@@ -14,7 +15,8 @@ export class PrismaCreditCardRepositoryAdapter
     CreateCreditCardRepository,
     FindCreditCardByUserRepository,
     FindCreditCardByIdRepository,
-    DeleteCreditCardRepository
+    DeleteCreditCardRepository,
+    UpdateCreditCardRepository
 {
   async findById({
     id,
@@ -76,5 +78,19 @@ export class PrismaCreditCardRepositoryAdapter
         id,
       },
     });
+  }
+
+  async update({
+    id,
+    data,
+  }: UpdateCreditCardRepository.Params): Promise<UpdateCreditCardRepository.Result> {
+    const row = await database.creditCard.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return creditCardMapper.toEntity(row);
   }
 }

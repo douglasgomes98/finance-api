@@ -5,6 +5,7 @@ import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocol
 import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
 import { DeleteAllExpenseByCreditCardRepository } from '@/data/protocols/database/delete-all-expense-by-credit-card';
 import { UpdateExpenseRepository } from '@/data/protocols/database/update-expense-repository';
+import { FindExpenseByCreditCardRepository } from '@/data/protocols/database/find-expense-by-credit-card';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -17,7 +18,8 @@ export class PrismaExpenseRepositoryAdapter
     FindExpenseByIdRepository,
     DeleteExpenseRepository,
     DeleteAllExpenseByCreditCardRepository,
-    UpdateExpenseRepository
+    UpdateExpenseRepository,
+    FindExpenseByCreditCardRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -118,5 +120,17 @@ export class PrismaExpenseRepositoryAdapter
     });
 
     return expenseMapper.toEntity(row);
+  }
+
+  async findExpenseByCreditCard({
+    creditCardId,
+  }: FindExpenseByCreditCardRepository.Params): Promise<FindExpenseByCreditCardRepository.Result> {
+    const rows = await database.expense.findMany({
+      where: {
+        creditCardId,
+      },
+    });
+
+    return rows.map(expenseMapper.toEntity);
   }
 }

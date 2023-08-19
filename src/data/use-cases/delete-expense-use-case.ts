@@ -6,6 +6,7 @@ import { FindExpenseByIdUseCase } from './find-expense-by-id-use-case';
 import { DeleteExpenseRepository } from '../protocols/database/delete-expense-repository';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 import { DeleteExpenseValidator } from '../protocols/validators/delete-expense-validator';
+import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
 
 export class DeleteExpenseUseCase
   implements UseCase<DeleteExpense.Params, DeleteExpense.Result>
@@ -15,6 +16,7 @@ export class DeleteExpenseUseCase
     private readonly deleteExpenseRepository: DeleteExpenseRepository,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly deleteExpenseValidator: DeleteExpenseValidator,
+    private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
   ) {}
 
   async execute(params: DeleteExpense.Params): Promise<DeleteExpense.Result> {
@@ -30,5 +32,9 @@ export class DeleteExpenseUseCase
     }
 
     await this.deleteExpenseRepository.delete({ id: expense.id });
+
+    await this.updateCreditCardLimitUseCase.execute({
+      id: expense.creditCardId,
+    });
   }
 }
