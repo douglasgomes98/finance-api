@@ -7,6 +7,8 @@ import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
 import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
 import { ListExpenseByCreditCardValidator } from '../protocols/validators/list-expense-by-credit-card-validator';
+import { EndOfDayProtocol } from '../protocols/date/end-of-day-protocol';
+import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 
 export class ListExpenseByCreditCardUseCase
   implements
@@ -19,6 +21,8 @@ export class ListExpenseByCreditCardUseCase
     private readonly addDaysProtocol: AddDaysProtocol,
     private readonly findExpenseByCreditCardIdAndDateRangeRepository: FindExpenseByCreditCardIdAndDateRangeRepository,
     private readonly listExpenseByCreditCardValidator: ListExpenseByCreditCardValidator,
+    private readonly endOfDayProtocol: EndOfDayProtocol,
+    private readonly startOfDayProtocol: StartOfDayProtocol,
   ) {}
 
   async execute(
@@ -42,8 +46,10 @@ export class ListExpenseByCreditCardUseCase
       await this.findExpenseByCreditCardIdAndDateRangeRepository.findByCreditCardIdAndDateRange(
         {
           creditCardId,
-          startDate: startDayFilter,
-          endDate: this.addDaysProtocol.addDays(endDayFilter, -1),
+          startDate: this.startOfDayProtocol.startOfDay(startDayFilter),
+          endDate: this.endOfDayProtocol.endOfDay(
+            this.addDaysProtocol.addDays(endDayFilter, -1),
+          ),
         },
       );
 

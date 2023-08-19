@@ -1,16 +1,18 @@
-import { add, startOfDay } from 'date-fns';
+import { add, startOfDay, endOfDay } from 'date-fns';
 
 import { AddDaysProtocol } from '@/data/protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '@/data/protocols/date/add-months-protocol';
 import { MountDateProtocol } from '@/data/protocols/date/mount-date-protocol';
 import { StartOfDayProtocol } from '@/data/protocols/date/start-of-day-protocol';
+import { EndOfDayProtocol } from '@/data/protocols/date/end-of-day-protocol';
 
-export class DateServiceAdapter
+export class DateFnsAdapter
   implements
     AddMonthsProtocol,
     StartOfDayProtocol,
     MountDateProtocol,
-    AddDaysProtocol
+    AddDaysProtocol,
+    EndOfDayProtocol
 {
   addMonths(date: Date, months: number): Date {
     return add(date, { months });
@@ -26,5 +28,9 @@ export class DateServiceAdapter
 
   addDays(date: Date, days: number): Date {
     return add(date, { days });
+  }
+
+  endOfDay(date: Date): Date {
+    return endOfDay(date);
   }
 }
