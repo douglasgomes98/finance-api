@@ -1,6 +1,7 @@
 import { IgnoreExpense } from '@/domain/use-cases/ignore-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
 import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
+import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
 import { IgnoreExpenseValidator } from '../protocols/validators/ignore-expense-validator';
 import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
@@ -22,6 +23,10 @@ export class IgnoreExpenseUseCase
 
     if (!expense) {
       throw new ExpenseNotFoundError();
+    }
+
+    if (expense.isPaid) {
+      throw new YouAreNotAllowedToChangeThisResourceError();
     }
 
     const updatedExpense = await this.updateExpenseRepository.update({
