@@ -1,23 +1,22 @@
-import { IgnoreExpense } from '@/domain/use-cases/ignore-expense';
+import { PaidExpense } from '@/domain/use-cases/paid-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
 import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
-import { IgnoreExpenseValidator } from '../protocols/validators/ignore-expense-validator';
+import { PaidExpenseValidator } from '../protocols/validators/paid-expense-validator';
 import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
 import { UpdateExpenseRepository } from '../protocols/database/update-expense-repository';
 
-export class IgnoreExpenseUseCase
-  implements UseCase<IgnoreExpense.Params, IgnoreExpense.Result>
+export class PaidExpenseUseCase
+  implements UseCase<PaidExpense.Params, PaidExpense.Result>
 {
   constructor(
-    private readonly ignoreExpenseValidator: IgnoreExpenseValidator,
+    private readonly paidExpenseValidator: PaidExpenseValidator,
     private readonly findExpenseByIdRepository: FindExpenseByIdRepository,
     private readonly updateExpenseRepository: UpdateExpenseRepository,
   ) {}
 
-  async execute(params: IgnoreExpense.Params): Promise<IgnoreExpense.Result> {
-    const { id, isIgnored } = this.ignoreExpenseValidator.validate(params);
+  async execute(params: PaidExpense.Params): Promise<PaidExpense.Result> {
+    const { id, isPaid } = this.paidExpenseValidator.validate(params);
 
     const expense = await this.findExpenseByIdRepository.findById({ id });
 
@@ -25,13 +24,9 @@ export class IgnoreExpenseUseCase
       throw new ExpenseNotFoundError();
     }
 
-    if (expense.isPaid) {
-      throw new YouAreNotAllowedToChangeThisResourceError();
-    }
-
     const updatedExpense = await this.updateExpenseRepository.update({
       id,
-      data: { isIgnored },
+      data: { isPaid },
     });
 
     return updatedExpense;

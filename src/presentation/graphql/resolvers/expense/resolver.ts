@@ -14,6 +14,7 @@ import { makeCreateExpenseUseCase } from '@/main/factories/use-cases/make-create
 import { makeListExpenseByCreditCardUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-use-case';
 import { makeDeleteExpenseUseCase } from '@/main/factories/use-cases/make-delete-expense-use-case';
 import { makeIgnoreExpenseUseCase } from '@/main/factories/use-cases/make-ignore-expense-use-case';
+import { makePaidExpenseUseCase } from '@/main/factories/use-cases/make-paid-expense-use-case';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -85,6 +86,14 @@ export class ExpenseResolver {
     const useCase = makeIgnoreExpenseUseCase();
 
     return useCase.execute({ id, isIgnored });
+  }
+
+  @Authorized()
+  @Mutation(() => Expense)
+  async paidExpense(@Arg('id') id: string, @Arg('isPaid') isPaid: boolean) {
+    const useCase = makePaidExpenseUseCase();
+
+    return useCase.execute({ id, isPaid });
   }
 
   @Authorized()
