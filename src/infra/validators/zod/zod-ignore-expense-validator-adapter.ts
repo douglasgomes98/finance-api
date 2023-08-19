@@ -7,7 +7,7 @@ export class ZodIgnoreExpenseValidatorAdapter
 {
   validate(
     params: IgnoreExpenseValidator.Params,
-  ): IgnoreExpenseValidator.Params {
+  ): IgnoreExpenseValidator.Result {
     const schema = z.object({
       id: z.string().uuid(),
       isIgnored: z.boolean(),

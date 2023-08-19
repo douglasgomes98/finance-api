@@ -4,7 +4,7 @@ export namespace PaidExpenseValidator {
     isPaid: boolean;
   };
 
-  export type Results = {
+  export type Result = {
     id: string;
     isPaid: boolean;
   };
@@ -13,5 +13,5 @@ export namespace PaidExpenseValidator {
 export type PaidExpenseValidator = {
   validate: (
     params: PaidExpenseValidator.Params,
-  ) => PaidExpenseValidator.Results;
+  ) => PaidExpenseValidator.Result;
 };

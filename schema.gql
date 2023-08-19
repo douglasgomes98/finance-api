@@ -90,6 +90,7 @@ input ListExpenseByCreditCardFilter {
 }
 
 type Mutation {
+  changeExpenseInvoiceDate(id: String!, increaseInvoiceMonth: Float!): Expense!
   createCategory(data: CreateCategoryInput!): Category!
   createCreditCard(data: CreateCreditCardInput!): CreditCard!
   createExpense(data: CreateExpenseInput!): Expense!
