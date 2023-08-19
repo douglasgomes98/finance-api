@@ -4,6 +4,7 @@ export namespace CreateExpenseValidator {
     value: number;
     purchaseDate: Date;
     isFixed: boolean;
+    isIgnored: boolean;
     categoryId: string;
     creditCardId: string;
     userId: string;
@@ -15,6 +16,7 @@ export namespace CreateExpenseValidator {
     value: number;
     purchaseDate: Date;
     isFixed: boolean;
+    isIgnored: boolean;
     categoryId: string;
     creditCardId: string;
     userId: string;

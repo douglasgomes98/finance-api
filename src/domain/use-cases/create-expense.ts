@@ -3,7 +3,7 @@ import { ExpenseModel } from '../entities/expense-model';
 export namespace CreateExpense {
   export type Params = Omit<
     ExpenseModel,
-    'id' | 'isPaid' | 'isIgnored' | 'installmentsIdentifier' | 'invoiceDate'
+    'id' | 'isPaid' | 'installmentsIdentifier' | 'invoiceDate'
   > & {
     installments?: number;
   };

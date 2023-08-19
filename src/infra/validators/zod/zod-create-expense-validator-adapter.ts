@@ -13,6 +13,7 @@ export class ZodCreateExpenseValidatorAdapter
       value: z.number().positive(),
       purchaseDate: z.date(),
       isFixed: z.boolean(),
+      isIgnored: z.boolean(),
       categoryId: z.string().uuid(),
       creditCardId: z.string().uuid(),
       userId: z.string().uuid(),
