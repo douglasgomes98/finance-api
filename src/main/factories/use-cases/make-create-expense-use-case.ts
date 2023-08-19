@@ -7,7 +7,7 @@ import { PrismaCategoryRepositoryAdapter } from '@/infra/database/postgresql/pri
 import { PrismaCreditCardRepositoryAdapter } from '@/infra/database/postgresql/prisma-credit-card-repository-adapter';
 import { PrismaExpenseRepositoryAdapter } from '@/infra/database/postgresql/prisma-expense-repository-adapter';
 import { PrismaUserRepositoryAdapter } from '@/infra/database/postgresql/prisma-user-repository-adapter';
-import { DateServiceAdapter } from '@/infra/date/date-service-adapter';
+import { DateFnsAdapter } from '@/infra/date/date-fns/date-fns-adapter';
 import { ZodCreateExpenseValidatorAdapter } from '@/infra/validators/zod/zod-create-expense-validator-adapter';
 import { ZodFindCategoryByIdValidatorAdapter } from '@/infra/validators/zod/zod-find-category-by-id-validator-adapter';
 import { ZodFindCreditCardByIdValidatorAdapter } from '@/infra/validators/zod/zod-find-credit-card-by-id-validator-adapter';
@@ -36,7 +36,7 @@ export function makeCreateExpenseUseCase() {
     zodFindUserByIdValidatorAdapter,
   );
   const prismaExpenseRepositoryAdapter = new PrismaExpenseRepositoryAdapter();
-  const dateServiceAdapter = new DateServiceAdapter();
+  const dateFnsAdapter = new DateFnsAdapter();
   const bcryptAdapter = new BcryptAdapter();
   const zodCreateExpenseValidatorAdapter =
     new ZodCreateExpenseValidatorAdapter();
@@ -46,8 +46,8 @@ export function makeCreateExpenseUseCase() {
     findUserByIdUseCase,
     prismaExpenseRepositoryAdapter,
     prismaExpenseRepositoryAdapter,
-    dateServiceAdapter,
-    dateServiceAdapter,
+    dateFnsAdapter,
+    dateFnsAdapter,
     bcryptAdapter,
     zodCreateExpenseValidatorAdapter,
   );

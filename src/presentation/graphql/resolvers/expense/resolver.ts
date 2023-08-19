@@ -13,6 +13,7 @@ import { Service } from 'typedi';
 import { makeCreateExpenseUseCase } from '@/main/factories/use-cases/make-create-expense-use-case';
 import { makeListExpenseByCreditCardUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-use-case';
 import { makeDeleteExpenseUseCase } from '@/main/factories/use-cases/make-delete-expense-use-case';
+import { makeIgnoreExpenseUseCase } from '@/main/factories/use-cases/make-ignore-expense-use-case';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -73,6 +74,17 @@ export class ExpenseResolver {
     await useCase.execute({ expenseId: id, userId });
 
     return true;
+  }
+
+  @Authorized()
+  @Mutation(() => Expense)
+  async ignoreExpense(
+    @Arg('id') id: string,
+    @Arg('isIgnored') isIgnored: boolean,
+  ) {
+    const useCase = makeIgnoreExpenseUseCase();
+
+    return useCase.execute({ id, isIgnored });
   }
 
   @Authorized()
