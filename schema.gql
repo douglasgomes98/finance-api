@@ -97,6 +97,7 @@ type Mutation {
   deleteCategory(id: String!): Boolean!
   deleteCreditCard(id: String!): Boolean!
   deleteExpense(id: String!): Boolean!
+  ignoreExpense(id: String!, isIgnored: Boolean!): Expense!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
 }
 
