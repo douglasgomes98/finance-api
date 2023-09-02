@@ -2,7 +2,7 @@
   "name": "finance-api",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/server",
+  "main": "dist/main/server.js",
   "scripts": {
     "build": "yarn clean && yarn prisma generate && yarn prisma migrate deploy && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
