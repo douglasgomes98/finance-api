@@ -90,3 +90,12 @@ export class ListExpenseByCreditCardFilter {
   @Field()
   year: number;
 }
+
+@InputType()
+export class ListExpenseFilter {
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}
