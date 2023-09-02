@@ -16,6 +16,7 @@ import { makeDeleteExpenseUseCase } from '@/main/factories/use-cases/make-delete
 import { makeIgnoreExpenseUseCase } from '@/main/factories/use-cases/make-ignore-expense-use-case';
 import { makePaidExpenseUseCase } from '@/main/factories/use-cases/make-paid-expense-use-case';
 import { makeChangeExpenseInvoiceDateUseCase } from '@/main/factories/use-cases/make-change-expense-invoice-date';
+import { makeListExpenseUseCase } from '@/main/factories/use-cases/make-list-expense';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -23,6 +24,7 @@ import {
   CreateExpenseInput,
   Expense,
   ListExpenseByCreditCardFilter,
+  ListExpenseFilter,
 } from './types';
 import { User } from '../user/type';
 import { UserDataLoader } from '../user/data-loader';
@@ -60,6 +62,17 @@ export class ExpenseResolver {
     const useCase = makeListExpenseByCreditCardUseCase();
 
     return useCase.execute(filter);
+  }
+
+  @Authorized()
+  @Query(() => [Expense])
+  async listExpense(
+    @Arg('filter') filter: ListExpenseFilter,
+    @Ctx() { userId }: ApolloContext,
+  ) {
+    const useCase = makeListExpenseUseCase();
+
+    return useCase.execute({ ...filter, userId });
   }
 
   @Authorized()
