@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import './configurations/imports';
+import './crons';
 import fastify from 'fastify';
 import { ResolverData, buildSchema } from 'type-graphql';
 import Container from 'typedi';
