@@ -6,6 +6,7 @@ import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expens
 import { DeleteAllExpenseByCreditCardRepository } from '@/data/protocols/database/delete-all-expense-by-credit-card';
 import { UpdateExpenseRepository } from '@/data/protocols/database/update-expense-repository';
 import { FindExpenseByCreditCardRepository } from '@/data/protocols/database/find-expense-by-credit-card';
+import { FindExpenseByDateRangeRepository } from '@/data/protocols/database/find-expense-by-date-range-repository';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -19,7 +20,8 @@ export class PrismaExpenseRepositoryAdapter
     DeleteExpenseRepository,
     DeleteAllExpenseByCreditCardRepository,
     UpdateExpenseRepository,
-    FindExpenseByCreditCardRepository
+    FindExpenseByCreditCardRepository,
+    FindExpenseByDateRangeRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -57,6 +59,25 @@ export class PrismaExpenseRepositoryAdapter
           gte: data.startDate,
           lte: data.endDate,
         },
+      },
+      orderBy: {
+        purchaseDate: 'asc',
+      },
+    });
+
+    return rows.map(expenseMapper.toEntity);
+  }
+
+  async findByDateRange(
+    data: FindExpenseByDateRangeRepository.Params,
+  ): Promise<FindExpenseByDateRangeRepository.Result> {
+    const rows = await database.expense.findMany({
+      where: {
+        invoiceDate: {
+          gte: data.startDate,
+          lte: data.endDate,
+        },
+        isFixed: data.isFixed,
       },
       orderBy: {
         purchaseDate: 'asc',
