@@ -1,11 +1,11 @@
-import { CreateFixedExpensesUseCase } from '@/data/use-cases/create-fixed-expenses-use-case';
+import { CreateFixedExpenseUseCase } from '@/data/use-cases/create-fixed-expense-use-case';
 import { PrismaExpenseRepositoryAdapter } from '@/infra/database/postgresql/prisma-expense-repository-adapter';
 import { DateFnsAdapter } from '@/infra/date/date-fns/date-fns-adapter';
 
-export function makeCreateFixedExpensesUseCase() {
+export function makeCreateFixedExpenseUseCase() {
   const findExpenseByDateRangeRepository = new PrismaExpenseRepositoryAdapter();
   const dateFnsAdapter = new DateFnsAdapter();
-  const useCase = new CreateFixedExpensesUseCase(
+  const useCase = new CreateFixedExpenseUseCase(
     dateFnsAdapter,
     dateFnsAdapter,
     dateFnsAdapter,

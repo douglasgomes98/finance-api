@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CreateFixedExpenses } from '@/domain/use-cases/create-fixed-expenses';
+import { CreateFixedExpense } from '@/domain/use-cases/create-fixed-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
 
 import { EndOfDayProtocol } from '../protocols/date/end-of-day-protocol';
@@ -9,8 +9,8 @@ import { AddDaysProtocol } from '../protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { CreateExpenseRepository } from '../protocols/database/create-expense-repository';
 
-export class CreateFixedExpensesUseCase
-  implements UseCase<CreateFixedExpenses.Params, CreateFixedExpenses.Result>
+export class CreateFixedExpenseUseCase
+  implements UseCase<CreateFixedExpense.Params, CreateFixedExpense.Result>
 {
   constructor(
     private readonly endOfDayProtocol: EndOfDayProtocol,
@@ -21,7 +21,7 @@ export class CreateFixedExpensesUseCase
     private readonly createExpenseRepository: CreateExpenseRepository,
   ) {}
 
-  async execute(): Promise<CreateFixedExpenses.Result> {
+  async execute(): Promise<CreateFixedExpense.Result> {
     const today = new Date();
     const dateObserved = this.addMonthsProtocol.addMonths(today, -1);
     const startDayFilter = this.startOfDayProtocol.startOfDay(
