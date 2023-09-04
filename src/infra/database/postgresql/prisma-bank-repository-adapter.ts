@@ -8,7 +8,7 @@ export class PrismaBankRepositoryAdapter
   implements FindBankRepository, FindBankByIdRepository
 {
   async find(): Promise<FindBankRepository.Result> {
-    const rows = await database.bank.findMany();
+    const rows = await database.bank.findMany({ orderBy: { name: 'asc' } });
 
     return rows.map(bankMapper.toEntity);
   }

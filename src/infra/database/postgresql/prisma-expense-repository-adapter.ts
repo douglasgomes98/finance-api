@@ -44,6 +44,9 @@ export class PrismaExpenseRepositoryAdapter
       where: {
         installmentsIdentifier: expenses[0].installmentsIdentifier,
       },
+      orderBy: {
+        purchaseDate: 'asc',
+      },
     });
 
     return rows.map(expenseMapper.toEntity);
@@ -149,6 +152,9 @@ export class PrismaExpenseRepositoryAdapter
     const rows = await database.expense.findMany({
       where: {
         creditCardId,
+      },
+      orderBy: {
+        purchaseDate: 'asc',
       },
     });
 

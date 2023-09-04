@@ -39,6 +39,7 @@ export class PrismaCreditCardRepositoryAdapter
       where: {
         userId: id,
       },
+      orderBy: { name: 'asc' },
     });
 
     return rows.map(creditCardMapper.toEntity);
