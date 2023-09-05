@@ -7,5 +7,8 @@ export namespace ListExpense {
     year: number;
   };
 
-  export type Result = ExpenseModel[];
+  export type Result = {
+    expenses: ExpenseModel[];
+    amount: number;
+  };
 }
