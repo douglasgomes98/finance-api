@@ -53,6 +53,16 @@ export class ListExpenseByCreditCardUseCase
         },
       );
 
-    return expenses;
+    const amount = Number(
+      expenses
+        .filter(expense => !expense.isIgnored)
+        .reduce((acc, expense) => acc + expense.value, 0)
+        .toFixed(2),
+    );
+
+    return {
+      expenses,
+      amount,
+    };
   }
 }

@@ -84,6 +84,11 @@ type Expense {
   value: Float!
 }
 
+type ExpenseList {
+  amount: Float!
+  expenses: [Expense!]!
+}
+
 input ListExpenseByCreditCardFilter {
   creditCardId: String!
   month: Float!
@@ -118,8 +123,8 @@ type Query {
   listBanks: [Bank!]!
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
-  listExpense(filter: ListExpenseFilter!): [Expense!]!
-  listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): [Expense!]!
+  listExpense(filter: ListExpenseFilter!): ExpenseList!
+  listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): ExpenseList!
 }
 
 input UpdateCategoryInput {

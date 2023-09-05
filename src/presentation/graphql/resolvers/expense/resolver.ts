@@ -23,6 +23,7 @@ import { ExpenseDataLoader } from './data-loader';
 import {
   CreateExpenseInput,
   Expense,
+  ExpenseList,
   ListExpenseByCreditCardFilter,
   ListExpenseFilter,
 } from './types';
@@ -55,7 +56,7 @@ export class ExpenseResolver {
   }
 
   @Authorized()
-  @Query(() => [Expense])
+  @Query(() => ExpenseList)
   async listExpenseByCreditCard(
     @Arg('filter') filter: ListExpenseByCreditCardFilter,
   ) {
@@ -65,7 +66,7 @@ export class ExpenseResolver {
   }
 
   @Authorized()
-  @Query(() => [Expense])
+  @Query(() => ExpenseList)
   async listExpense(
     @Arg('filter') filter: ListExpenseFilter,
     @Ctx() { userId }: ApolloContext,

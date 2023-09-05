@@ -79,6 +79,15 @@ export class Expense {
   category: Category;
 }
 
+@ObjectType()
+export class ExpenseList {
+  @Field(() => [Expense])
+  expenses: Expense[];
+
+  @Field()
+  amount: number;
+}
+
 @InputType()
 export class ListExpenseByCreditCardFilter {
   @Field()
