@@ -24,12 +24,8 @@ export class CreateFixedExpenseUseCase
   async execute(): Promise<CreateFixedExpense.Result> {
     const today = new Date();
     const dateObserved = this.addMonthsProtocol.addMonths(today, -1);
-    const startDayFilter = this.startOfDayProtocol.startOfDay(
-      this.addDaysProtocol.addDays(dateObserved, -1),
-    );
-    const endDayFilter = this.endOfDayProtocol.endOfDay(
-      this.addDaysProtocol.addDays(dateObserved, -1),
-    );
+    const startDayFilter = this.startOfDayProtocol.startOfDay(dateObserved);
+    const endDayFilter = this.endOfDayProtocol.endOfDay(dateObserved);
 
     const expenses =
       await this.findExpenseByDateRangeRepository.findByDateRange({
