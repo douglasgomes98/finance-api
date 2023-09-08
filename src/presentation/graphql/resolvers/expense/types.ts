@@ -88,6 +88,27 @@ export class ExpenseList {
   amount: number;
 }
 
+@ObjectType()
+export class ExpenseListByCategoryDetails {
+  @Field()
+  category: Category;
+
+  @Field(() => [Expense])
+  expenses: Expense[];
+
+  @Field()
+  amount: number;
+}
+
+@ObjectType()
+export class ExpenseListByCategory {
+  @Field(() => [ExpenseListByCategoryDetails])
+  details: ExpenseListByCategoryDetails[];
+
+  @Field()
+  amount: number;
+}
+
 @InputType()
 export class ListExpenseByCreditCardFilter {
   @Field()
@@ -102,6 +123,27 @@ export class ListExpenseByCreditCardFilter {
 
 @InputType()
 export class ListExpenseFilter {
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}
+
+@InputType()
+export class ExpenseListByCategoryFilter {
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}
+
+@InputType()
+export class ListExpenseByCreditCardAndCategoryFilter {
+  @Field()
+  creditCardId: string;
+
   @Field()
   month: number;
 

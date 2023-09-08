@@ -89,6 +89,28 @@ type ExpenseList {
   expenses: [Expense!]!
 }
 
+type ExpenseListByCategory {
+  amount: Float!
+  details: [ExpenseListByCategoryDetails!]!
+}
+
+type ExpenseListByCategoryDetails {
+  amount: Float!
+  category: Category!
+  expenses: [Expense!]!
+}
+
+input ExpenseListByCategoryFilter {
+  month: Float!
+  year: Float!
+}
+
+input ListExpenseByCreditCardAndCategoryFilter {
+  creditCardId: String!
+  month: Float!
+  year: Float!
+}
+
 input ListExpenseByCreditCardFilter {
   creditCardId: String!
   month: Float!
@@ -124,6 +146,8 @@ type Query {
   listCategories: [Category!]!
   listCreditCards: [CreditCard!]!
   listExpense(filter: ListExpenseFilter!): ExpenseList!
+  listExpenseByCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
+  listExpenseByCategoryAndCreditCard(filter: ListExpenseByCreditCardAndCategoryFilter!): ExpenseListByCategory!
   listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): ExpenseList!
 }
 
