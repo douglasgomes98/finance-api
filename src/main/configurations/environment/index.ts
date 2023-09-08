@@ -6,6 +6,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   JWT_SECRET: z.string(),
   DATABASE_URL: z.string(),
+  TZ: z.string().default('UTC'),
   PASSWORD_SALT: z.number().default(12),
 });
 
