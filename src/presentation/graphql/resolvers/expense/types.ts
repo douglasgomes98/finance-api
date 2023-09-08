@@ -129,3 +129,24 @@ export class ListExpenseFilter {
   @Field()
   year: number;
 }
+
+@InputType()
+export class ExpenseListByCategoryFilter {
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}
+
+@InputType()
+export class ListExpenseByCreditCardAndCategoryFilter {
+  @Field()
+  creditCardId: string;
+
+  @Field()
+  month: number;
+
+  @Field()
+  year: number;
+}

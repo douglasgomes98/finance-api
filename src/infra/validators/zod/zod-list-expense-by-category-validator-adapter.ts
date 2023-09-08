@@ -12,6 +12,8 @@ export class ZodListExpenseByCategoryValidatorAdapter
       year: z.number().min(0),
     });
 
-    return schema.parse(params);
+    const safeParams = schema.parse(params);
+
+    return safeParams;
   }
 }
