@@ -45,7 +45,7 @@ export class PrismaExpenseRepositoryAdapter
         installmentsIdentifier: expenses[0].installmentsIdentifier,
       },
       orderBy: {
-        purchaseDate: 'asc',
+        purchaseDate: 'desc',
       },
     });
 
@@ -64,7 +64,7 @@ export class PrismaExpenseRepositoryAdapter
         },
       },
       orderBy: {
-        purchaseDate: 'asc',
+        purchaseDate: 'desc',
       },
     });
 
@@ -83,7 +83,7 @@ export class PrismaExpenseRepositoryAdapter
         isFixed: data.isFixed,
       },
       orderBy: {
-        purchaseDate: 'asc',
+        purchaseDate: 'desc',
       },
     });
 
@@ -154,7 +154,7 @@ export class PrismaExpenseRepositoryAdapter
         creditCardId,
       },
       orderBy: {
-        purchaseDate: 'asc',
+        purchaseDate: 'desc',
       },
     });
 
