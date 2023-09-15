@@ -128,10 +128,11 @@ export class ExpenseResolver {
   async ignoreExpense(
     @Arg('id') id: string,
     @Arg('isIgnored') isIgnored: boolean,
+    @Arg('all', { nullable: true }) all?: boolean,
   ) {
     const useCase = makeIgnoreExpenseUseCase();
 
-    return useCase.execute({ id, isIgnored });
+    return useCase.execute({ id, isIgnored, all });
   }
 
   @Authorized()

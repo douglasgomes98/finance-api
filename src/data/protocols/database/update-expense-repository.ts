@@ -3,6 +3,7 @@ import { ExpenseModel } from '@/domain/entities/expense-model';
 export namespace UpdateExpenseRepository {
   export type Params = {
     id: string;
+    all?: boolean;
     data: Partial<ExpenseModel>;
   };
 
