@@ -19,7 +19,11 @@ export class IgnoreExpenseUseCase
   ) {}
 
   async execute(params: IgnoreExpense.Params): Promise<IgnoreExpense.Result> {
-    const { id, isIgnored } = this.ignoreExpenseValidator.validate(params);
+    const {
+      id,
+      isIgnored,
+      all = true,
+    } = this.ignoreExpenseValidator.validate(params);
 
     const expense = await this.findExpenseByIdRepository.findById({ id });
 
@@ -33,6 +37,7 @@ export class IgnoreExpenseUseCase
 
     const updatedExpense = await this.updateExpenseRepository.update({
       id,
+      all,
       data: { isIgnored },
     });
 

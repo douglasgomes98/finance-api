@@ -11,6 +11,7 @@ export class ZodIgnoreExpenseValidatorAdapter
     const schema = z.object({
       id: z.string().uuid(),
       isIgnored: z.boolean(),
+      all: z.boolean().optional(),
     });
 
     const safeParams = schema.parse(params);

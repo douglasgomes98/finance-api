@@ -7,6 +7,7 @@ import { DeleteAllExpenseByCreditCardRepository } from '@/data/protocols/databas
 import { UpdateExpenseRepository } from '@/data/protocols/database/update-expense-repository';
 import { FindExpenseByCreditCardRepository } from '@/data/protocols/database/find-expense-by-credit-card';
 import { FindExpenseByDateRangeRepository } from '@/data/protocols/database/find-expense-by-date-range-repository';
+import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -143,8 +144,40 @@ export class PrismaExpenseRepositoryAdapter
 
   async update({
     id,
+    all,
     data,
   }: UpdateExpenseRepository.Params): Promise<UpdateExpenseRepository.Result> {
+    if (all) {
+      const row = await database.expense.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!row) {
+        throw new ExpenseNotFoundError();
+      }
+
+      await database.expense.updateMany({
+        where: {
+          installmentsIdentifier: row.installmentsIdentifier,
+        },
+        data,
+      });
+
+      const rowUpdated = await database.expense.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!rowUpdated) {
+        throw new ExpenseNotFoundError();
+      }
+
+      return expenseMapper.toEntity(rowUpdated);
+    }
+
     const row = await database.expense.update({
       where: {
         id,
