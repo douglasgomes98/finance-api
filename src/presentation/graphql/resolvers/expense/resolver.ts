@@ -111,10 +111,14 @@ export class ExpenseResolver {
 
   @Authorized()
   @Mutation(() => Boolean)
-  async deleteExpense(@Arg('id') id: string, @Ctx() { userId }: ApolloContext) {
+  async deleteExpense(
+    @Arg('id') id: string,
+    @Ctx() { userId }: ApolloContext,
+    @Arg('all', { nullable: true }) all?: boolean,
+  ) {
     const useCase = makeDeleteExpenseUseCase();
 
-    await useCase.execute({ expenseId: id, userId });
+    await useCase.execute({ expenseId: id, userId, all });
 
     return true;
   }

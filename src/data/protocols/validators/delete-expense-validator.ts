@@ -2,11 +2,13 @@ export namespace DeleteExpenseValidator {
   export type Params = {
     expenseId: string;
     userId: string;
+    all?: boolean;
   };
 
   export type Result = {
     expenseId: string;
     userId: string;
+    all?: boolean;
   };
 }
 

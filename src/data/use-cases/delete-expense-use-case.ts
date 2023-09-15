@@ -20,7 +20,11 @@ export class DeleteExpenseUseCase
   ) {}
 
   async execute(params: DeleteExpense.Params): Promise<DeleteExpense.Result> {
-    const { expenseId, userId } = this.deleteExpenseValidator.validate(params);
+    const {
+      expenseId,
+      userId,
+      all = true,
+    } = this.deleteExpenseValidator.validate(params);
 
     const [user, expense] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
@@ -31,7 +35,7 @@ export class DeleteExpenseUseCase
       throw new YouAreNotAllowedToChangeThisResourceError();
     }
 
-    await this.deleteExpenseRepository.delete({ id: expense.id });
+    await this.deleteExpenseRepository.delete({ id: expense.id, all });
 
     await this.updateCreditCardLimitUseCase.execute({
       id: expense.creditCardId,
