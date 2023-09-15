@@ -11,6 +11,7 @@ export class ZodDeleteExpenseValidatorAdapter
     const schema = z.object({
       expenseId: z.string().uuid(),
       userId: z.string().uuid(),
+      all: z.boolean().optional(),
     });
 
     const safeParams = schema.parse(params);

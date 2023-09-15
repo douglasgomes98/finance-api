@@ -104,22 +104,31 @@ export class PrismaExpenseRepositoryAdapter
     return expenseMapper.toEntity(row);
   }
 
-  async delete(
-    params: DeleteExpenseRepository.Params,
-  ): Promise<DeleteExpenseRepository.Result> {
-    const row = await database.expense.findUnique({
-      where: {
-        id: params.id,
-      },
-    });
+  async delete({
+    id,
+    all,
+  }: DeleteExpenseRepository.Params): Promise<DeleteExpenseRepository.Result> {
+    if (all) {
+      const row = await database.expense.findUnique({
+        where: {
+          id,
+        },
+      });
 
-    if (!row) return;
+      if (!row) return;
 
-    await database.expense.deleteMany({
-      where: {
-        installmentsIdentifier: row.installmentsIdentifier,
-      },
-    });
+      await database.expense.deleteMany({
+        where: {
+          installmentsIdentifier: row.installmentsIdentifier,
+        },
+      });
+    } else {
+      await database.expense.delete({
+        where: {
+          id,
+        },
+      });
+    }
   }
 
   async deleteAllByCreditCard(

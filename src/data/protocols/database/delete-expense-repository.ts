@@ -1,6 +1,7 @@
 export namespace DeleteExpenseRepository {
   export type Params = {
     id: string;
+    all?: boolean;
   };
 
   export type Result = void;

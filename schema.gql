@@ -130,7 +130,7 @@ type Mutation {
   createUser(data: CreateUserInput!): User!
   deleteCategory(id: String!): Boolean!
   deleteCreditCard(id: String!): Boolean!
-  deleteExpense(id: String!): Boolean!
+  deleteExpense(all: Boolean, id: String!): Boolean!
   ignoreExpense(id: String!, isIgnored: Boolean!): Expense!
   paidExpense(id: String!, isPaid: Boolean!): Expense!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
