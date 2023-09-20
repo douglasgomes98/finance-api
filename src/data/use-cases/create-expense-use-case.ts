@@ -11,6 +11,7 @@ import { CreateIdProtocol } from '../protocols/cryptography/create-id-protocol';
 import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 import { CreateExpenseValidator } from '../protocols/validators/create-expense-validator';
 import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
+import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
 
 export class CreateExpenseUseCase
   implements UseCase<CreateExpense.Params, CreateExpense.Result>
@@ -26,6 +27,7 @@ export class CreateExpenseUseCase
     private readonly createIdProtocol: CreateIdProtocol,
     private readonly createExpenseValidator: CreateExpenseValidator,
     private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
+    private readonly mountDateProtocol: MountDateProtocol,
   ) {}
 
   async execute(params: CreateExpense.Params): Promise<CreateExpense.Result> {
@@ -48,8 +50,25 @@ export class CreateExpenseUseCase
     ]);
 
     const installmentsIdentifier = await this.createIdProtocol.createId();
+
     const purchaseDateFormatted =
       this.startOfDayProtocol.startOfDay(purchaseDate);
+    const closingDate = this.mountDateProtocol.mountDate(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      creditCard.closingDay,
+    );
+
+    const isOverlappingClosingDate = purchaseDateFormatted > closingDate;
+    const isEqualClosingDate =
+      purchaseDateFormatted.getTime() === closingDate.getTime();
+    const hasNecessaryAdditionalMonth =
+      isEqualClosingDate || isOverlappingClosingDate;
+
+    const initialPurchaseDate = this.addMonthsProtocol.addMonths(
+      purchaseDateFormatted,
+      hasNecessaryAdditionalMonth ? 1 : 0,
+    );
 
     if (!isFixed && installments > 1) {
       const installmentValue = Math.floor((value / installments) * 100) / 100;
@@ -58,7 +77,7 @@ export class CreateExpenseUseCase
         (_, index) => {
           const nameWithInstallment = `${name} ${index + 1}/${installments}`;
           const dateWithInstallment = this.startOfDayProtocol.startOfDay(
-            this.addMonthsProtocol.addMonths(purchaseDateFormatted, index),
+            this.addMonthsProtocol.addMonths(initialPurchaseDate, index),
           );
 
           return {
@@ -88,7 +107,7 @@ export class CreateExpenseUseCase
       name,
       value,
       purchaseDate: purchaseDateFormatted,
-      invoiceDate: purchaseDateFormatted,
+      invoiceDate: initialPurchaseDate,
       isFixed,
       installmentsIdentifier,
       isPaid: false,

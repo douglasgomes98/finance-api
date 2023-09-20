@@ -61,6 +61,7 @@ export function makeCreateExpenseUseCase() {
     bcryptAdapter,
     zodCreateExpenseValidatorAdapter,
     updateCreditCardLimitUseCase,
+    dateFnsAdapter,
   );
 
   return useCase;
