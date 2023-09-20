@@ -1,10 +1,11 @@
-import { add, startOfDay, endOfDay } from 'date-fns';
+import { add, startOfDay, endOfDay, isEqual } from 'date-fns';
 
 import { AddDaysProtocol } from '@/data/protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '@/data/protocols/date/add-months-protocol';
 import { MountDateProtocol } from '@/data/protocols/date/mount-date-protocol';
 import { StartOfDayProtocol } from '@/data/protocols/date/start-of-day-protocol';
 import { EndOfDayProtocol } from '@/data/protocols/date/end-of-day-protocol';
+import { EqualDateProtocol } from '@/data/protocols/date/equal-date-protocol';
 
 export class DateFnsAdapter
   implements
@@ -12,7 +13,8 @@ export class DateFnsAdapter
     StartOfDayProtocol,
     MountDateProtocol,
     AddDaysProtocol,
-    EndOfDayProtocol
+    EndOfDayProtocol,
+    EqualDateProtocol
 {
   addMonths(date: Date, months: number): Date {
     return add(date, { months });
@@ -32,5 +34,9 @@ export class DateFnsAdapter
 
   endOfDay(date: Date): Date {
     return endOfDay(date);
+  }
+
+  isEqual(date: Date, dateToCompare: Date): boolean {
+    return isEqual(date, dateToCompare);
   }
 }

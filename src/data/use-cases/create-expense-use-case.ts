@@ -12,6 +12,7 @@ import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 import { CreateExpenseValidator } from '../protocols/validators/create-expense-validator';
 import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
 import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
+import { EqualDateProtocol } from '../protocols/date/equal-date-protocol';
 
 export class CreateExpenseUseCase
   implements UseCase<CreateExpense.Params, CreateExpense.Result>
@@ -28,6 +29,7 @@ export class CreateExpenseUseCase
     private readonly createExpenseValidator: CreateExpenseValidator,
     private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
     private readonly mountDateProtocol: MountDateProtocol,
+    private readonly equalDateProtocol: EqualDateProtocol,
   ) {}
 
   async execute(params: CreateExpense.Params): Promise<CreateExpense.Result> {
@@ -60,8 +62,10 @@ export class CreateExpenseUseCase
     );
 
     const isOverlappingClosingDate = purchaseDateFormatted > closingDate;
-    const isEqualClosingDate =
-      purchaseDateFormatted.getTime() === closingDate.getTime();
+    const isEqualClosingDate = this.equalDateProtocol.isEqual(
+      purchaseDateFormatted,
+      closingDate,
+    );
     const hasNecessaryAdditionalMonth =
       isEqualClosingDate || isOverlappingClosingDate;
 
