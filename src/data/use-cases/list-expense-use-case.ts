@@ -34,10 +34,7 @@ export class ListExpenseUseCase
     const expenses = expensesList.flatMap(list => list.expenses);
 
     const amount = Number(
-      expenses
-        .filter(expense => !expense.isIgnored)
-        .reduce((acc, expense) => acc + expense.value, 0)
-        .toFixed(2),
+      expenses.reduce((acc, expense) => acc + expense.value, 0).toFixed(2),
     );
 
     return {
