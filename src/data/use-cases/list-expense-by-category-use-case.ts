@@ -36,7 +36,6 @@ export class ListExpenseByCategoryUseCase
 
       const amountByCategory = Number(
         expensesByCategory
-          .filter(expense => !expense.isIgnored)
           .reduce((acc, expense) => acc + expense.value, 0)
           .toFixed(2),
       );

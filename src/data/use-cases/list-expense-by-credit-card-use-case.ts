@@ -54,10 +54,7 @@ export class ListExpenseByCreditCardUseCase
       );
 
     const amount = Number(
-      expenses
-        .filter(expense => !expense.isIgnored)
-        .reduce((acc, expense) => acc + expense.value, 0)
-        .toFixed(2),
+      expenses.reduce((acc, expense) => acc + expense.value, 0).toFixed(2),
     );
 
     return {
