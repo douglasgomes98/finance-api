@@ -150,3 +150,15 @@ export class ListExpenseByCreditCardAndCategoryFilter {
   @Field()
   year: number;
 }
+
+@InputType()
+export class UpdateExpenseInput {
+  @Field({ nullable: true })
+  categoryId?: string;
+
+  @Field({ nullable: true })
+  creditCardId?: string;
+
+  @Field({ nullable: true })
+  value?: number;
+}
