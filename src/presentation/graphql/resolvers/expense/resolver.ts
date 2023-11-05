@@ -19,6 +19,7 @@ import { makeChangeExpenseInvoiceDateUseCase } from '@/main/factories/use-cases/
 import { makeListExpenseUseCase } from '@/main/factories/use-cases/make-list-expense';
 import { makeListExpenseByCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-category-use-case';
 import { makeListExpenseByCreditCardAndCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-and-category-use-case';
+import { makeUpdateExpenseUseCase } from '@/main/factories/use-cases/make-update-expense-use-case';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -31,6 +32,7 @@ import {
   ListExpenseByCreditCardAndCategoryFilter,
   ListExpenseByCreditCardFilter,
   ListExpenseFilter,
+  UpdateExpenseInput,
 } from './types';
 import { User } from '../user/type';
 import { UserDataLoader } from '../user/data-loader';
@@ -152,6 +154,18 @@ export class ExpenseResolver {
     const useCase = makeChangeExpenseInvoiceDateUseCase();
 
     return useCase.execute({ id, increaseInvoiceMonth });
+  }
+
+  @Authorized()
+  @Mutation(() => Expense)
+  async updateExpense(
+    @Arg('id') id: string,
+    @Arg('data') data: UpdateExpenseInput,
+    @Arg('all', { nullable: true }) all?: boolean,
+  ) {
+    const useCase = makeUpdateExpenseUseCase();
+
+    return useCase.execute({ id, data, all });
   }
 
   @Authorized()

@@ -1,0 +1,11 @@
+import { ExpenseModel } from '../entities/expense-model';
+
+export namespace UpdateExpense {
+  export type Params = {
+    id: string;
+    data: Partial<ExpenseModel>;
+    all?: boolean;
+  };
+
+  export type Result = ExpenseModel;
+}

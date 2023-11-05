@@ -134,6 +134,7 @@ type Mutation {
   ignoreExpense(all: Boolean, id: String!, isIgnored: Boolean!): Expense!
   paidExpense(id: String!, isPaid: Boolean!): Expense!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
+  updateExpense(all: Boolean, data: UpdateExpenseInput!, id: String!): Expense!
 }
 
 type Query {
@@ -154,6 +155,12 @@ type Query {
 input UpdateCategoryInput {
   color: String!
   name: String!
+}
+
+input UpdateExpenseInput {
+  categoryId: String
+  creditCardId: String
+  value: Float
 }
 
 type User {
