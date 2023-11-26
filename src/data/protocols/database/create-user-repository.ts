@@ -1,9 +1,9 @@
-import { UserModel, UserWithoutPassword } from '@/domain/entities/user-model';
+import { UserModel } from '@/domain/entities/user-model';
 
 export namespace CreateUserRepository {
   export type Params = Omit<UserModel, 'id'>;
 
-  export type Result = UserWithoutPassword;
+  export type Result = UserModel;
 }
 
 export type CreateUserRepository = {

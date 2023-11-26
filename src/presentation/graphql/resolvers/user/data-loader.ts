@@ -2,7 +2,7 @@ import Dataloader from 'dataloader';
 import { Service } from 'typedi';
 
 import { FindUserByIdUseCase } from '@/data/use-cases/find-user-by-id-use-case';
-import { UserWithoutPassword } from '@/domain/entities/user-model';
+import { UserModel } from '@/domain/entities/user-model';
 import { makeFindUserByIdUseCase } from '@/main/factories/use-cases/make-find-user-by-id-use-case';
 
 @Service()
@@ -27,13 +27,11 @@ export class UserDataLoader {
   }
 
   private makeLoader() {
-    return new Dataloader<string, UserWithoutPassword | null, string>(
-      async keys => {
-        const items = await Promise.all(keys.map(key => this.getItem(key)));
+    return new Dataloader<string, UserModel | null, string>(async keys => {
+      const items = await Promise.all(keys.map(key => this.getItem(key)));
 
-        return keys.map(key => items.find(user => user?.id === key) || null);
-      },
-    );
+      return keys.map(key => items.find(user => user?.id === key) || null);
+    });
   }
 
   async load(key: string) {

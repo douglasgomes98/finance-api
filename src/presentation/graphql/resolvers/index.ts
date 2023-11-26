@@ -5,6 +5,7 @@ import { UserResolver } from './user/resolver';
 import { CreditCardResolver } from './credit-card/resolver';
 import { BankResolver } from './bank/resolver';
 import { ExpenseResolver } from './expense/resolver';
+import { AuthenticationResolver } from './authentication/resolver';
 
 export const resolvers: NonEmptyArray<Function> = [
   CategoryResolver,
@@ -12,4 +13,5 @@ export const resolvers: NonEmptyArray<Function> = [
   CreditCardResolver,
   BankResolver,
   ExpenseResolver,
+  AuthenticationResolver,
 ];

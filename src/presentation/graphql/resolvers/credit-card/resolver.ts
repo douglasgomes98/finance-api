@@ -32,30 +32,30 @@ export class CreditCardResolver {
   @Mutation(() => CreditCard)
   async createCreditCard(
     @Arg('data') data: CreateCreditCardInput,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeCreateCreditCardUseCase();
 
-    return useCase.execute({ ...data, userId });
+    return useCase.execute({ ...data, userId: user!.id });
   }
 
   @Authorized()
   @Query(() => [CreditCard])
-  async listCreditCards(@Ctx() { userId }: ApolloContext) {
+  async listCreditCards(@Ctx() { user }: ApolloContext) {
     const useCase = makeListCreditCardUseCase();
 
-    return useCase.execute({ userId });
+    return useCase.execute({ userId: user!.id });
   }
 
   @Authorized()
   @Mutation(() => Boolean)
   async deleteCreditCard(
     @Arg('id') id: string,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeDeleteCreditCardUseCase();
 
-    await useCase.execute({ creditCardId: id, userId });
+    await useCase.execute({ creditCardId: id, userId: user!.id });
 
     return true;
   }

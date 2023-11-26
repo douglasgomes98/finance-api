@@ -17,21 +17,21 @@ export class CategoryResolver {
 
   @Authorized()
   @Query(() => [Category])
-  async listCategories(@Ctx() { userId }: ApolloContext) {
+  async listCategories(@Ctx() { user }: ApolloContext) {
     const useCase = makeListCategoryUseCase();
 
-    return useCase.execute({ userId });
+    return useCase.execute({ userId: user!.id });
   }
 
   @Authorized()
   @Mutation(() => Category)
   async createCategory(
     @Arg('data') data: CreateCategoryInput,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeCreateCategoryUseCase();
 
-    return useCase.execute({ ...data, userId });
+    return useCase.execute({ ...data, userId: user!.id });
   }
 
   @Authorized()
@@ -39,22 +39,19 @@ export class CategoryResolver {
   async updateCategory(
     @Arg('id') categoryId: string,
     @Arg('data') data: UpdateCategoryInput,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeUpdateCategoryUseCase();
 
-    return useCase.execute({ categoryId, userId, ...data });
+    return useCase.execute({ categoryId, userId: user!.id, ...data });
   }
 
   @Authorized()
   @Mutation(() => Boolean)
-  async deleteCategory(
-    @Arg('id') id: string,
-    @Ctx() { userId }: ApolloContext,
-  ) {
+  async deleteCategory(@Arg('id') id: string, @Ctx() { user }: ApolloContext) {
     const useCase = makeDeleteCategoryUseCase();
 
-    await useCase.execute({ categoryId: id, userId });
+    await useCase.execute({ categoryId: id, userId: user!.id });
 
     return true;
   }

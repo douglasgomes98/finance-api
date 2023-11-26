@@ -51,7 +51,8 @@
     "camelcase": "off",
     "@typescript-eslint/ban-types": "off",
     "max-classes-per-file": "off",
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "no-empty-function": "off"
   },
   "settings": {
     "import/extensions": [".js", ".ts"],

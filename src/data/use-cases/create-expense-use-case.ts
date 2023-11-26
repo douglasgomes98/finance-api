@@ -77,9 +77,8 @@ export class CreateExpenseUseCase
         },
       );
 
-      const createdExpenses = await this.createManyExpenseRepository.createMany(
-        expenses,
-      );
+      const createdExpenses =
+        await this.createManyExpenseRepository.createMany(expenses);
 
       return createdExpenses[0];
     }

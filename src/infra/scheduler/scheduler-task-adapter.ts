@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import cron from 'node-cron';
 
 import { UseCase } from '@/domain/use-cases/use-case';

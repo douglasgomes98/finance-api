@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CreateFixedExpense } from '@/domain/use-cases/create-fixed-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
 
 import { EndOfDayProtocol } from '../protocols/date/end-of-day-protocol';
 import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 import { FindExpenseByDateRangeRepository } from '../protocols/database/find-expense-by-date-range-repository';
-import { AddDaysProtocol } from '../protocols/date/add-days-protocol';
 import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
 import { CreateExpenseRepository } from '../protocols/database/create-expense-repository';
 
@@ -15,7 +13,6 @@ export class CreateFixedExpenseUseCase
   constructor(
     private readonly endOfDayProtocol: EndOfDayProtocol,
     private readonly startOfDayProtocol: StartOfDayProtocol,
-    private readonly addDaysProtocol: AddDaysProtocol,
     private readonly addMonthsProtocol: AddMonthsProtocol,
     private readonly findExpenseByDateRangeRepository: FindExpenseByDateRangeRepository,
     private readonly createExpenseRepository: CreateExpenseRepository,
@@ -35,6 +32,7 @@ export class CreateFixedExpenseUseCase
       });
 
     await Promise.all([
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ...expenses.map(({ id, ...expense }) =>
         this.createExpenseRepository.create({
           ...expense,
