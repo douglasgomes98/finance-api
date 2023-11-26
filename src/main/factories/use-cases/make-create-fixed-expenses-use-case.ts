@@ -9,7 +9,6 @@ export function makeCreateFixedExpenseUseCase() {
     dateFnsAdapter,
     dateFnsAdapter,
     dateFnsAdapter,
-    dateFnsAdapter,
     findExpenseByDateRangeRepository,
     findExpenseByDateRangeRepository,
   );
