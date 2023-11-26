@@ -1,5 +1,5 @@
-import { UserToken } from '@/domain/entities/user-token';
+import { UserTokenModel } from '@/domain/entities/user-token-model';
 
 export type CreateSessionProtocol = {
-  create: (data: UserToken) => Promise<string>;
+  create: (data: UserTokenModel) => Promise<string>;
 };

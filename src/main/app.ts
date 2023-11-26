@@ -22,6 +22,7 @@ import { BcryptAdapter } from '../infra/cryptography/bcrypt-adapter';
 import { resolvers } from '../presentation/graphql/resolvers';
 import { ENV } from './configurations/environment';
 import { AuthChecker } from '@/presentation/graphql/auth-checker';
+import { makeContext } from '@/presentation/graphql/make-context';
 
 export async function bootstrap() {
   const app = fastify();
@@ -70,23 +71,7 @@ export async function bootstrap() {
   await apollo.start();
 
   await app.register(fastifyApollo(apollo), {
-    context: async (request, reply) => {
-      const bcryptAdapter = new BcryptAdapter();
-      const requestId = await bcryptAdapter.createId();
-      const container = Container.of(requestId.toString());
-
-      reply.header('transaction-id', requestId);
-
-      const context: ApolloContext = {
-        requestId,
-        container,
-        request,
-        response: reply,
-        userId: '6971db02-0089-4845-9862-fa9f9d1886ae',
-      };
-
-      return context;
-    },
+    context: async (request, reply) => makeContext(request, reply),
   });
 
   await app

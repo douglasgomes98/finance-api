@@ -1,5 +1,5 @@
-import { UserToken } from '@/domain/entities/user-token';
+import { UserTokenModel } from '@/domain/entities/user-token-model';
 
 export type DecryptSessionProtocol = {
-  decrypt: (digest: string) => Promise<UserToken | null>;
+  decrypt: (digest: string) => Promise<UserTokenModel | null>;
 };

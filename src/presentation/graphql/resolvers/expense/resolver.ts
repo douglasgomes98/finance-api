@@ -55,11 +55,11 @@ export class ExpenseResolver {
   @Mutation(() => Expense)
   async createExpense(
     @Arg('data') data: CreateExpenseInput,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeCreateExpenseUseCase();
 
-    return useCase.execute({ ...data, userId });
+    return useCase.execute({ ...data, userId: user!.id });
   }
 
   @Authorized()
@@ -76,33 +76,33 @@ export class ExpenseResolver {
   @Query(() => ExpenseList)
   async listExpense(
     @Arg('filter') filter: ListExpenseFilter,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeListExpenseUseCase();
 
-    return useCase.execute({ ...filter, userId });
+    return useCase.execute({ ...filter, userId: user!.id });
   }
 
   @Authorized()
   @Query(() => ExpenseListByCategory)
   async listExpenseByCategoryAndCreditCard(
     @Arg('filter') filter: ListExpenseByCreditCardAndCategoryFilter,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeListExpenseByCreditCardAndCategoryUseCase();
 
-    return useCase.execute({ ...filter, userId });
+    return useCase.execute({ ...filter, userId: user!.id });
   }
 
   @Authorized()
   @Query(() => ExpenseListByCategory)
   async listExpenseByCategory(
     @Arg('filter') filter: ExpenseListByCategoryFilter,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeListExpenseByCategoryUseCase();
 
-    return useCase.execute({ ...filter, userId });
+    return useCase.execute({ ...filter, userId: user!.id });
   }
 
   @Authorized()
@@ -115,12 +115,12 @@ export class ExpenseResolver {
   @Mutation(() => Boolean)
   async deleteExpense(
     @Arg('id') id: string,
-    @Ctx() { userId }: ApolloContext,
+    @Ctx() { user }: ApolloContext,
     @Arg('all', { nullable: true }) all?: boolean,
   ) {
     const useCase = makeDeleteExpenseUseCase();
 
-    await useCase.execute({ expenseId: id, userId, all });
+    await useCase.execute({ expenseId: id, userId: user!.id, all });
 
     return true;
   }
