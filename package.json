@@ -26,6 +26,7 @@
     "fastify": "^4.19.2",
     "graphql": "^16.7.1",
     "graphql-scalars": "^1.22.4",
+    "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "node-cron": "^3.0.2",
     "reflect-metadata": "^0.1.13",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^20.4.1",
     "@types/node-cron": "^3.0.8",

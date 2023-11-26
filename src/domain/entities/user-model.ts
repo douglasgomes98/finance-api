@@ -4,5 +4,3 @@ export type UserModel = {
   name: string;
   password: string;
 };
-
-export type UserWithoutPassword = Omit<UserModel, 'password'>;

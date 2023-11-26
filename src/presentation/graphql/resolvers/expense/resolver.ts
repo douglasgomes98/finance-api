@@ -15,8 +15,8 @@ import { makeListExpenseByCreditCardUseCase } from '@/main/factories/use-cases/m
 import { makeDeleteExpenseUseCase } from '@/main/factories/use-cases/make-delete-expense-use-case';
 import { makeIgnoreExpenseUseCase } from '@/main/factories/use-cases/make-ignore-expense-use-case';
 import { makePaidExpenseUseCase } from '@/main/factories/use-cases/make-paid-expense-use-case';
-import { makeChangeExpenseInvoiceDateUseCase } from '@/main/factories/use-cases/make-change-expense-invoice-date';
-import { makeListExpenseUseCase } from '@/main/factories/use-cases/make-list-expense';
+import { makeChangeExpenseInvoiceDateUseCase } from '@/main/factories/use-cases/make-change-expense-invoice-date-use-case';
+import { makeListExpenseUseCase } from '@/main/factories/use-cases/make-list-expense-use-case';
 import { makeListExpenseByCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-category-use-case';
 import { makeListExpenseByCreditCardAndCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-and-category-use-case';
 import { makeUpdateExpenseUseCase } from '@/main/factories/use-cases/make-update-expense-use-case';

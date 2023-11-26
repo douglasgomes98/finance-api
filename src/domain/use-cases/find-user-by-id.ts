@@ -1,9 +1,9 @@
-import { UserWithoutPassword } from '../entities/user-model';
+import { UserModel } from '../entities/user-model';
 
 export namespace FindUserById {
   export type Params = {
     id: string;
   };
 
-  export type Result = UserWithoutPassword;
+  export type Result = UserModel;
 }

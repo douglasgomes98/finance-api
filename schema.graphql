@@ -123,6 +123,7 @@ input ListExpenseFilter {
 }
 
 type Mutation {
+  authenticate(email: String!, password: String!): String!
   changeExpenseInvoiceDate(id: String!, increaseInvoiceMonth: Float!): Expense!
   createCategory(data: CreateCategoryInput!): Category!
   createCreditCard(data: CreateCreditCardInput!): CreditCard!

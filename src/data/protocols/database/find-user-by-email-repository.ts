@@ -1,11 +1,11 @@
-import { UserWithoutPassword } from '@/domain/entities/user-model';
+import { UserModel } from '@/domain/entities/user-model';
 
 export namespace FindUserByEmailRepository {
   export type Params = {
     email: string;
   };
 
-  export type Result = UserWithoutPassword | null;
+  export type Result = UserModel | null;
 }
 
 export type FindUserByEmailRepository = {
