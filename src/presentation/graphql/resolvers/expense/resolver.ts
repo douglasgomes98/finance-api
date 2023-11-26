@@ -66,10 +66,11 @@ export class ExpenseResolver {
   @Query(() => ExpenseList)
   async listExpenseByCreditCard(
     @Arg('filter') filter: ListExpenseByCreditCardFilter,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeListExpenseByCreditCardUseCase();
 
-    return useCase.execute(filter);
+    return useCase.execute({ ...filter, userId: user!.id });
   }
 
   @Authorized()
@@ -130,19 +131,24 @@ export class ExpenseResolver {
   async ignoreExpense(
     @Arg('id') id: string,
     @Arg('isIgnored') isIgnored: boolean,
+    @Ctx() { user }: ApolloContext,
     @Arg('all', { nullable: true }) all?: boolean,
   ) {
     const useCase = makeIgnoreExpenseUseCase();
 
-    return useCase.execute({ id, isIgnored, all });
+    return useCase.execute({ id, isIgnored, all, userId: user!.id });
   }
 
   @Authorized()
   @Mutation(() => Expense)
-  async paidExpense(@Arg('id') id: string, @Arg('isPaid') isPaid: boolean) {
+  async paidExpense(
+    @Arg('id') id: string,
+    @Arg('isPaid') isPaid: boolean,
+    @Ctx() { user }: ApolloContext,
+  ) {
     const useCase = makePaidExpenseUseCase();
 
-    return useCase.execute({ id, isPaid });
+    return useCase.execute({ id, isPaid, userId: user!.id });
   }
 
   @Authorized()
@@ -150,10 +156,11 @@ export class ExpenseResolver {
   async changeExpenseInvoiceDate(
     @Arg('id') id: string,
     @Arg('increaseInvoiceMonth') increaseInvoiceMonth: number,
+    @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeChangeExpenseInvoiceDateUseCase();
 
-    return useCase.execute({ id, increaseInvoiceMonth });
+    return useCase.execute({ id, increaseInvoiceMonth, userId: user!.id });
   }
 
   @Authorized()
@@ -161,11 +168,12 @@ export class ExpenseResolver {
   async updateExpense(
     @Arg('id') id: string,
     @Arg('data') data: UpdateExpenseInput,
+    @Ctx() { user }: ApolloContext,
     @Arg('all', { nullable: true }) all?: boolean,
   ) {
     const useCase = makeUpdateExpenseUseCase();
 
-    return useCase.execute({ id, data, all });
+    return useCase.execute({ id, data, all, userId: user!.id });
   }
 
   @Authorized()

@@ -41,10 +41,14 @@ export class CreateExpenseUseCase
       installments = 0,
     } = this.createExpenseValidator.validate(params);
 
-    const [category, creditCard, user] = await Promise.all([
-      this.findCategoryByIdUseCase.execute({ id: categoryId }),
-      this.findCreditCardByIdUseCase.execute({ id: creditCardId }),
-      this.findUserByIdUseCase.execute({ id: userId }),
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
+
+    const [category, creditCard] = await Promise.all([
+      this.findCategoryByIdUseCase.execute({ id: categoryId, userId: user.id }),
+      this.findCreditCardByIdUseCase.execute({
+        id: creditCardId,
+        userId: user.id,
+      }),
     ]);
 
     const installmentsIdentifier = await this.createIdProtocol.createId();
@@ -99,6 +103,7 @@ export class CreateExpenseUseCase
 
     await this.updateCreditCardLimitUseCase.execute({
       id: creditCard.id,
+      userId: user.id,
     });
 
     return expense;

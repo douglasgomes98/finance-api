@@ -26,7 +26,7 @@ export class CreateCategoryUseCase
     const categoryAlreadyExists =
       await this.findCategoryByNameRepository.findByName({ name });
 
-    if (categoryAlreadyExists) {
+    if (categoryAlreadyExists && categoryAlreadyExists.userId === user.id) {
       throw new CategoryAlreadyExistsError();
     }
 

@@ -7,6 +7,7 @@ export class ZodPaidExpenseValidatorAdapter implements PaidExpenseValidator {
     const schema = z.object({
       id: z.string().uuid(),
       isPaid: z.boolean(),
+      userId: z.string().uuid(),
     });
 
     const safeParams = schema.parse(params);

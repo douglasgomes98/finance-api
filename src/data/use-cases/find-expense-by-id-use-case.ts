@@ -16,14 +16,18 @@ export class FindExpenseByIdUseCase
   async execute(
     params: FindExpenseById.Params,
   ): Promise<FindExpenseById.Result> {
-    const { id } = this.findExpenseByIdValidator.validate(params);
+    const { id, userId } = this.findExpenseByIdValidator.validate(params);
 
-    const result = await this.findExpenseByIdRepository.findById({ id });
+    const expense = await this.findExpenseByIdRepository.findById({ id });
 
-    if (!result) {
+    if (!expense) {
       throw new ExpenseNotFoundError();
     }
 
-    return result;
+    if (userId && expense.userId !== userId) {
+      throw new ExpenseNotFoundError();
+    }
+
+    return expense;
   }
 }

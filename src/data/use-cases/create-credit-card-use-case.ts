@@ -36,11 +36,10 @@ export class CreateCreditCardUseCase
 
     const creditCardAlreadyExists =
       await this.findCreditCardByUserAndNameRepository.findByUserAndName({
-        userId,
         name,
       });
 
-    if (creditCardAlreadyExists) {
+    if (creditCardAlreadyExists && creditCardAlreadyExists.userId === user.id) {
       throw new CreditCardAlreadyExistsError();
     }
 

@@ -5,12 +5,14 @@ export namespace UpdateExpenseValidator {
     id: string;
     data: Partial<ExpenseModel>;
     all?: boolean;
+    userId: string;
   };
 
   export type Result = {
     id: string;
     data: Partial<ExpenseModel>;
     all?: boolean;
+    userId: string;
   };
 }
 

@@ -3,12 +3,14 @@ export namespace IgnoreExpenseValidator {
     id: string;
     isIgnored: boolean;
     all?: boolean;
+    userId: string;
   };
 
   export type Result = {
     id: string;
     isIgnored: boolean;
     all?: boolean;
+    userId: string;
   };
 }
 

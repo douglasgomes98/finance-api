@@ -11,6 +11,7 @@ export class ZodChangeExpenseInvoiceDateValidatorAdapter
     const schema = z.object({
       id: z.string().uuid(),
       increaseInvoiceMonth: z.number().int().min(-12).max(12),
+      userId: z.string().uuid(),
     });
 
     const safeParams = schema.parse(params);

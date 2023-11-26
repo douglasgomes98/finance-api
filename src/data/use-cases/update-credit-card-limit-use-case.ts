@@ -1,11 +1,11 @@
 import { UpdateCreditCardLimit } from '@/domain/use-cases/update-credit-card-limit';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { CreditCardNotFoundError } from '@/domain/errors/credit-card-not-found-error';
 
-import { FindCreditCardByIdRepository } from '../protocols/database/find-credit-card-by-id-repository';
 import { UpdateCreditCardLimitValidator } from '../protocols/validators/update-credit-card-limit-validator';
 import { FindExpenseByCreditCardRepository } from '../protocols/database/find-expense-by-credit-card';
 import { UpdateCreditCardRepository } from '../protocols/database/update-credit-card-repository';
+import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 // TODO: verificar despesas fixas
 export class UpdateCreditCardLimitUseCase
   implements
@@ -13,7 +13,8 @@ export class UpdateCreditCardLimitUseCase
 {
   constructor(
     private readonly updateCreditCardLimitValidator: UpdateCreditCardLimitValidator,
-    private readonly findCreditCardByIdRepository: FindCreditCardByIdRepository,
+    private readonly findCreditCardByIdUseCase: FindCreditCardByIdUseCase,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly findExpenseByCreditCardRepository: FindExpenseByCreditCardRepository,
     private readonly updateCreditCardRepository: UpdateCreditCardRepository,
   ) {}
@@ -21,13 +22,14 @@ export class UpdateCreditCardLimitUseCase
   async execute(
     params: UpdateCreditCardLimit.Params,
   ): Promise<UpdateCreditCardLimit.Result> {
-    const { id } = this.updateCreditCardLimitValidator.validate(params);
+    const { id, userId } = this.updateCreditCardLimitValidator.validate(params);
 
-    const creditCard = await this.findCreditCardByIdRepository.findById({ id });
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    if (!creditCard) {
-      throw new CreditCardNotFoundError();
-    }
+    const creditCard = await this.findCreditCardByIdUseCase.execute({
+      id,
+      userId: user.id,
+    });
 
     const expenses =
       await this.findExpenseByCreditCardRepository.findExpenseByCreditCard({

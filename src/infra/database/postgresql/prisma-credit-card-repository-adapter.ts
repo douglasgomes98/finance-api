@@ -46,12 +46,10 @@ export class PrismaCreditCardRepositoryAdapter
   }
 
   async findByUserAndName({
-    userId,
     name,
   }: FindCreditCardByUserAndNameRepository.Params): Promise<FindCreditCardByUserAndNameRepository.Result> {
     const row = await database.creditCard.findFirst({
       where: {
-        userId,
         name,
       },
     });

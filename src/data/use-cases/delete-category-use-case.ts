@@ -1,6 +1,5 @@
 import { DeleteCategory } from '@/domain/use-cases/delete-category';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
 import { FindCategoryByIdUseCase } from './find-category-by-id-use-case';
 import { DeleteCategoryRepository } from '../protocols/database/delete-category-repository';
@@ -22,14 +21,10 @@ export class DeleteCategoryUseCase
     const { categoryId, userId } =
       this.deleteCategoryValidator.validate(params);
 
-    const [user, category] = await Promise.all([
+    const [, category] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
-      this.findCategoryByIdUseCase.execute({ id: categoryId }),
+      this.findCategoryByIdUseCase.execute({ id: categoryId, userId }),
     ]);
-
-    if (category.userId !== user.id) {
-      throw new YouAreNotAllowedToChangeThisResourceError();
-    }
 
     await this.deleteCategoryRepository.delete({ id: category.id });
   }

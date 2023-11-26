@@ -10,6 +10,7 @@ export class ZodUpdateCreditCardLimitValidatorAdapter
   ): UpdateCreditCardLimitValidator.Result {
     const schema = z.object({
       id: z.string().uuid(),
+      userId: z.string().uuid(),
     });
 
     const safeParams = schema.parse(params);

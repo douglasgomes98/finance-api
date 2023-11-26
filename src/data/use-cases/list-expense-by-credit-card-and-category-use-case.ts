@@ -4,6 +4,7 @@ import { UseCase } from '@/domain/use-cases/use-case';
 import { ListExpenseByCreditCardAndCategoryValidator } from '../protocols/validators/list-expense-by-credit-card-and-category-validator';
 import { ListCategoryUseCase } from './list-category-use-case';
 import { ListExpenseByCreditCardUseCase } from './list-expense-by-credit-card-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class ListExpenseByCreditCardAndCategoryUseCase
   implements
@@ -14,6 +15,7 @@ export class ListExpenseByCreditCardAndCategoryUseCase
 {
   constructor(
     private readonly listExpenseByCreditCardAndCategoryValidator: ListExpenseByCreditCardAndCategoryValidator,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly listCategoryUseCase: ListCategoryUseCase,
     private readonly listExpenseByCreditCardUseCase: ListExpenseByCreditCardUseCase,
   ) {}
@@ -24,13 +26,18 @@ export class ListExpenseByCreditCardAndCategoryUseCase
     const { userId, creditCardId, month, year } =
       this.listExpenseByCreditCardAndCategoryValidator.validate(params);
 
-    const categories = await this.listCategoryUseCase.execute({ userId });
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
+
+    const categories = await this.listCategoryUseCase.execute({
+      userId: user.id,
+    });
 
     const { amount, expenses } =
       await this.listExpenseByCreditCardUseCase.execute({
         creditCardId,
         month,
         year,
+        userId: user.id,
       });
 
     const details = categories.map(category => {

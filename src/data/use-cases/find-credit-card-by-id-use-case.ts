@@ -16,11 +16,15 @@ export class FindCreditCardByIdUseCase
   async execute(
     params: FindCreditCardById.Params,
   ): Promise<FindCreditCardById.Result> {
-    const { id } = this.findCreditCardByIdValidator.validate(params);
+    const { id, userId } = this.findCreditCardByIdValidator.validate(params);
 
     const creditCard = await this.findCreditCardByIdRepository.findById({ id });
 
     if (!creditCard) {
+      throw new CreditCardNotFoundError();
+    }
+
+    if (userId && creditCard.userId !== userId) {
       throw new CreditCardNotFoundError();
     }
 

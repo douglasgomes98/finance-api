@@ -1,12 +1,11 @@
 import { DeleteCreditCard } from '@/domain/use-cases/delete-credit-card';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
-import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
-import { DeleteCreditCardRepository } from '../protocols/database/delete-credit-card-repository';
-import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 import { DeleteAllExpenseByCreditCardRepository } from '../protocols/database/delete-all-expense-by-credit-card';
+import { DeleteCreditCardRepository } from '../protocols/database/delete-credit-card-repository';
 import { DeleteCreditCardValidator } from '../protocols/validators/delete-credit-card-validator';
+import { FindCreditCardByIdUseCase } from './find-credit-card-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class DeleteCreditCardUseCase
   implements UseCase<DeleteCreditCard.Params, DeleteCreditCard.Result>
@@ -25,14 +24,12 @@ export class DeleteCreditCardUseCase
     const { creditCardId, userId } =
       this.deleteCreditCardValidator.validate(params);
 
-    const [user, creditCard] = await Promise.all([
-      this.findUserByIdUseCase.execute({ id: userId }),
-      this.findCreditCardByIdUseCase.execute({ id: creditCardId }),
-    ]);
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    if (creditCard.userId !== user.id) {
-      throw new YouAreNotAllowedToChangeThisResourceError();
-    }
+    const creditCard = await this.findCreditCardByIdUseCase.execute({
+      id: creditCardId,
+      userId: user.id,
+    });
 
     await Promise.all([
       this.deleteCreditCardRepository.delete({ id: creditCard.id }),

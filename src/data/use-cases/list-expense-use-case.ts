@@ -4,18 +4,22 @@ import { UseCase } from '@/domain/use-cases/use-case';
 import { ListExpenseValidator } from '../protocols/validators/list-expense-validator';
 import { ListExpenseByCreditCardUseCase } from './list-expense-by-credit-card-use-case';
 import { ListCreditCardUseCase } from './list-credit-card-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class ListExpenseUseCase
   implements UseCase<ListExpense.Params, ListExpense.Result>
 {
   constructor(
     private readonly listExpenseValidator: ListExpenseValidator,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly listExpenseByCreditCardUseCase: ListExpenseByCreditCardUseCase,
     private readonly listCreditCardUseCase: ListCreditCardUseCase,
   ) {}
 
   async execute(params: ListExpense.Params): Promise<ListExpense.Result> {
     const { month, year, userId } = this.listExpenseValidator.validate(params);
+
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
     const creditCards = await this.listCreditCardUseCase.execute({ userId });
 
@@ -25,6 +29,7 @@ export class ListExpenseUseCase
           creditCardId: creditCard.id,
           month,
           year,
+          userId: user.id,
         }),
       ),
     ]);

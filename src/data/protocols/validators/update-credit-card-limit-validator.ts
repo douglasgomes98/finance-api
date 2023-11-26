@@ -1,10 +1,12 @@
 export namespace UpdateCreditCardLimitValidator {
   export type Params = {
     id: string;
+    userId: string;
   };
 
   export type Result = {
     id: string;
+    userId: string;
   };
 }
 

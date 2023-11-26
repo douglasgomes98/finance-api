@@ -1,30 +1,32 @@
 import { PaidExpense } from '@/domain/use-cases/paid-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
 
 import { PaidExpenseValidator } from '../protocols/validators/paid-expense-validator';
-import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
 import { UpdateExpenseRepository } from '../protocols/database/update-expense-repository';
 import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
+import { FindExpenseByIdUseCase } from './find-expense-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 
 export class PaidExpenseUseCase
   implements UseCase<PaidExpense.Params, PaidExpense.Result>
 {
   constructor(
     private readonly paidExpenseValidator: PaidExpenseValidator,
-    private readonly findExpenseByIdRepository: FindExpenseByIdRepository,
+    private readonly findExpenseByIdUseCase: FindExpenseByIdUseCase,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly updateExpenseRepository: UpdateExpenseRepository,
     private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
   ) {}
 
   async execute(params: PaidExpense.Params): Promise<PaidExpense.Result> {
-    const { id, isPaid } = this.paidExpenseValidator.validate(params);
+    const { id, isPaid, userId } = this.paidExpenseValidator.validate(params);
 
-    const expense = await this.findExpenseByIdRepository.findById({ id });
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    if (!expense) {
-      throw new ExpenseNotFoundError();
-    }
+    const expense = await this.findExpenseByIdUseCase.execute({
+      id,
+      userId: user.id,
+    });
 
     const updatedExpense = await this.updateExpenseRepository.update({
       id,
@@ -33,6 +35,7 @@ export class PaidExpenseUseCase
 
     await this.updateCreditCardLimitUseCase.execute({
       id: expense.creditCardId,
+      userId: user.id,
     });
 
     return updatedExpense;
