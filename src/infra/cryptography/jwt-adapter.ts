@@ -13,7 +13,11 @@ export class JwtAdapter
     VerifySessionProtocol
 {
   async create(data: UserTokenModel): Promise<string> {
-    return jwt.sign(data, ENV.JWT_SECRET);
+    return jwt.sign(data, ENV.JWT_SECRET, {
+      issuer: data.id,
+      expiresIn: '1h',
+      algorithm: 'HS256',
+    });
   }
 
   async decrypt(digest: string): Promise<UserTokenModel | null> {
@@ -34,7 +38,7 @@ export class JwtAdapter
 
   async verify(digest: string): Promise<boolean> {
     try {
-      jwt.verify(digest, ENV.JWT_SECRET);
+      jwt.verify(digest, ENV.JWT_SECRET, { algorithms: ['HS256'] });
 
       return true;
     } catch (error) {
