@@ -28,11 +28,12 @@ export class ListExpenseByCreditCardUseCase
   async execute(
     params: ListExpenseByCreditCard.Params,
   ): Promise<ListExpenseByCreditCard.Result> {
-    const { creditCardId, month, year } =
+    const { creditCardId, month, year, userId } =
       this.listExpenseByCreditCardValidator.validate(params);
 
     const creditCard = await this.findCreditCardByIdUseCase.execute({
       id: creditCardId,
+      userId,
     });
 
     const endDayFilter = this.mountDateProtocol.mountDate(

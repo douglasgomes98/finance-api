@@ -3,7 +3,10 @@ import { PrismaExpenseRepositoryAdapter } from '@/infra/database/postgresql/pris
 import { DateFnsAdapter } from '@/infra/date/date-fns/date-fns-adapter';
 import { ZodChangeExpenseInvoiceDateValidatorAdapter } from '@/infra/validators/zod/zod-change-expense-invoice-date-validator-adapter';
 
+import { makeFindExpenseByIdUseCase } from './make-find-expense-by-id-use-case';
+
 export function makeChangeExpenseInvoiceDateUseCase() {
+  const findExpenseByIdUseCase = makeFindExpenseByIdUseCase();
   const zodChangeExpenseInvoiceDateValidatorAdapter =
     new ZodChangeExpenseInvoiceDateValidatorAdapter();
   const dateFnsAdapter = new DateFnsAdapter();
@@ -11,7 +14,7 @@ export function makeChangeExpenseInvoiceDateUseCase() {
   const changeExpenseInvoiceDateUseCase = new ChangeExpenseInvoiceDateUseCase(
     zodChangeExpenseInvoiceDateValidatorAdapter,
     dateFnsAdapter,
-    prismaExpenseRepositoryAdapter,
+    findExpenseByIdUseCase,
     prismaExpenseRepositoryAdapter,
   );
 

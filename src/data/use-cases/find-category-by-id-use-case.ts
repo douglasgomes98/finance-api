@@ -16,11 +16,15 @@ export class FindCategoryByIdUseCase
   async execute(
     params: FindCategoryById.Params,
   ): Promise<FindCategoryById.Result> {
-    const { id } = this.findCategoryByIdValidator.validate(params);
+    const { id, userId } = this.findCategoryByIdValidator.validate(params);
 
     const category = await this.findCategoryByIdRepository.findById({ id });
 
     if (!category) {
+      throw new CategoryNotFoundError();
+    }
+
+    if (userId && category.userId !== userId) {
       throw new CategoryNotFoundError();
     }
 

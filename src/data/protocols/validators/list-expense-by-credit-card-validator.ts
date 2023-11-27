@@ -3,12 +3,14 @@ export namespace ListExpenseByCreditCardValidator {
     creditCardId: string;
     month: number;
     year: number;
+    userId: string;
   };
 
   export type Result = {
     creditCardId: string;
     month: number;
     year: number;
+    userId: string;
   };
 }
 

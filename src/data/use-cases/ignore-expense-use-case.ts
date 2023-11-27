@@ -1,11 +1,11 @@
+import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 import { IgnoreExpense } from '@/domain/use-cases/ignore-expense';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
-import { IgnoreExpenseValidator } from '../protocols/validators/ignore-expense-validator';
-import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
 import { UpdateExpenseRepository } from '../protocols/database/update-expense-repository';
+import { IgnoreExpenseValidator } from '../protocols/validators/ignore-expense-validator';
+import { FindExpenseByIdUseCase } from './find-expense-by-id-use-case';
+import { FindUserByIdUseCase } from './find-user-by-id-use-case';
 import { UpdateCreditCardLimitUseCase } from './update-credit-card-limit-use-case';
 
 export class IgnoreExpenseUseCase
@@ -13,7 +13,8 @@ export class IgnoreExpenseUseCase
 {
   constructor(
     private readonly ignoreExpenseValidator: IgnoreExpenseValidator,
-    private readonly findExpenseByIdRepository: FindExpenseByIdRepository,
+    private readonly findExpenseByIdUseCase: FindExpenseByIdUseCase,
+    private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly updateExpenseRepository: UpdateExpenseRepository,
     private readonly updateCreditCardLimitUseCase: UpdateCreditCardLimitUseCase,
   ) {}
@@ -23,13 +24,15 @@ export class IgnoreExpenseUseCase
       id,
       isIgnored,
       all = true,
+      userId,
     } = this.ignoreExpenseValidator.validate(params);
 
-    const expense = await this.findExpenseByIdRepository.findById({ id });
+    const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    if (!expense) {
-      throw new ExpenseNotFoundError();
-    }
+    const expense = await this.findExpenseByIdUseCase.execute({
+      id,
+      userId: user.id,
+    });
 
     if (expense.isPaid) {
       throw new YouAreNotAllowedToChangeThisResourceError();
@@ -43,6 +46,7 @@ export class IgnoreExpenseUseCase
 
     await this.updateCreditCardLimitUseCase.execute({
       id: expense.creditCardId,
+      userId: user.id,
     });
 
     return updatedExpense;

@@ -12,6 +12,7 @@ export class ZodListExpenseByCreditCardValidatorAdapter
       creditCardId: z.string().uuid(),
       month: z.number().min(1).max(12),
       year: z.number().min(0),
+      userId: z.string().uuid(),
     });
 
     const safeParams = schema.parse(params);

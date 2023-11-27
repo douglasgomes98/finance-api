@@ -14,6 +14,7 @@ export class ZodUpdateExpenseValidator implements UpdateExpenseValidator {
         value: z.number().optional(),
       }),
       all: z.boolean().optional(),
+      userId: z.string().uuid(),
     });
 
     const safeParams = schema.parse(params);

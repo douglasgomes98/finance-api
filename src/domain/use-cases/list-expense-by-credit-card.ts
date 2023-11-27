@@ -5,6 +5,7 @@ export namespace ListExpenseByCreditCard {
     creditCardId: string;
     month: number;
     year: number;
+    userId: string;
   };
 
   export type Result = {

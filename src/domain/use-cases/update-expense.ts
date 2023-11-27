@@ -5,6 +5,7 @@ export namespace UpdateExpense {
     id: string;
     data: Partial<ExpenseModel>;
     all?: boolean;
+    userId: string;
   };
 
   export type Result = ExpenseModel;

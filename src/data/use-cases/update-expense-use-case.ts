@@ -19,9 +19,10 @@ export class UpdateExpenseUseCase
       id,
       data,
       all = true,
+      userId,
     } = this.updateExpenseValidator.validate(params);
 
-    const expense = await this.findExpenseByIdUseCase.execute({ id });
+    const expense = await this.findExpenseByIdUseCase.execute({ id, userId });
 
     const updatedExpense = await this.updateExpenseRepository.update({
       id: expense.id,

@@ -1,12 +1,11 @@
+import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 import { ChangeExpenseInvoiceDate } from '@/domain/use-cases/change-expense-invoice-date';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
-import { ChangeExpenseInvoiceDateValidator } from '../protocols/validators/change-expense-invoice-date-validator';
-import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
-import { FindExpenseByIdRepository } from '../protocols/database/find-expense-by-id-repository';
 import { UpdateExpenseRepository } from '../protocols/database/update-expense-repository';
+import { AddMonthsProtocol } from '../protocols/date/add-months-protocol';
+import { ChangeExpenseInvoiceDateValidator } from '../protocols/validators/change-expense-invoice-date-validator';
+import { FindExpenseByIdUseCase } from './find-expense-by-id-use-case';
 
 export class ChangeExpenseInvoiceDateUseCase
   implements
@@ -15,21 +14,17 @@ export class ChangeExpenseInvoiceDateUseCase
   constructor(
     private readonly changeExpenseInvoiceDateValidator: ChangeExpenseInvoiceDateValidator,
     private readonly addMonthsProtocol: AddMonthsProtocol,
-    private readonly findExpenseByIdRepository: FindExpenseByIdRepository,
+    private readonly findExpenseByIdUseCase: FindExpenseByIdUseCase,
     private readonly updateExpenseRepository: UpdateExpenseRepository,
   ) {}
 
   async execute(
     params: ChangeExpenseInvoiceDate.Params,
   ): Promise<ChangeExpenseInvoiceDate.Result> {
-    const { id, increaseInvoiceMonth } =
+    const { id, increaseInvoiceMonth, userId } =
       this.changeExpenseInvoiceDateValidator.validate(params);
 
-    const expense = await this.findExpenseByIdRepository.findById({ id });
-
-    if (!expense) {
-      throw new ExpenseNotFoundError();
-    }
+    const expense = await this.findExpenseByIdUseCase.execute({ id, userId });
 
     if (expense.isPaid) {
       throw new YouAreNotAllowedToChangeThisResourceError();

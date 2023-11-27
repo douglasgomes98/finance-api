@@ -1,7 +1,6 @@
 import { CategoryAlreadyExistsError } from '@/domain/errors/category-already-exists-error';
 import { UpdateCategory } from '@/domain/use-cases/update-category';
 import { UseCase } from '@/domain/use-cases/use-case';
-import { YouAreNotAllowedToChangeThisResourceError } from '@/domain/errors/you-no-have-permission-error';
 
 import { FindCategoryByNameRepository } from '../protocols/database/find-category-by-name-repository';
 import { UpdateCategoryRepository } from '../protocols/database/update-category-repository';
@@ -24,14 +23,10 @@ export class UpdateCategoryUseCase
     const { categoryId, userId, name, color } =
       this.updateCategoryValidator.validate(params);
 
-    const [user, category] = await Promise.all([
+    const [, category] = await Promise.all([
       this.findUserByIdUseCase.execute({ id: userId }),
-      this.findCategoryByIdUseCase.execute({ id: categoryId }),
+      this.findCategoryByIdUseCase.execute({ id: categoryId, userId }),
     ]);
-
-    if (category.userId !== user.id) {
-      throw new YouAreNotAllowedToChangeThisResourceError();
-    }
 
     const categoryAlreadyExists =
       await this.findCategoryByNameRepository.findByName({ name });

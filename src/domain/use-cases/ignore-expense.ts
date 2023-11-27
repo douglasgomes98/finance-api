@@ -5,6 +5,7 @@ export namespace IgnoreExpense {
     id: string;
     isIgnored: boolean;
     all?: boolean;
+    userId: string;
   };
 
   export type Result = ExpenseModel;
