@@ -5,6 +5,7 @@ import { ListExpenseValidator } from '../protocols/validators/list-expense-valid
 import { ListExpenseByCreditCardUseCase } from './list-expense-by-credit-card-use-case';
 import { ListCreditCardUseCase } from './list-credit-card-use-case';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
+import { ListExpenseByWalletUseCase } from './list-expense-by-wallet-use-case';
 
 export class ListExpenseUseCase
   implements UseCase<ListExpense.Params, ListExpense.Result>
@@ -14,6 +15,7 @@ export class ListExpenseUseCase
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly listExpenseByCreditCardUseCase: ListExpenseByCreditCardUseCase,
     private readonly listCreditCardUseCase: ListCreditCardUseCase,
+    private readonly listExpenseByWalletUseCase: ListExpenseByWalletUseCase,
   ) {}
 
   async execute(params: ListExpense.Params): Promise<ListExpense.Result> {
@@ -33,18 +35,19 @@ export class ListExpenseUseCase
         }),
       ),
     ]);
+    const expensesByWallet = await this.listExpenseByWalletUseCase.execute({
+      userId,
+      month,
+      year,
+    });
 
-    const expensesList = expensesByCreditCard.flat();
-
-    const expenses = expensesList.flatMap(list => list.expenses);
-
-    const amount = Number(
-      expenses.reduce((acc, expense) => acc + expense.value, 0).toFixed(2),
-    );
+    const expenses = [
+      ...expensesByCreditCard.flat().flatMap(list => list.expenses),
+      ...expensesByWallet.expenses,
+    ];
 
     return {
       expenses,
-      amount,
     };
   }
 }

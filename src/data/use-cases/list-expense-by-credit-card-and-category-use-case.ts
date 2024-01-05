@@ -32,13 +32,12 @@ export class ListExpenseByCreditCardAndCategoryUseCase
       userId: user.id,
     });
 
-    const { amount, expenses } =
-      await this.listExpenseByCreditCardUseCase.execute({
-        creditCardId,
-        month,
-        year,
-        userId: user.id,
-      });
+    const { expenses } = await this.listExpenseByCreditCardUseCase.execute({
+      creditCardId,
+      month,
+      year,
+      userId: user.id,
+    });
 
     const details = categories.map(category => {
       const expensesByCategory = expenses.filter(
@@ -59,7 +58,6 @@ export class ListExpenseByCreditCardAndCategoryUseCase
     });
 
     return {
-      amount,
       details,
     };
   }

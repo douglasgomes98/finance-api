@@ -32,7 +32,7 @@ input CreateCreditCardInput {
 
 input CreateExpenseInput {
   categoryId: String!
-  creditCardId: String!
+  creditCardId: String
   installments: Float
   isFixed: Boolean!
   isIgnored: Boolean!
@@ -69,8 +69,8 @@ scalar DateTimeISO
 type Expense {
   category: Category!
   categoryId: String!
-  creditCard: CreditCard!
-  creditCardId: String!
+  creditCard: CreditCard
+  creditCardId: String
   id: ID!
   installmentsIdentifier: String!
   invoiceDate: DateTimeISO!
@@ -85,12 +85,10 @@ type Expense {
 }
 
 type ExpenseList {
-  amount: Float!
   expenses: [Expense!]!
 }
 
 type ExpenseListByCategory {
-  amount: Float!
   details: [ExpenseListByCategoryDetails!]!
 }
 
@@ -151,6 +149,8 @@ type Query {
   listExpenseByCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
   listExpenseByCategoryAndCreditCard(filter: ListExpenseByCreditCardAndCategoryFilter!): ExpenseListByCategory!
   listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): ExpenseList!
+  listExpenseByWallet(month: Float!, year: Float!): ExpenseList!
+  listExpenseByWalletAndCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
 }
 
 input UpdateCategoryInput {

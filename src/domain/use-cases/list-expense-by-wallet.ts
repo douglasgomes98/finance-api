@@ -1,11 +1,10 @@
 import { ExpenseModel } from '../entities/expense-model';
 
-export namespace ListExpenseByCreditCard {
+export namespace ListExpenseByWallet {
   export type Params = {
-    creditCardId: string;
+    userId: string;
     month: number;
     year: number;
-    userId: string;
   };
 
   export type Result = {

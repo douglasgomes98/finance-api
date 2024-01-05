@@ -33,7 +33,7 @@ export class ExpenseMapper implements Mapper<ExpenseModel, Expense> {
       isFixed: data.isFixed,
       installmentsIdentifier: data.installmentsIdentifier,
       categoryId: data.categoryId,
-      creditCardId: data.creditCardId || '',
+      creditCardId: data.creditCardId,
       userId: data.userId || '',
     };
   }

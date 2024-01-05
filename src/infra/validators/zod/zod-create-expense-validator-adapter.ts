@@ -15,7 +15,7 @@ export class ZodCreateExpenseValidatorAdapter
       isFixed: z.boolean(),
       isIgnored: z.boolean(),
       categoryId: z.string().uuid(),
-      creditCardId: z.string().uuid(),
+      creditCardId: z.string().uuid().nullable().default(null),
       userId: z.string().uuid(),
       installments: z.number().positive().optional(),
     });

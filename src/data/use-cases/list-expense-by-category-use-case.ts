@@ -23,7 +23,7 @@ export class ListExpenseByCategoryUseCase
 
     const categories = await this.listCategoryUseCase.execute({ userId });
 
-    const { amount, expenses } = await this.listExpenseUseCase.execute({
+    const { expenses } = await this.listExpenseUseCase.execute({
       userId,
       month,
       year,
@@ -48,7 +48,6 @@ export class ListExpenseByCategoryUseCase
     });
 
     return {
-      amount,
       details,
     };
   }

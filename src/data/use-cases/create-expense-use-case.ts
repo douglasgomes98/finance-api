@@ -43,13 +43,17 @@ export class CreateExpenseUseCase
 
     const user = await this.findUserByIdUseCase.execute({ id: userId });
 
-    const [category, creditCard] = await Promise.all([
-      this.findCategoryByIdUseCase.execute({ id: categoryId, userId: user.id }),
-      this.findCreditCardByIdUseCase.execute({
+    const category = await this.findCategoryByIdUseCase.execute({
+      id: categoryId,
+      userId: user.id,
+    });
+
+    if (creditCardId) {
+      await this.findCreditCardByIdUseCase.execute({
         id: creditCardId,
         userId: user.id,
-      }),
-    ]);
+      });
+    }
 
     const installmentsIdentifier = await this.createIdProtocol.createId();
     const purchaseDateFormatted =
@@ -75,7 +79,7 @@ export class CreateExpenseUseCase
             isFixed,
             installmentsIdentifier,
             categoryId: category.id,
-            creditCardId: creditCard.id,
+            creditCardId,
             userId: user.id,
           };
         },
@@ -97,14 +101,16 @@ export class CreateExpenseUseCase
       isPaid: false,
       isIgnored,
       categoryId: category.id,
-      creditCardId: creditCard.id,
+      creditCardId,
       userId: user.id,
     });
 
-    await this.updateCreditCardLimitUseCase.execute({
-      id: creditCard.id,
-      userId: user.id,
-    });
+    if (creditCardId) {
+      await this.updateCreditCardLimitUseCase.execute({
+        id: creditCardId,
+        userId: user.id,
+      });
+    }
 
     return expense;
   }

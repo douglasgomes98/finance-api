@@ -2,7 +2,7 @@
   "name": "finance-api",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/server",
+  "main": "src/main/server.ts",
   "scripts": {
     "build": "yarn clean && yarn prisma generate && yarn prisma migrate deploy && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
@@ -12,7 +12,7 @@
     "start": "node dist/main/server.js"
   },
   "engines": {
-    "node": "20.10.0"
+    "node": ">=20.10.0"
   },
   "dependencies": {
     "@apollo/server": "^4.7.5",
@@ -21,7 +21,7 @@
     "@prisma/client": "^5.2.0",
     "bcryptjs": "^2.4.3",
     "dataloader": "^2.2.2",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.6",
     "dotenv": "^16.3.1",
     "fastify": "^4.19.2",
     "graphql": "^16.7.1",
@@ -29,7 +29,7 @@
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "node-cron": "^3.0.2",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.1",
     "type-graphql": "^2.0.0-beta.3",
     "typedi": "^0.10.0",
     "zod": "^3.21.4"

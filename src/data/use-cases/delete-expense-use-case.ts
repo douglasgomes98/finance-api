@@ -34,9 +34,11 @@ export class DeleteExpenseUseCase
 
     await this.deleteExpenseRepository.delete({ id: expense.id, all });
 
-    await this.updateCreditCardLimitUseCase.execute({
-      id: expense.creditCardId,
-      userId: user.id,
-    });
+    if (expense.creditCardId) {
+      await this.updateCreditCardLimitUseCase.execute({
+        id: expense.creditCardId,
+        userId: user.id,
+      });
+    }
   }
 }

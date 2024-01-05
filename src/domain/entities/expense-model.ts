@@ -9,6 +9,6 @@ export type ExpenseModel = {
   isFixed: boolean;
   installmentsIdentifier: string;
   categoryId: string;
-  creditCardId: string;
+  creditCardId: string | null;
   userId: string;
 };
