@@ -5,7 +5,7 @@ import { ListExpenseValidator } from '../protocols/validators/list-expense-valid
 import { ListExpenseByCreditCardUseCase } from './list-expense-by-credit-card-use-case';
 import { ListCreditCardUseCase } from './list-credit-card-use-case';
 import { FindUserByIdUseCase } from './find-user-by-id-use-case';
-
+// TODO: add wallet expenses
 export class ListExpenseUseCase
   implements UseCase<ListExpense.Params, ListExpense.Result>
 {

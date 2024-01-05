@@ -20,6 +20,7 @@ import { makeListExpenseUseCase } from '@/main/factories/use-cases/make-list-exp
 import { makeListExpenseByCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-category-use-case';
 import { makeListExpenseByCreditCardAndCategoryUseCase } from '@/main/factories/use-cases/make-list-expense-by-credit-card-and-category-use-case';
 import { makeUpdateExpenseUseCase } from '@/main/factories/use-cases/make-update-expense-use-case';
+import { makeListExpenseByWalletUseCase } from '@/main/factories/use-cases/make-list-expense-by-wallet-use-case';
 
 import { ApolloContext } from '../../types';
 import { ExpenseDataLoader } from './data-loader';
@@ -104,6 +105,18 @@ export class ExpenseResolver {
     const useCase = makeListExpenseByCategoryUseCase();
 
     return useCase.execute({ ...filter, userId: user!.id });
+  }
+
+  @Authorized()
+  @Query(() => ExpenseList)
+  async listExpenseByWallet(
+    @Arg('month') month: number,
+    @Arg('year') year: number,
+    @Ctx() { user }: ApolloContext,
+  ) {
+    const useCase = makeListExpenseByWalletUseCase();
+
+    return useCase.execute({ month, year, userId: user!.id });
   }
 
   @Authorized()

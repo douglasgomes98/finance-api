@@ -8,6 +8,7 @@ import { UpdateExpenseRepository } from '@/data/protocols/database/update-expens
 import { FindExpenseByCreditCardRepository } from '@/data/protocols/database/find-expense-by-credit-card';
 import { FindExpenseByDateRangeRepository } from '@/data/protocols/database/find-expense-by-date-range-repository';
 import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
+import { FindExpenseByWalletDateRangeRepository } from '@/data/protocols/database/find-expense-by-walltet-date-range-repository';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -22,7 +23,8 @@ export class PrismaExpenseRepositoryAdapter
     DeleteAllExpenseByCreditCardRepository,
     UpdateExpenseRepository,
     FindExpenseByCreditCardRepository,
-    FindExpenseByDateRangeRepository
+    FindExpenseByDateRangeRepository,
+    FindExpenseByWalletDateRangeRepository
 {
   async create(
     data: CreateExpenseRepository.Params,
@@ -194,6 +196,26 @@ export class PrismaExpenseRepositoryAdapter
     const rows = await database.expense.findMany({
       where: {
         creditCardId,
+      },
+      orderBy: {
+        purchaseDate: 'desc',
+      },
+    });
+
+    return rows.map(expenseMapper.toEntity);
+  }
+
+  async findExpenseByWalletDateRange(
+    data: FindExpenseByWalletDateRangeRepository.Params,
+  ): Promise<FindExpenseByWalletDateRangeRepository.Result> {
+    const rows = await database.expense.findMany({
+      where: {
+        userId: data.userId,
+        creditCardId: null,
+        invoiceDate: {
+          gte: data.startDate,
+          lte: data.endDate,
+        },
       },
       orderBy: {
         purchaseDate: 'desc',
