@@ -4,7 +4,7 @@ import { UseCase } from '@/domain/use-cases/use-case';
 import { ListExpenseByCategoryValidator } from '../protocols/validators/list-expense-by-category-validator';
 import { ListExpenseUseCase } from './list-expense-use-case';
 import { ListCategoryUseCase } from './list-category-use-case';
-// TODO: add wallet expenses
+
 export class ListExpenseByCategoryUseCase
   implements
     UseCase<ListExpenseByCategory.Params, ListExpenseByCategory.Result>
