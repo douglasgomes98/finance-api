@@ -85,12 +85,10 @@ type Expense {
 }
 
 type ExpenseList {
-  amount: Float!
   expenses: [Expense!]!
 }
 
 type ExpenseListByCategory {
-  amount: Float!
   details: [ExpenseListByCategoryDetails!]!
 }
 

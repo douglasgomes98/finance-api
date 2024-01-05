@@ -9,6 +9,5 @@ export namespace ListExpense {
 
   export type Result = {
     expenses: ExpenseModel[];
-    amount: number;
   };
 }

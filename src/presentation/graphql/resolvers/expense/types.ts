@@ -83,9 +83,6 @@ export class Expense {
 export class ExpenseList {
   @Field(() => [Expense])
   expenses: Expense[];
-
-  @Field()
-  amount: number;
 }
 
 @ObjectType()
@@ -104,9 +101,6 @@ export class ExpenseListByCategoryDetails {
 export class ExpenseListByCategory {
   @Field(() => [ExpenseListByCategoryDetails])
   details: ExpenseListByCategoryDetails[];
-
-  @Field()
-  amount: number;
 }
 
 @InputType()

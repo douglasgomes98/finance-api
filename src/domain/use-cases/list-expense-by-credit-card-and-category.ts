@@ -10,7 +10,6 @@ export namespace ListExpenseByCreditCardAndCategory {
   };
 
   export type Result = {
-    amount: number;
     details: Array<{
       category: CategoryModel;
       expenses: Array<ExpenseModel>;

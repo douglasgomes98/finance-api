@@ -10,6 +10,5 @@ export namespace ListExpenseByCreditCard {
 
   export type Result = {
     expenses: ExpenseModel[];
-    amount: number;
   };
 }

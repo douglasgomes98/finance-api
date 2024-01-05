@@ -54,13 +54,8 @@ export class ListExpenseByCreditCardUseCase
         },
       );
 
-    const amount = Number(
-      expenses.reduce((acc, expense) => acc + expense.value, 0).toFixed(2),
-    );
-
     return {
       expenses,
-      amount,
     };
   }
 }
