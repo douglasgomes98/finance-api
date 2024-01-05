@@ -150,6 +150,7 @@ type Query {
   listExpenseByCategoryAndCreditCard(filter: ListExpenseByCreditCardAndCategoryFilter!): ExpenseListByCategory!
   listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): ExpenseList!
   listExpenseByWallet(month: Float!, year: Float!): ExpenseList!
+  listExpenseByWalletAndCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
 }
 
 input UpdateCategoryInput {

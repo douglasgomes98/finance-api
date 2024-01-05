@@ -16,7 +16,7 @@ export class ListExpenseByWalletUseCase
   implements UseCase<ListExpenseByWallet.Params, ListExpenseByWallet.Result>
 {
   constructor(
-    private readonly listExpenseValidator: ListExpenseByWalletValidator,
+    private readonly listExpenseByWalletValidator: ListExpenseByWalletValidator,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly mountDateProtocol: MountDateProtocol,
     private readonly addMonthsProtocol: AddMonthsProtocol,
@@ -27,7 +27,8 @@ export class ListExpenseByWalletUseCase
   ) {}
 
   async execute(params: ListExpense.Params): Promise<ListExpense.Result> {
-    const { month, year, userId } = this.listExpenseValidator.validate(params);
+    const { month, year, userId } =
+      this.listExpenseByWalletValidator.validate(params);
 
     const user = await this.findUserByIdUseCase.execute({ id: userId });
 
