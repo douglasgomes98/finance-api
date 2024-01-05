@@ -44,10 +44,12 @@ export class IgnoreExpenseUseCase
       data: { isIgnored },
     });
 
-    await this.updateCreditCardLimitUseCase.execute({
-      id: expense.creditCardId,
-      userId: user.id,
-    });
+    if (expense.creditCardId) {
+      await this.updateCreditCardLimitUseCase.execute({
+        id: expense.creditCardId,
+        userId: user.id,
+      });
+    }
 
     return updatedExpense;
   }

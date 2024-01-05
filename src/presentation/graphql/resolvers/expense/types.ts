@@ -24,11 +24,11 @@ export class CreateExpenseInput {
   @Field()
   categoryId: string;
 
-  @Field()
-  creditCardId: string;
+  @Field(() => String, { nullable: true })
+  creditCardId: string | null;
 
   @Field({ nullable: true })
-  installments: number;
+  installments?: number;
 }
 
 @ObjectType()
@@ -63,8 +63,8 @@ export class Expense {
   @Field()
   categoryId: string;
 
-  @Field()
-  creditCardId: string;
+  @Field(() => String, { nullable: true })
+  creditCardId: string | null;
 
   @Field()
   userId: string;
@@ -72,8 +72,8 @@ export class Expense {
   @Field()
   user: User;
 
-  @Field()
-  creditCard: CreditCard;
+  @Field(() => CreditCard, { nullable: true })
+  creditCard: CreditCard | null;
 
   @Field()
   category: Category;

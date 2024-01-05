@@ -32,7 +32,7 @@ input CreateCreditCardInput {
 
 input CreateExpenseInput {
   categoryId: String!
-  creditCardId: String!
+  creditCardId: String
   installments: Float
   isFixed: Boolean!
   isIgnored: Boolean!
@@ -69,8 +69,8 @@ scalar DateTimeISO
 type Expense {
   category: Category!
   categoryId: String!
-  creditCard: CreditCard!
-  creditCardId: String!
+  creditCard: CreditCard
+  creditCardId: String
   id: ID!
   installmentsIdentifier: String!
   invoiceDate: DateTimeISO!

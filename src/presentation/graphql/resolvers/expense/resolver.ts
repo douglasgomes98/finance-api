@@ -183,8 +183,10 @@ export class ExpenseResolver {
   }
 
   @Authorized()
-  @FieldResolver(() => CreditCard)
+  @FieldResolver(() => CreditCard, { nullable: true })
   async creditCard(@Root() expense: Expense) {
+    if (!expense.creditCardId) return null;
+
     return this.creditCardDataLoader.load(expense.creditCardId);
   }
 
