@@ -18,7 +18,6 @@ import fastifyApollo, {
 } from '@as-integrations/fastify';
 import cors from '@fastify/cors';
 
-import { BcryptAdapter } from '../infra/cryptography/bcrypt-adapter';
 import { resolvers } from '../presentation/graphql/resolvers';
 import { ENV } from './configurations/environment';
 import { AuthChecker } from '@/presentation/graphql/auth-checker';
