@@ -149,7 +149,7 @@ type Query {
   listExpenseByCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
   listExpenseByCategoryAndCreditCard(filter: ListExpenseByCreditCardAndCategoryFilter!): ExpenseListByCategory!
   listExpenseByCreditCard(filter: ListExpenseByCreditCardFilter!): ExpenseList!
-  listExpenseByWallet(month: Float!, year: Float!): ExpenseList!
+  listExpenseByWallet(filter: ListExpenseFilter!): ExpenseList!
   listExpenseByWalletAndCategory(filter: ExpenseListByCategoryFilter!): ExpenseListByCategory!
 }
 
