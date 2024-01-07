@@ -111,13 +111,12 @@ export class ExpenseResolver {
   @Authorized()
   @Query(() => ExpenseList)
   async listExpenseByWallet(
-    @Arg('month') month: number,
-    @Arg('year') year: number,
+    @Arg('filter') filter: ListExpenseFilter,
     @Ctx() { user }: ApolloContext,
   ) {
     const useCase = makeListExpenseByWalletUseCase();
 
-    return useCase.execute({ month, year, userId: user!.id });
+    return useCase.execute({ ...filter, userId: user!.id });
   }
 
   @Authorized()
