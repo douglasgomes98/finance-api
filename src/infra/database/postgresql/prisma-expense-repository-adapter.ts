@@ -1,14 +1,14 @@
 import { CreateExpenseRepository } from '@/data/protocols/database/create-expense-repository';
 import { CreateManyExpenseRepository } from '@/data/protocols/database/create-many-expense-repository';
-import { DeleteExpenseRepository } from '@/data/protocols/database/delete-expense-repository';
-import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
-import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
 import { DeleteAllExpenseByCreditCardRepository } from '@/data/protocols/database/delete-all-expense-by-credit-card';
-import { UpdateExpenseRepository } from '@/data/protocols/database/update-expense-repository';
+import { DeleteExpenseRepository } from '@/data/protocols/database/delete-expense-repository';
 import { FindExpenseByCreditCardRepository } from '@/data/protocols/database/find-expense-by-credit-card';
+import { FindExpenseByCreditCardIdAndDateRangeRepository } from '@/data/protocols/database/find-expense-by-credit-card-id-and-date-range-repository';
 import { FindExpenseByDateRangeRepository } from '@/data/protocols/database/find-expense-by-date-range-repository';
-import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
+import { FindExpenseByIdRepository } from '@/data/protocols/database/find-expense-by-id-repository';
 import { FindExpenseByWalletDateRangeRepository } from '@/data/protocols/database/find-expense-by-walltet-date-range-repository';
+import { UpdateExpenseRepository } from '@/data/protocols/database/update-expense-repository';
+import { ExpenseNotFoundError } from '@/domain/errors/expense-not-found-error';
 
 import { database } from './database';
 import { expenseMapper } from './mappers/expense-mapper';
@@ -61,6 +61,7 @@ export class PrismaExpenseRepositoryAdapter
     const rows = await database.expense.findMany({
       where: {
         creditCardId: data.creditCardId,
+        isFixed: data.isFixed,
         invoiceDate: {
           gte: data.startDate,
           lte: data.endDate,
