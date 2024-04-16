@@ -1,10 +1,11 @@
 import { CreateCreditCardRepository } from '@/data/protocols/database/create-credit-card-repository';
-import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name-repository';
-import { CreditCardModel } from '@/domain/entities/credit-card-model';
-import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user-repository';
-import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id-repository';
 import { DeleteCreditCardRepository } from '@/data/protocols/database/delete-credit-card-repository';
+import { FindCreditCardByIdRepository } from '@/data/protocols/database/find-credit-card-by-id-repository';
+import { FindCreditCardByUserAndNameRepository } from '@/data/protocols/database/find-credit-card-by-user-and-name-repository';
+import { FindCreditCardByUserRepository } from '@/data/protocols/database/find-credit-card-by-user-repository';
+import { FindCreditCardClosedByDateRepository } from '@/data/protocols/database/find-credit-card-closed-by-date';
 import { UpdateCreditCardRepository } from '@/data/protocols/database/update-credit-card-repository';
+import { CreditCardModel } from '@/domain/entities/credit-card-model';
 
 import { database } from './database';
 import { creditCardMapper } from './mappers/credit-card-mapper';
@@ -16,7 +17,8 @@ export class PrismaCreditCardRepositoryAdapter
     FindCreditCardByUserRepository,
     FindCreditCardByIdRepository,
     DeleteCreditCardRepository,
-    UpdateCreditCardRepository
+    UpdateCreditCardRepository,
+    FindCreditCardClosedByDateRepository
 {
   async findById({
     id,
@@ -91,5 +93,21 @@ export class PrismaCreditCardRepositoryAdapter
     });
 
     return creditCardMapper.toEntity(row);
+  }
+
+  async findClosedByDate({
+    date,
+  }: FindCreditCardClosedByDateRepository.Params): Promise<FindCreditCardClosedByDateRepository.Result> {
+    const dateDay = Number(date.toISOString().split('T')[0].slice(-2));
+
+    const rows = await database.creditCard.findMany({
+      where: {
+        closingDay: {
+          equals: dateDay,
+        },
+      },
+    });
+
+    return rows.map(creditCardMapper.toEntity);
   }
 }

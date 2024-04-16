@@ -4,6 +4,6 @@ import { makeCreateFixedExpenseUseCase } from '../factories/use-cases/make-creat
 
 SchedulerTaskAdapter.schedule(
   makeCreateFixedExpenseUseCase(),
-  '0 1 * * *',
+  '0 1 * * *', // Every day at 1:00 AM
   'create-fixed-expenses',
 );

@@ -5,6 +5,7 @@ export namespace FindExpenseByCreditCardIdAndDateRangeRepository {
     creditCardId: string;
     startDate: Date;
     endDate: Date;
+    isFixed?: boolean;
   };
 
   export type Result = ExpenseModel[];
