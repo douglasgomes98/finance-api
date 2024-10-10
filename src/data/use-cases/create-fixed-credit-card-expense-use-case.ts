@@ -10,7 +10,7 @@ import { EndOfDayProtocol } from '../protocols/date/end-of-day-protocol';
 import { MountDateProtocol } from '../protocols/date/mount-date-protocol';
 import { StartOfDayProtocol } from '../protocols/date/start-of-day-protocol';
 
-export class CreateFixedExpenseUseCase
+export class CreateFixedCreditCardExpenseUseCase
   implements UseCase<CreateFixedExpense.Params, CreateFixedExpense.Result>
 {
   constructor(
