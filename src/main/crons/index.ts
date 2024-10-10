@@ -1,9 +1,16 @@
 import { SchedulerTaskAdapter } from '@/infra/scheduler/scheduler-task-adapter';
 
-import { makeCreateFixedExpenseUseCase } from '../factories/use-cases/make-create-fixed-expenses-use-case';
+import { makeCreateFixedCreditCardExpenseUseCase } from '../factories/use-cases/make-create-fixed-credit-card-expenses-use-case';
+import { makeCreateFixedWalletExpenseUseCase } from '../factories/use-cases/make-create-fixed-wallet-expenses-use-case';
 
 SchedulerTaskAdapter.schedule(
-  makeCreateFixedExpenseUseCase(),
+  makeCreateFixedCreditCardExpenseUseCase(),
   '0 1 * * *', // Every day at 1:00 AM
-  'create-fixed-expenses',
+  'create-fixed-credit-card-expense',
+);
+
+SchedulerTaskAdapter.schedule(
+  makeCreateFixedWalletExpenseUseCase(),
+  '0 1 * * *', // Every day at 1:00 AM
+  'create-fixed-wallet-expense',
 );

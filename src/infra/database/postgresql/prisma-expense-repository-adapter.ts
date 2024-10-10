@@ -217,6 +217,7 @@ export class PrismaExpenseRepositoryAdapter
           gte: data.startDate,
           lte: data.endDate,
         },
+        isFixed: data.isFixed,
       },
       orderBy: {
         purchaseDate: 'desc',
